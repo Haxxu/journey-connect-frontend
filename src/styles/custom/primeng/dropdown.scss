@@ -1,0 +1,36 @@
+.j-dropdown-custom {
+  &.p-dropdown {
+    .p-inputtext {
+      @apply px-3 py-2 text-md;
+
+      &:enabled:focus {
+        @apply border-blue-400;
+        box-shadow: 0 0 0 0.1rem #bfdbfe;
+      }
+
+      &:enabled:hover {
+        @apply border-blue-400;
+      }
+    }
+
+    &:not(.p-disabled):hover {
+      @apply border-blue-400;
+    }
+
+    &:not(.p-disabled).p-focus {
+      @apply border-blue-400;
+      box-shadow: 0 0 0 0.1rem #bfdbfe;
+    }
+
+    .p-dropdown-trigger {
+      @apply w-[1.5rem] p-2 text-gray-500;
+    }
+
+    .p-dropdown-items {
+      @apply py-1;
+      .p-dropdown-item {
+        @apply h-8 text-md p-0 px-2 py-2;
+      }
+    }
+  }
+}

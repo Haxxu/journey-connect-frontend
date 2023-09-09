@@ -1,0 +1,88 @@
+<div class="w-full">
+  <div
+    class="rounded-lg shadow-lg w-80 min-h-[30rem] bg-white mx-auto mt-8 px-6 py-8"
+  >
+    <div class="flex flex-col items-center">
+      <div class="overflow-hidden rounded-xl w-14 h-14">
+        <img src="assets/logo-only-text.png" alt="" />
+      </div>
+      <div class="flex justify-center pt-4 pb-6 text-xl font-medium">
+        Login to Journey Connect
+      </div>
+    </div>
+    <form [formGroup]="loginForm">
+      <div class="mb-3">
+        <input
+          type="text"
+          pInputText
+          placeholder="Email"
+          class="w-full h-10 j-inputtext-custom"
+          formControlName="email"
+        />
+        <div
+          *ngIf="
+            loginForm.get('email')?.invalid &&
+            (loginForm.get('email')?.dirty || loginForm.get('email')?.touched)
+          "
+          class="mt-1 text-sm text-red-500"
+        >
+          <div *ngIf="loginForm.get('email')?.hasError('required')">
+            Email is required
+          </div>
+          <div *ngIf="loginForm.get('email')?.hasError('email')">
+            Please enter a valid email
+          </div>
+        </div>
+      </div>
+      <div class="mb-3">
+        <input
+          type="password"
+          pInputText
+          placeholder="Password"
+          class="w-full h-10 j-inputtext-custom"
+          formControlName="password"
+        />
+        <div
+          *ngIf="
+            loginForm.get('password')?.invalid &&
+            (loginForm.get('password')?.dirty ||
+              loginForm.get('password')?.touched)
+          "
+          class="mt-1 text-sm text-red-500"
+        >
+          <div
+            *ngIf="
+              loginForm.get('password')?.hasError('required') ||
+              loginForm.get('password')?.hasError('whitespace')
+            "
+          >
+            Password is required
+          </div>
+          <div *ngIf="loginForm.get('password')?.hasError('minlength')">
+            Password must be at least 8 characters long
+          </div>
+        </div>
+      </div>
+      <div class="mt-4">
+        <p-button
+          styleClass="bg-blue-500 text-white j-button-custom w-full flex justify-center"
+          (onClick)="handleLogin()"
+          >Login</p-button
+        >
+      </div>
+    </form>
+    <p-divider></p-divider>
+    <div class="">
+      <div class="flex justify-center my-3 text-gray-600 text-md">
+        Does't have an account?
+      </div>
+      <p-button
+        styleClass="bg-green-500 text-white j-button-custom w-full flex justify-center p-button-success"
+        (onClick)="handleLogin()"
+        >Sign Up</p-button
+      >
+    </div>
+  </div>
+</div>
+
+<p-toast></p-toast>

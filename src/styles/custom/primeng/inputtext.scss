@@ -1,0 +1,14 @@
+.j-inputtext-custom {
+  &.p-inputtext {
+    @apply px-3 py-2 text-md;
+
+    &:enabled:focus {
+      @apply border-blue-400;
+      box-shadow: 0 0 0 0.1rem #bfdbfe;
+    }
+
+    &:enabled:hover {
+      @apply border-blue-400;
+    }
+  }
+}

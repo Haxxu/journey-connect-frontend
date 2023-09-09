@@ -1,0 +1,168 @@
+<div class="w-full">
+  <div
+    class="rounded-lg shadow-lg w-80 min-h-[30rem] bg-white mx-auto mt-8 px-6 py-8"
+  >
+    <div class="flex flex-col items-center">
+      <div class="overflow-hidden rounded-xl w-14 h-14">
+        <img src="assets/logo-only-text.png" alt="" />
+      </div>
+      <div class="flex justify-center pt-4 pb-6 text-xl font-medium">
+        Sign Up
+      </div>
+    </div>
+    <form [formGroup]="signupForm">
+      <div class="flex gap-1 mb-3">
+        <div class="">
+          <input
+            type="text"
+            pInputText
+            placeholder="First name"
+            class="w-full h-10 j-inputtext-custom"
+            formControlName="first_name"
+          />
+          <div
+            *ngIf="
+              signupForm.get('first_name')?.invalid &&
+              (signupForm.get('first_name')?.dirty ||
+                signupForm.get('first_name')?.touched)
+            "
+            class="mt-1 text-sm text-red-500"
+          >
+            <div *ngIf="signupForm.get('first_name')?.invalid">
+              First name is required
+            </div>
+          </div>
+        </div>
+        <div class="">
+          <input
+            type="text"
+            pInputText
+            placeholder="Last name"
+            class="w-full h-10 j-inputtext-custom"
+            formControlName="last_name"
+          />
+          <div
+            *ngIf="
+              signupForm.get('last_name')?.invalid &&
+              (signupForm.get('last_name')?.dirty ||
+                signupForm.get('last_name')?.touched)
+            "
+            class="mt-1 text-sm text-red-500"
+          >
+            <div *ngIf="signupForm.get('last_name')?.invalid">
+              Last name is required
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mb-3">
+        <input
+          type="text"
+          pInputText
+          placeholder="Email"
+          class="w-full h-10 j-inputtext-custom"
+          formControlName="email"
+        />
+        <div
+          *ngIf="
+            signupForm.get('email')?.invalid &&
+            (signupForm.get('email')?.dirty || signupForm.get('email')?.touched)
+          "
+          class="mt-1 text-sm text-red-500"
+        >
+          <div *ngIf="signupForm.get('email')?.hasError('required')">
+            Email is required
+          </div>
+          <div *ngIf="signupForm.get('email')?.hasError('email')">
+            Please enter a valid email
+          </div>
+        </div>
+      </div>
+      <div class="mb-3">
+        <input
+          type="password"
+          pInputText
+          placeholder="Password"
+          class="w-full h-10 j-inputtext-custom"
+          formControlName="password"
+        />
+        <div
+          *ngIf="
+            signupForm.get('password')?.invalid &&
+            (signupForm.get('password')?.dirty ||
+              signupForm.get('password')?.touched)
+          "
+          class="mt-1 text-sm text-red-500"
+        >
+          <div *ngIf="signupForm.get('password')?.hasError('required')">
+            Password is required
+          </div>
+          <div *ngIf="signupForm.get('password')?.hasError('minlength')">
+            Password must be at least 8 characters long
+          </div>
+        </div>
+      </div>
+      <div class="flex gap-1 mb-3">
+        <div class="">
+          <p-calendar
+            placeholder="Date of birth"
+            formControlName="birth_date"
+            dateFormat="dd/mm/yy"
+            styleClass="j-calendar-custom w-full h-10"
+            [maxDate]="maxDate"
+          ></p-calendar>
+          <div
+            *ngIf="
+              signupForm.get('birth_date')?.invalid &&
+              (signupForm.get('birth_date')?.dirty ||
+                signupForm.get('birth_date')?.touched)
+            "
+            class="mt-1 text-sm text-red-500"
+          >
+            <div *ngIf="signupForm.get('birth_date')?.invalid">
+              Date of birth is required
+            </div>
+          </div>
+        </div>
+        <div class="">
+          <p-dropdown
+            formControlName="gender"
+            [options]="genders"
+            placeholder="Gender"
+            styleClass="j-dropdown-custom h-10"
+          ></p-dropdown>
+          <div
+            *ngIf="
+              signupForm.get('gender')?.invalid &&
+              (signupForm.get('gender')?.dirty ||
+                signupForm.get('gender')?.touched)
+            "
+            class="mt-1 text-sm text-red-500"
+          >
+            <div *ngIf="signupForm.get('gender')?.invalid">
+              Gender is required
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mt-4">
+        <p-button
+          styleClass="bg-green-500 text-white j-button-custom w-full flex justify-center p-button-success"
+          (onClick)="handleSignup()"
+          >Sign Up</p-button
+        >
+      </div>
+    </form>
+    <p-divider></p-divider>
+    <div class="">
+      <div class="flex justify-center my-3 text-gray-600 text-md">
+        Have an account?
+      </div>
+      <p-button
+        styleClass="bg-blue-500 text-white j-button-custom w-full flex justify-center "
+        (onClick)="handleSignup()"
+        >Login</p-button
+      >
+    </div>
+  </div>
+</div>
