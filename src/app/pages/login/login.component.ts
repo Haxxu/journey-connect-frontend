@@ -56,7 +56,6 @@ export class LoginComponent {
     if (this.loginForm.valid) {
       this.authService.login(this.loginForm.value).subscribe((res) => {
         if (res.success) {
-          console.log(res);
           this.messageService.add({
             severity: 'success',
             summary: 'Success',

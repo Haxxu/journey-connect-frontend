@@ -13,6 +13,9 @@ import { DividerModule } from 'primeng/divider';
 import { noWhitespaceValidator } from '@/utils/validators';
 import { CalendarModule } from 'primeng/calendar';
 import { DropdownModule } from 'primeng/dropdown';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
+
 import { AuthService } from '@/services/auth/auth.service';
 import { Router } from '@angular/router';
 import { AppRoutes } from '@/config/app_routes';
@@ -28,6 +31,7 @@ import { AppRoutes } from '@/config/app_routes';
     DividerModule,
     CalendarModule,
     DropdownModule,
+    ToastModule,
   ],
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.scss'],
@@ -41,6 +45,7 @@ export class SignupComponent {
     private formBuilder: FormBuilder,
     private authService: AuthService,
     private datePipe: DatePipe,
+    private messageService: MessageService,
     private router: Router
   ) {
     this.signupForm = this.formBuilder.group({
@@ -69,7 +74,11 @@ export class SignupComponent {
         })
         .subscribe((res) => {
           if (res.success) {
-            console.log(res);
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Success',
+              detail: res.message,
+            });
           }
         });
     } else {
