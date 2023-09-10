@@ -14,6 +14,8 @@ import { ToastModule } from 'primeng/toast';
 
 import { noWhitespaceValidator } from '@/utils/validators';
 import { AuthService } from '@/services/auth/auth.service';
+import { Router } from '@angular/router';
+import { AppRoutes } from '@/config/app_routes';
 
 @Component({
   selector: 'app-login',
@@ -35,7 +37,8 @@ export class LoginComponent {
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private router: Router
   ) {
     this.loginForm = this.formBuilder.group({
       email: [
@@ -64,5 +67,9 @@ export class LoginComponent {
     } else {
       this.loginForm.markAllAsTouched();
     }
+  }
+
+  handleNavigateToSignup(): void {
+    this.router.navigate([AppRoutes.SIGNUP]);
   }
 }

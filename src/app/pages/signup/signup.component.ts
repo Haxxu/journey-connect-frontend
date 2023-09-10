@@ -14,6 +14,8 @@ import { noWhitespaceValidator } from '@/utils/validators';
 import { CalendarModule } from 'primeng/calendar';
 import { DropdownModule } from 'primeng/dropdown';
 import { AuthService } from '@/services/auth/auth.service';
+import { Router } from '@angular/router';
+import { AppRoutes } from '@/config/app_routes';
 
 @Component({
   selector: 'app-signup',
@@ -38,7 +40,8 @@ export class SignupComponent {
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private router: Router
   ) {
     this.signupForm = this.formBuilder.group({
       first_name: ['', [Validators.required, noWhitespaceValidator]],
@@ -72,5 +75,9 @@ export class SignupComponent {
     } else {
       this.signupForm.markAllAsTouched();
     }
+  }
+
+  handleNavigateToLogin(): void {
+    this.router.navigate([AppRoutes.LOGIN]);
   }
 }
