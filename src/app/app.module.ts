@@ -19,11 +19,11 @@ import { MessageService } from 'primeng/api';
 @NgModule({
   declarations: [AppComponent],
   imports: [
+    RouterModule.forRoot([]),
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
-    RouterModule.forRoot([]),
     ButtonModule,
     InputTextModule,
     DividerModule,

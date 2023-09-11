@@ -13,6 +13,9 @@ module.exports = {
         sm: ["0.625rem", "1rem"],
         md: ["0.875rem", "1.25rem"],
       },
+      gridTemplateColumns: {
+        "3/9": "repeat(12, minmax(0, 3fr) minmax(0, 9fr))",
+      },
     },
   },
   plugins: [],

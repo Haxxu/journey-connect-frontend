@@ -1,0 +1,14 @@
+:host ::ng-deep {
+  .grid-container {
+    display: grid;
+    grid-template-columns: 2fr 10fr;
+    grid-gap: 0.5rem;
+    height: calc(100vh - 48px);
+  }
+
+  .body {
+    display: grid;
+    grid-template-columns: 8fr 4fr;
+    grid-gap: 0.5rem;
+  }
+}

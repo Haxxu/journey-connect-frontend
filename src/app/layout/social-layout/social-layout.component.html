@@ -1,0 +1,21 @@
+<div class="w-screen h-screen bg-gray-100">
+  <div class="sticky top-0 z-50 h-12">
+    <app-header></app-header>
+  </div>
+  <div class="max-w-5xl pt-4 mx-auto grid-container">
+    <div class="h-full overflow-y-auto sidebar">
+      <div
+        *ngFor="let sidebar of sidebars"
+        class="flex items-center px-2 py-1 font-medium text-gray-700 rounded-md cursor-pointer h-9 hover:bg-gray-200 text-md"
+      >
+        {{ sidebar.name }}
+      </div>
+    </div>
+    <div class="h-full overflow-y-auto body">
+      <div>
+        <router-outlet></router-outlet>
+      </div>
+      <div class="bg-green-300 sidebar2">hello</div>
+    </div>
+  </div>
+</div>
