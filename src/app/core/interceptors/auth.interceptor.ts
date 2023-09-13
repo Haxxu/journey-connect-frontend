@@ -1,3 +1,4 @@
+import { AuthService } from '@/services/auth.service';
 import { TokenStorageService } from '@/services/token-storage.service';
 import {
   HttpErrorResponse,
@@ -22,7 +23,10 @@ export class AuthInterceptor implements HttpInterceptor {
   private refreshToken$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   private isRefresh = false;
 
-  constructor(private tokenStorageService: TokenStorageService) {}
+  constructor(
+    private tokenStorageService: TokenStorageService,
+    private authService: AuthService
+  ) {}
 
   intercept(
     req: HttpRequest<any>,
@@ -38,53 +42,54 @@ export class AuthInterceptor implements HttpInterceptor {
       catchError((error) => {
         const isError = error instanceof HttpErrorResponse;
         const isStatus401 = error.static === 401;
-        if (isError && isStatus401) {
-          return this.handle401Error(authReq, next);
-        }
         return throwError(() => error);
+        // if (isError && isStatus401) {
+        //   return this.handle401Error(authReq, next);
+        // }
+        // return throwError(() => error);
       })
     );
   }
 
-  private handle401Error(request: HttpRequest<any>, next: HttpHandler) {
-    if (!this.isRefresh) {
-      this.isRefresh = true;
-      this.refreshToken$.next(null);
-      const refreshToken = this.tokenStorageService.getRefreshToken();
-      if (refreshToken && refreshToken !== 'undefined') {
-        return this.authService
-          .refreshToken({
-            refreshToken: refreshToken,
-          })
-          .pipe(
-            tap(({ accessToken }) => {
-              this.isRefresh = false;
-              this.tokenStorageService.saveToken(accessToken);
-              this.refreshToken$.next(accessToken);
-            }),
-            switchMap(({ accessToken }) => {
-              return next.handle(
-                this.addTokenForAuthHeader(request, accessToken)
-              );
-            }),
-            catchError((err) => {
-              this.isRefresh = false;
-              return throwError(() => err);
-            })
-          );
-      } else {
-        this.isRefresh = false;
-        this.logOut();
-      }
-    }
-    return this.refreshToken$.pipe(
-      filter((token) => token !== null),
-      take(1),
-      switchMap((token) => {
-        return next.handle(this.addTokenForAuthHeader(request, token));
-      })
-    );
-  }
+  // private handle401Error(request: HttpRequest<any>, next: HttpHandler) {
+  //   if (!this.isRefresh) {
+  //     this.isRefresh = true;
+  //     this.refreshToken$.next(null);
+  //     const refreshToken = this.tokenStorageService.getRefreshToken();
+  //     if (refreshToken && refreshToken !== 'undefined') {
+  //       return this.authService
+  //         .refreshToken({
+  //           refreshToken: refreshToken,
+  //         })
+  //         .pipe(
+  //           tap(({ accessToken }) => {
+  //             this.isRefresh = false;
+  //             this.tokenStorageService.saveToken(accessToken);
+  //             this.refreshToken$.next(accessToken);
+  //           }),
+  //           switchMap(({ accessToken }) => {
+  //             return next.handle(
+  //               this.addTokenForAuthHeader(request, accessToken)
+  //             );
+  //           }),
+  //           catchError((err) => {
+  //             this.isRefresh = false;
+  //             return throwError(() => err);
+  //           })
+  //         );
+  //     } else {
+  //       this.isRefresh = false;
+  //       this.logOut();
+  //     }
+  //   }
+  //   return this.refreshToken$.pipe(
+  //     filter((token) => token !== null),
+  //     take(1),
+  //     switchMap((token) => {
+  //       return next.handle(this.addTokenForAuthHeader(request, token));
+  //     })
+  //   );
+  // }
 
   private addTokenForAuthHeader(request: HttpRequest<any>, token: string) {
     return request.clone({

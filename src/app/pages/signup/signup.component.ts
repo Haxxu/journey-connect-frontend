@@ -16,7 +16,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 
-import { AuthService } from '@/services/auth/auth.service';
+import { AuthService } from '@/services/auth.service';
 import { Router } from '@angular/router';
 import { AppRoutes } from '@/config/app_routes';
 
