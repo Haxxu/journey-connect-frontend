@@ -16,6 +16,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { IconsModule } from './icons.module';
+import { NgxGridModule } from '@egjs/ngx-grid';
 
 @NgModule({
   declarations: [AppComponent],
@@ -32,6 +33,7 @@ import { IconsModule } from './icons.module';
     DropdownModule,
     ToastModule,
     IconsModule,
+    NgxGridModule,
   ],
   providers: [MessageService],
   bootstrap: [AppComponent],

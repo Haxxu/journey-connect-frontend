@@ -5,3 +5,9 @@
     }
   }
 }
+
+.p-overlaypanel {
+  &.center {
+    transform: translate(-100%);
+  }
+}

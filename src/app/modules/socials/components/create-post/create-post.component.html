@@ -1,6 +1,6 @@
 <div class="bg-white rounded-md shadow-sm">
   <form [formGroup]="createPostForm">
-    <div class="px-4 py-2">
+    <div class="px-4 pt-2">
       <div class="flex items-center justify-between">
         <p-avatar shape="circle" label="M"></p-avatar>
         <div class="flex-1 ml-4">
@@ -10,7 +10,10 @@
             (click)="visibilityOp.toggle($event)"
           >
             <span>{{ visibility }}</span>
-            <ng-icon name="matKeyboardArrowDownRound"></ng-icon>
+            <ng-icon
+              name="matKeyboardArrowDownRound"
+              class="text-lg text-gray-800"
+            ></ng-icon>
           </div>
         </div>
         <div>
@@ -18,6 +21,8 @@
             type="button"
             class="w-10 h-full text-center text-gray-500"
             (click)="op.toggle($event)"
+            pTooltip="Emoji"
+            tooltipStyleClass="text-md"
           >
             😀
           </button>
@@ -33,10 +38,40 @@
           [autoResize]="true"
         ></textarea>
       </div>
-      <div class=""></div>
+
+      <div
+        class="container"
+        NgxJustifiedGrid
+        [gap]="gap"
+        [defaultDirection]="defaultDirection"
+        [columnRange]="columnRange"
+        [rowRange]="rowRange"
+        [sizeRange]="sizeRange"
+        [isCroppedSize]="isCroppedSize"
+        [displayedRow]="displayedRow"
+      >
+        <div *ngFor="let media of medias" class="relative">
+          <img [src]="media.url" alt="" class="w-full h-full" />
+          <div
+            class="absolute top-0 right-0 flex w-4 h-4 bg-gray-700 bg-opacity-70 item-center"
+            (click)="handleRemoveMedia(media.id)"
+          >
+            <ng-icon
+              name="matCloseRound"
+              class="text-base text-gray-300"
+            ></ng-icon>
+          </div>
+        </div>
+      </div>
     </div>
-    <p-divider></p-divider>
-    <div>kds fkldsf jlksd</div>
+    <div class="flex justify-between px-4 py-2 border-t">
+      <div>kds fkldsf jlksd</div>
+      <p-button
+        styleClass="bg-blue-500 text-white j-button-custom flex justify-center small"
+        (onClick)="handleCreatePost()"
+        >Post</p-button
+      >
+    </div>
   </form>
 </div>
 
