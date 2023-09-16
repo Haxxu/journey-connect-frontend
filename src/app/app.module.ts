@@ -15,6 +15,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { HttpClientModule } from '@angular/common/http';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { IconsModule } from './icons.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -30,6 +31,7 @@ import { MessageService } from 'primeng/api';
     CalendarModule,
     DropdownModule,
     ToastModule,
+    IconsModule,
   ],
   providers: [MessageService],
   bootstrap: [AppComponent],

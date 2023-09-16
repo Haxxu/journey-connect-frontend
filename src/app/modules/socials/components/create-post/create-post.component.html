@@ -1,14 +1,59 @@
 <div class="bg-white rounded-md shadow-sm">
   <form [formGroup]="createPostForm">
     <div class="px-4 py-2">
-      <div>
-        <img src="" alt="" />
+      <div class="flex items-center justify-between">
+        <p-avatar shape="circle" label="M"></p-avatar>
+        <div class="flex-1 ml-4">
+          <div class="font-semibold text-md">Nguyen Ngoc Minh</div>
+          <div
+            class="flex items-center py-1 font-normal cursor-pointer text-md"
+            (click)="visibilityOp.toggle($event)"
+          >
+            <span>{{ visibility }}</span>
+            <ng-icon name="matKeyboardArrowDownRound"></ng-icon>
+          </div>
+        </div>
+        <div>
+          <button
+            type="button"
+            class="w-10 h-full text-center text-gray-500"
+            (click)="op.toggle($event)"
+          >
+            😀
+          </button>
+        </div>
       </div>
       <div>
-        <p-editor formControlName="content" styleClass=""></p-editor>
+        <textarea
+          pInputTextarea
+          placeholder="What's new?"
+          formControlName="title"
+          class="w-full border-none outline-none focus:border-none text-md j-inputtext-custom no-border-focus"
+          rows="1"
+          [autoResize]="true"
+        ></textarea>
       </div>
+      <div class=""></div>
     </div>
     <p-divider></p-divider>
-    <div>fasdfsadfsd</div>
+    <div>kds fkldsf jlksd</div>
   </form>
 </div>
+
+<p-overlayPanel #op styleClass="j-overlaypanel-custom">
+  <emoji-mart
+    (emojiClick)="handleEmojiClick($event)"
+    [emojiSize]="16"
+    class="text-md"
+  ></emoji-mart>
+</p-overlayPanel>
+
+<p-overlayPanel #visibilityOp styleClass="j-overlaypanel-custom">
+  <div
+    *ngFor="let option of visibilityOptions"
+    class="p-2 cursor-pointer text-md hover:bg-gray-100"
+    (click)="handleClickVisibility(option, visibilityOp)"
+  >
+    {{ option.label }}
+  </div>
+</p-overlayPanel>

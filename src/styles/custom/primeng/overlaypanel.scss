@@ -1,0 +1,7 @@
+.j-overlaypanel-custom {
+  &.p-overlaypanel {
+    .p-overlaypanel-content {
+      @apply p-0;
+    }
+  }
+}
