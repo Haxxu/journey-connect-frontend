@@ -61,6 +61,7 @@ export class LoginComponent {
             summary: 'Success',
             detail: res.message,
           });
+          this.router.navigate(['/feed']);
         }
       });
     } else {
