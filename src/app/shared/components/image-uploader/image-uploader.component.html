@@ -1,0 +1,27 @@
+<div
+  *ngFor="let uploadedFile of uploadedFiles"
+  class="flex items-center w-full progress"
+>
+  <p-progressBar mode="indeterminate" styleClass="h-2 w-14"></p-progressBar>
+  <div>{{ uploadedFile.name }}</div>
+</div>
+
+<p-dialog
+  header="Choose photo"
+  [(visible)]="visible"
+  [modal]="true"
+  [draggable]="false"
+  [resizable]="false"
+  styleClass="min-w-[80%]"
+>
+  <div class="flex justify-center w-full card">
+    <p-fileUpload
+      (uploadHandler)="onUpload($event)"
+      [multiple]="true"
+      accept="image/*"
+      [maxFileSize]="1000000"
+      [customUpload]="true"
+    >
+    </p-fileUpload>
+  </div>
+</p-dialog>

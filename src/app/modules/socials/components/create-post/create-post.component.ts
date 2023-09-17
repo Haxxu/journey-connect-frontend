@@ -11,15 +11,14 @@ import { AvatarModule } from 'primeng/avatar';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 
-import {
-  allowedValuesValidator,
-  allowedValuesAsyncValidator,
-} from '@/shared/validators/allowedValues.validator';
+import { allowedValuesAsyncValidator } from '@/shared/validators/allowedValues.validator';
 import { DropdownModule } from 'primeng/dropdown';
 import { NgIconsModule } from '@ng-icons/core';
 import { ButtonModule } from 'primeng/button';
 import { TooltipModule } from 'primeng/tooltip';
 import { NgxGridModule } from '@egjs/ngx-grid';
+import { ImageUploaderComponent } from '@/shared/components/image-uploader/image-uploader.component';
+import { FileService } from '@/services/file.service';
 
 @Component({
   selector: 'app-create-post',
@@ -36,6 +35,7 @@ import { NgxGridModule } from '@egjs/ngx-grid';
     ButtonModule,
     TooltipModule,
     NgxGridModule,
+    ImageUploaderComponent,
   ],
   templateUrl: './create-post.component.html',
   styleUrls: ['./create-post.component.scss'],
@@ -49,112 +49,21 @@ export class CreatePostComponent {
     { label: 'Friend only', value: 'friend_only' },
   ];
   visibility: string = 'Public';
-  gap = 4;
-  align = 'justify' as const;
-  masonryItems = [
-    { title: 'item 1' },
-    { title: 'item 2' },
-    { title: 'item 3' },
-  ];
-  frame = [
-    [1, 1, 2, 2],
-    [3, 3, 2, 2],
-    [4, 4, 4, 5],
-  ];
-  rectSize = 0;
-  useFrameFill = true;
+
+  gap = 2;
   defaultDirection: 'start' | 'end' = 'end';
-  columnRange = [1, 5];
-  rowRange = 1;
+  columnRange = [1, 3];
+  rowRange = [1, 3];
   sizeRange = [0, 5000];
   isCroppedSize = false;
   displayedRow = -1;
-  medias = [
-    {
-      id: 0,
-      url: 'https://imgupscaler.com/images/samples/midjourney-before.webp',
-      type: '',
-    },
-    {
-      id: 1,
-      url: 'https://www.w3schools.com/w3images/fjords.jpg',
-      type: '',
-    },
-    {
-      id: 2,
-      url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSY2SkU6yFEglZQ4bEfIgnHbpxQkCD0HT-crw&usqp=CAU',
-      type: '',
-    },
-    {
-      id: 3,
-      url: 'https://images.ctfassets.net/hrltx12pl8hq/3j5RylRv1ZdswxcBaMi0y7/b84fa97296bd2350db6ea194c0dce7db/Music_Icon.jpg',
-      type: '',
-    },
-    // {
-    //   id: 4,
-    //   url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVn_cYBBf-vN5O9ESPhrEo4nsP9z1km4sMpQ&usqp=CAU',
-    //   type: '',
-    // },
-    // {
-    //   id: 5,
-    //   url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgeLJQx70TedhBr8pJ0wu__xdNQQUEkoKF1w&usqp=CAU',
-    //   type: '',
-    // },
-    // {
-    //   id: 6,
-    //   url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0pSIRuueE0BfIZVk6oZ8X9xJYXq_xEnlM8Q&usqp=CAU',
-    //   type: '',
-    // },
-    // {
-    //   id: 7,
-    //   url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRG76vGDk6FRTub8opBWzNMLFYZmvMjwYoABFIvaHPqlVCrOtHiO3ol2VyDAUnweQY9WpI&usqp=CAU',
-    //   type: '',
-    // },
-    // {
-    //   id: 8,
-    //   url: 'https://naver.github.io/egjs-infinitegrid/assets/image/1.jpg',
-    //   type: '',
-    // },
-    // {
-    //   id: 9,
-    //   url: 'https://naver.github.io/egjs-infinitegrid/assets/image/2.jpg',
-    //   type: '',
-    // },
-    // {
-    //   id: 10,
-    //   url: 'https://naver.github.io/egjs-infinitegrid/assets/image/3.jpg',
-    //   type: '',
-    // },
-    // {
-    //   id: 11,
-    //   url: 'https://naver.github.io/egjs-infinitegrid/assets/image/4.jpg',
-    //   type: '',
-    // },
-    // {
-    //   id: 12,
-    //   url: 'https://naver.github.io/egjs-infinitegrid/assets/image/5.jpg',
-    //   type: '',
-    // },
-    // {
-    //   id: 13,
-    //   url: 'https://thumbs.dreamstime.com/b/no-image-available-text-blackboard-11434613.jpg',
-    //   type: '',
-    // },
-    // {
-    //   id: 14,
-    //   url: 'https://thumbs.dreamstime.com/b/no-image-available-text-blackboard-11434613.jpg',
-    //   type: '',
-    // },
-    // {
-    //   id: 15,
-    //   url: 'https://thumbs.dreamstime.com/b/no-image-available-text-blackboard-11434613.jpg',
-    //   type: '',
-    // },
-  ];
+
+  medias: any[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private fileService: FileService
   ) {
     this.createPostForm = this.formBuilder.group({
       title: ['', Validators.required],
@@ -182,6 +91,8 @@ export class CreatePostComponent {
         ]),
       ],
     });
+
+    this.calculateGridDimensions();
   }
 
   handleEmojiClick(event: any) {
@@ -202,8 +113,32 @@ export class CreatePostComponent {
     visibilityOp.hide();
   }
 
-  handleRemoveMedia(id: number) {
+  handleRemoveMedia(id: string) {
     this.medias = this.medias.filter((media) => media.id !== id);
+    this.calculateGridDimensions();
+    this.fileService.deleteFile(id).subscribe();
     this.cdr.detectChanges();
+  }
+
+  handleUploadFile(event: any) {
+    this.medias.push(event);
+    this.createPostForm.get('medias')?.setValue(this.medias);
+  }
+
+  calculateGridDimensions() {
+    const numMedias = this.medias.length;
+    if (numMedias <= 3) {
+      this.rowRange = [1, 1];
+      this.columnRange = [1, 3];
+    } else if (numMedias <= 4) {
+      this.rowRange = [1, 2];
+      this.columnRange = [1, 2];
+    } else if (numMedias <= 8) {
+      this.rowRange = [1, 2];
+      this.columnRange = [1, 4];
+    } else {
+      this.rowRange = [1, 3];
+      this.columnRange = [1, 4];
+    }
   }
 }

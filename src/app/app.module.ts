@@ -7,16 +7,12 @@ import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
 
 // PrimeNG
-import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/inputtext';
-import { DividerModule } from 'primeng/divider';
-import { CalendarModule } from 'primeng/calendar';
-import { DropdownModule } from 'primeng/dropdown';
-import { HttpClientModule } from '@angular/common/http';
-import { ToastModule } from 'primeng/toast';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { MessageService } from 'primeng/api';
 import { IconsModule } from './icons.module';
 import { NgxGridModule } from '@egjs/ngx-grid';
+import { PrimeNGModule } from './primeng.module';
+import { AuthInterceptor } from '@/core/interceptors/auth.interceptor';
 
 @NgModule({
   declarations: [AppComponent],
@@ -26,16 +22,18 @@ import { NgxGridModule } from '@egjs/ngx-grid';
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
-    ButtonModule,
-    InputTextModule,
-    DividerModule,
-    CalendarModule,
-    DropdownModule,
-    ToastModule,
     IconsModule,
     NgxGridModule,
+    PrimeNGModule,
   ],
-  providers: [MessageService],
+  providers: [
+    MessageService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
