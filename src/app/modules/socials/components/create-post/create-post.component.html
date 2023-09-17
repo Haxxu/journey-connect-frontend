@@ -86,9 +86,11 @@
       </div>
       <p-button
         styleClass="bg-blue-500 text-white j-button-custom flex justify-center small"
+        [disabled]="createPostForm.invalid"
+        [loading]="submitting"
         (onClick)="handleCreatePost()"
-        >Post</p-button
-      >
+        label="Post"
+      ></p-button>
     </div>
   </form>
 </div>

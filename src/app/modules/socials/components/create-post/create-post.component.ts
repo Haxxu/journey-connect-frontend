@@ -19,6 +19,8 @@ import { TooltipModule } from 'primeng/tooltip';
 import { NgxGridModule } from '@egjs/ngx-grid';
 import { ImageUploaderComponent } from '@/shared/components/image-uploader/image-uploader.component';
 import { FileService } from '@/services/file.service';
+import { PostService } from '@/services/post.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-create-post',
@@ -59,11 +61,14 @@ export class CreatePostComponent {
   displayedRow = -1;
 
   medias: any[] = [];
+  submitting: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
     private cdr: ChangeDetectorRef,
-    private fileService: FileService
+    private fileService: FileService,
+    private postService: PostService,
+    private messageService: MessageService
   ) {
     this.createPostForm = this.formBuilder.group({
       title: ['', Validators.required],
@@ -76,9 +81,9 @@ export class CreatePostComponent {
           'share_post',
         ]),
       ],
-      medias: [],
-      places: [],
-      friend_tags: [],
+      medias: [[]],
+      places: [[]],
+      friend_tags: [[]],
       visibility: [
         'public',
         Validators.required,
@@ -104,7 +109,40 @@ export class CreatePostComponent {
   }
 
   handleCreatePost() {
-    console.log(this.createPostForm.value);
+    if (this.createPostForm.valid) {
+      this.submitting = true;
+      this.postService
+        .createPost(this.createPostForm.value)
+        .subscribe((res) => {
+          if (res.success) {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Success',
+              detail: res.message,
+            });
+
+            // Reset form
+            this.createPostForm.reset({
+              title: '',
+              post_type: 'individual_post',
+              medias: [],
+              places: [],
+              friend_tags: [],
+              visibility: 'public',
+            });
+            this.medias = [];
+            this.visibility = 'Public';
+          } else {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: res.message,
+            });
+          }
+
+          this.submitting = false;
+        });
+    }
   }
 
   handleClickVisibility(option: any, visibilityOp: any) {
