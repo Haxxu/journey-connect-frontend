@@ -1,7 +1,50 @@
 <div class="w-full h-full bg-white shadow-md">
-  <div class="flex items-center justify-start h-full max-w-5xl mx-auto">
-    <div class="w-8 h-8 overflow-hidden rounded-md">
-      <img src="assets/logo-only-text.png" alt="" />
+  <div class="flex items-center max-w-5xl mx-auto grid-container">
+    <div class="">
+      <div class="w-8 h-8 rounded-md">
+        <img src="assets/logo-only-text.png" alt="" />
+      </div>
+    </div>
+    <div class="flex items-center justify-between">
+      <div class="min-w-[250px]">
+        <div class="relative flex items-center">
+          <div class="w-6 h-6 mr-2">
+            <ng-icon
+              name="matSearchRound"
+              class="text-2xl font-bold text-gray-400"
+            ></ng-icon>
+          </div>
+          <div>
+            <input
+              type="text"
+              pInputText
+              placeholder="Search"
+              class="w-full h-10 j-inputtext-custom"
+            />
+          </div>
+          <div class="flex card justify-content-center"></div>
+        </div>
+      </div>
+      <div class="flex items-center">
+        <div
+          class="mr-2 font-semibold text-gray-600 text-md"
+          *ngIf="userInfo$ | async as userInfo"
+        >
+          {{ userInfo.first_name }} {{ userInfo.last_name }}
+        </div>
+        <p-avatar
+          shape="circle"
+          label="M"
+          styleClass="cursor-pointer"
+        ></p-avatar>
+      </div>
     </div>
   </div>
 </div>
+
+<p-overlayPanel #op>
+  <img
+    src="https://primefaces.org/cdn/primeng/images/demo/product/bamboo-watch.jpg"
+    alt="product"
+  />
+</p-overlayPanel>

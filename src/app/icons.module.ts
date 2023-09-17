@@ -4,6 +4,7 @@ import {
   matKeyboardArrowDownRound,
   matCloseRound,
   matImageRound,
+  matSearchRound,
 } from '@ng-icons/material-icons/round';
 
 @NgModule({
@@ -12,6 +13,7 @@ import {
       matKeyboardArrowDownRound,
       matCloseRound,
       matImageRound,
+      matSearchRound,
     }),
   ],
   exports: [NgIconsModule],

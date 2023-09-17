@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormBuilder,
@@ -21,6 +21,8 @@ import { ImageUploaderComponent } from '@/shared/components/image-uploader/image
 import { FileService } from '@/services/file.service';
 import { PostService } from '@/services/post.service';
 import { MessageService } from 'primeng/api';
+import { UserService } from '@/services/user.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-create-post',
@@ -42,7 +44,8 @@ import { MessageService } from 'primeng/api';
   templateUrl: './create-post.component.html',
   styleUrls: ['./create-post.component.scss'],
 })
-export class CreatePostComponent {
+export class CreatePostComponent implements OnInit {
+  userInfo$: Observable<any>;
   createPostForm: any;
   showEmojiPicker: boolean = false;
   visibilityOptions: any[] = [
@@ -68,7 +71,8 @@ export class CreatePostComponent {
     private cdr: ChangeDetectorRef,
     private fileService: FileService,
     private postService: PostService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private userService: UserService
   ) {
     this.createPostForm = this.formBuilder.group({
       title: ['', Validators.required],
@@ -98,7 +102,10 @@ export class CreatePostComponent {
     });
 
     this.calculateGridDimensions();
+    this.userInfo$ = this.userService.getUserInfo();
   }
+
+  ngOnInit(): void {}
 
   handleEmojiClick(event: any) {
     const emoji = event.emoji.native;

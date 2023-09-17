@@ -1,12 +1,17 @@
-<div class="bg-white rounded-md shadow-sm">
+<div
+  class="bg-white rounded-md shadow-sm"
+  *ngIf="userInfo$ | async as userInfo"
+>
   <form [formGroup]="createPostForm">
     <div class="px-4 pt-2">
       <div class="flex items-center justify-between">
         <p-avatar shape="circle" label="M"></p-avatar>
         <div class="flex-1 ml-4">
-          <div class="font-semibold text-md">Nguyen Ngoc Minh</div>
+          <div class="py-1 font-semibold text-md">
+            {{ userInfo.first_name }} {{ userInfo.last_name }}
+          </div>
           <div
-            class="flex items-center py-1 font-normal cursor-pointer text-md"
+            class="inline-flex items-center font-normal bg-gray-100 rounded-md cursor-pointer text-md px-1.5 py-0.5"
             (click)="visibilityOp.toggle($event)"
           >
             <span>{{ visibility }}</span>
@@ -28,7 +33,7 @@
           </button>
         </div>
       </div>
-      <div>
+      <div class="mt-1.5">
         <textarea
           pInputTextarea
           placeholder="What's new?"

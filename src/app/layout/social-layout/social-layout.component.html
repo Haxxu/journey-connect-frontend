@@ -7,15 +7,13 @@
       <div
         *ngFor="let sidebar of sidebars"
         class="flex items-center px-2 py-1 font-medium text-gray-700 rounded-md cursor-pointer h-9 hover:bg-gray-200 text-md"
+        (click)="handleClickSidebarItem(sidebar)"
       >
         {{ sidebar.name }}
       </div>
     </div>
-    <div class="h-full overflow-y-auto body">
-      <div>
-        <router-outlet></router-outlet>
-      </div>
-      <div class="bg-green-300 sidebar2">hello</div>
+    <div class="h-full overflow-y-auto">
+      <router-outlet></router-outlet>
     </div>
   </div>
 </div>
