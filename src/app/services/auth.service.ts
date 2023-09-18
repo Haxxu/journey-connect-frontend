@@ -13,7 +13,6 @@ export class AuthService {
   signup(user: any): Observable<any> {
     return this.http.post(`${environment.apiURL}/auth/register`, user).pipe(
       tap((res: any) => {
-        console.log('tap', res.success);
         if (res.success) {
           const token = res.data.access_token;
           localStorage.setItem('access_token', token);
@@ -25,7 +24,6 @@ export class AuthService {
   login(user: any): Observable<any> {
     return this.http.post(`${environment.apiURL}/auth/login`, user).pipe(
       tap((res: any) => {
-        console.log('tap', res);
         if (res.success) {
           const token = res.data.access_token;
           localStorage.setItem('access_token', token);

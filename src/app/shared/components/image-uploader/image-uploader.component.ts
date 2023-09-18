@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DialogModule } from 'primeng/dialog';
 import { FileUploadHandlerEvent, FileUploadModule } from 'primeng/fileupload';
@@ -15,6 +15,9 @@ export class ImageUploaderComponent {
   @Output() onUploadSuccess = new EventEmitter();
   visible: boolean = false;
   uploadedFiles: any[] = [];
+  @Input() multiple: boolean = true;
+  @Input() showLoadingProgress: boolean = true;
+  @Input() previewWidth: number = 50;
 
   constructor(private fileService: FileService) {}
 

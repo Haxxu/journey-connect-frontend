@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject, tap } from 'rxjs';
 import { environment } from '@environments/environment';
 
 @Injectable({
@@ -8,6 +8,7 @@ import { environment } from '@environments/environment';
 })
 export class UserService {
   private userInfo$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  private userData$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
   constructor(private http: HttpClient) {
     const storedUserInfo = localStorage.getItem('userInfo');
@@ -29,5 +30,39 @@ export class UserService {
         console.log(res.message);
       }
     });
+  }
+
+  getUserData(): Observable<any> {
+    return this.userData$.asObservable();
+  }
+
+  getUserById(id: string): Observable<any> {
+    return this.http.get(`${environment.apiURL}/users/${id}`).pipe(
+      tap((res: any) => {
+        if (res.success) {
+          this.userData$.next(res.data);
+        }
+      })
+    );
+  }
+
+  updateMyImage(type: 'avatar' | 'background', media: any): Observable<any> {
+    return this.http
+      .put(
+        `${environment.apiURL}/me/update-image`,
+        { media },
+        {
+          params: {
+            type,
+          },
+        }
+      )
+      .pipe(
+        tap((res: any) => {
+          if (res.success) {
+            this.userData$.next(res.data);
+          }
+        })
+      );
   }
 }

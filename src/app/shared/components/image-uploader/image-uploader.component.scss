@@ -1,0 +1,42 @@
+:host ::ng-deep {
+  .p-button {
+    @apply px-3.5 py-2 md:px-3.5 md:py-2;
+  }
+
+  .p-button-icon-only {
+    @apply px-1 py-1;
+  }
+
+  .p-button-label {
+    @apply text-base font-medium;
+  }
+
+  .p-fileupload-buttonbar {
+    @apply flex justify-center;
+  }
+
+  .p-fileupload-content {
+    @apply p-2;
+  }
+
+  .p-fileupload-files {
+    .p-fileupload-row {
+      @apply p-2;
+
+      & > div {
+        @apply p-1 md:p-2;
+
+        &:first-child {
+          img {
+            @apply rounded-lg overflow-hidden w-[100px];
+          }
+        }
+
+        &:nth-child(2),
+        &:nth-child(3) {
+          @apply text-md; /* Adjust 'lg' to the desired font size */
+        }
+      }
+    }
+  }
+}

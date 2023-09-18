@@ -1,0 +1,7 @@
+:host ::ng-deep {
+  .j-bg-cover {
+    &:hover .j-change-bg-btn {
+      @apply block;
+    }
+  }
+}

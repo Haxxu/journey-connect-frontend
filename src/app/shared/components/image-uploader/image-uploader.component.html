@@ -1,9 +1,11 @@
-<div
-  *ngFor="let uploadedFile of uploadedFiles"
-  class="flex items-center w-full progress"
->
-  <p-progressBar mode="indeterminate" styleClass="h-2 w-14"></p-progressBar>
-  <div class="ml-2 text-gray-500 text-md">{{ uploadedFile.name }}</div>
+<div *ngIf="showLoadingProgress">
+  <div
+    *ngFor="let uploadedFile of uploadedFiles"
+    class="flex items-center w-full progress"
+  >
+    <p-progressBar mode="indeterminate" styleClass="h-2 w-14"></p-progressBar>
+    <div class="ml-2 text-gray-500 text-md">{{ uploadedFile.name }}</div>
+  </div>
 </div>
 
 <p-dialog
@@ -12,16 +14,26 @@
   [modal]="true"
   [draggable]="false"
   [resizable]="false"
-  styleClass="min-w-[80%]"
+  styleClass="min-w-[600px] max-w-[80%]"
 >
   <div class="flex justify-center w-full card">
     <p-fileUpload
       (uploadHandler)="onUpload($event)"
-      [multiple]="true"
+      [multiple]="multiple"
       accept="image/*"
       [maxFileSize]="1000000"
       [customUpload]="true"
+      [previewWidth]="previewWidth"
     >
+      <ng-template pTemplate="content">
+        <ul *ngIf="uploadedFiles.length">
+          <li *ngFor="let file of uploadedFiles">
+            <div>
+              <img [src]="" alt="" />
+            </div>
+          </li>
+        </ul>
+      </ng-template>
     </p-fileUpload>
   </div>
 </p-dialog>
