@@ -6,6 +6,7 @@ import { SocialLayoutComponent } from '@/layout/social-layout/social-layout.comp
 import { FeedComponent } from '@/pages/feed/feed.component';
 import { UserComponent } from '@/pages/user/user.component';
 import { AppRoutes } from './config/app_routes';
+import { AuthGuard } from '@/core/guards/auth.guard';
 
 export const APP_ROUTES: Routes = [
   {
@@ -25,6 +26,7 @@ export const APP_ROUTES: Routes = [
   {
     path: 'feed',
     component: SocialLayoutComponent,
+    canActivate: [AuthGuard],
     children: [
       {
         path: '',
@@ -35,6 +37,7 @@ export const APP_ROUTES: Routes = [
   {
     path: `${AppRoutes.USERS}`,
     component: SocialLayoutComponent,
+    canActivate: [AuthGuard],
     children: [
       {
         path: ':id',
