@@ -44,8 +44,23 @@
         <div class="text-gray-500 text-md">
           {{ userData.friends.length }} friends
         </div>
+        <div class="text-gray-500 text-md">
+          {{
+            userData.description ||
+              " Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam obcaecati\
+          laudantium culpa adipisci dignissimos, ab dolores veritatis magnam\
+          architecto reiciendis nulla quia hic non inventore, impedit, commodi\
+          ratione ex vel!"
+          }}
+        </div>
       </div>
-      <div class=""></div>
+      <div class="">
+        <p-button
+          styleClass="bg-blue-500 text-white j-button-custom w-full flex justify-center"
+          (onClick)="handleEditUser()"
+          >Edit profile</p-button
+        >
+      </div>
     </div>
   </div>
 </div>

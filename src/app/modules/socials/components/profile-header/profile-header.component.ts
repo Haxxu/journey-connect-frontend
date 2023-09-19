@@ -6,11 +6,20 @@ import { Observable, combineLatest, map } from 'rxjs';
 import { ImageUploaderComponent } from '@/shared/components/image-uploader/image-uploader.component';
 import { MessageService } from 'primeng/api';
 import { TooltipModule } from 'primeng/tooltip';
+import { ButtonModule } from 'primeng/button';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-profile-header',
   standalone: true,
-  imports: [CommonModule, AvatarModule, ImageUploaderComponent, TooltipModule],
+  imports: [
+    CommonModule,
+    AvatarModule,
+    ImageUploaderComponent,
+    TooltipModule,
+    ButtonModule,
+    RouterModule,
+  ],
   templateUrl: './profile-header.component.html',
   styleUrls: ['./profile-header.component.scss'],
 })
@@ -22,7 +31,9 @@ export class ProfileHeaderComponent implements OnInit {
 
   constructor(
     private userService: UserService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private route: ActivatedRoute,
+    private router: Router
   ) {
     this.meInfo$ = this.userService.getUserInfo();
     this.userData$ = this.userService.getUserData();
@@ -67,5 +78,9 @@ export class ProfileHeaderComponent implements OnInit {
         });
       }
     });
+  }
+
+  handleEditUser() {
+    this.router.navigate(['edit'], { relativeTo: this.route });
   }
 }
