@@ -1,6 +1,203 @@
 <div class="container">
-  <div>
-    <p>edit-user works!</p>
+  <div *ngIf="meInfo$ | async as meInfo">
+    <div class="overflow-hidden bg-white border shadow-sm rounded-xl">
+      <div class="p-4">Profile</div>
+      <div
+        class="bg-white min-h-[228px] shadow-sm border border-gray-200 relative flex flex-col justify-between"
+      >
+        <div class="min-h-[140px] max-h-[150px] overflow-hidden j-bg-cover">
+          <img
+            [src]="getMediaUrlById(meInfo.background, meInfo.medias)"
+            alt=""
+            class="object-cover w-full h-[150px]"
+          />
+
+          <div class="absolute z-10 top-4 right-4">
+            <button
+              class="hidden px-4 py-2 font-medium text-gray-100 bg-gray-900 bg-opacity-50 rounded-lg j-change-bg-btn text-md hover:bg-opacity-60"
+              type="button"
+              (click)="bgUploader.showDialog()"
+            >
+              Change cover
+            </button>
+          </div>
+        </div>
+        <div
+          class="bg-white min-h-[60px] rounded-xl w-full z-10 relative mt-[-10px]"
+        >
+          <div
+            class="w-[86px] h-[86px] overflow-hidden aspect-square rounded-full border-4 border-white shadow-md absolute top-[-40px] ml-5 cursor-pointer hover:border-cyan-300"
+            (click)="avatarUploader.showDialog()"
+            pTooltip="Upload avatar"
+            tooltipPosition="bottom"
+            [showDelay]="300"
+          >
+            <img
+              [src]="getMediaUrlById(meInfo.avatar, meInfo.medias)"
+              alt=""
+              class="object-cover w-full h-full"
+            />
+          </div>
+
+          <div class="pl-[126px] py-2 flex justify-between">
+            <div>
+              <div class="text-xl font-semibold">Minh Nguyen</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="bg-white border border-gray-200 rounded-xl min-h-[200px] mt-3 shadow-sm py-5"
+    >
+      <form
+        [formGroup]="updateUserForm"
+        class="max-w-[330px] mx-auto flex flex-col gap-3"
+      >
+        <div class="flex items-center">
+          <div class="input-label">Description:</div>
+          <div class="flex-1 w-full">
+            <textarea
+              rows="2"
+              cols="25"
+              pInputTextarea
+              formControlName="description"
+              class="w-full text-md j-inputtext-custom"
+            ></textarea>
+          </div>
+        </div>
+
+        <div class="flex items-center">
+          <div class="input-label">First name:</div>
+          <div class="flex-1">
+            <input
+              type="text"
+              pInputText
+              placeholder="First name"
+              class="w-full h-10 j-inputtext-custom"
+              formControlName="first_name"
+              [value]="meInfo.first_name"
+            />
+            <div
+              *ngIf="
+                updateUserForm.get('first_name')?.invalid &&
+                (updateUserForm.get('first_name')?.dirty ||
+                  updateUserForm.get('first_name')?.touched)
+              "
+              class="mt-1 text-sm text-red-500"
+            >
+              <div *ngIf="updateUserForm.get('first_name')?.invalid">
+                First name is required
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-center">
+          <div class="input-label">Last name:</div>
+          <div class="flex-1">
+            <input
+              type="text"
+              pInputText
+              placeholder="Last name"
+              class="w-full h-10 j-inputtext-custom"
+              formControlName="last_name"
+              [value]="meInfo.last_name"
+            />
+            <div
+              *ngIf="
+                updateUserForm.get('last_name')?.invalid &&
+                (updateUserForm.get('last_name')?.dirty ||
+                  updateUserForm.get('last_name')?.touched)
+              "
+              class="mt-1 text-sm text-red-500"
+            >
+              <div *ngIf="updateUserForm.get('last_name')?.invalid">
+                Last name is required
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-center">
+          <div class="input-label">Birth date:</div>
+          <div class="flex-1">
+            <p-calendar
+              placeholder="Date of birth"
+              formControlName="birth_date"
+              dateFormat="dd/mm/yy"
+              styleClass="j-calendar-custom w-full h-10"
+              [maxDate]="maxDate"
+            ></p-calendar>
+            <div
+              *ngIf="
+                updateUserForm.get('birth_date')?.invalid &&
+                (updateUserForm.get('birth_date')?.dirty ||
+                  updateUserForm.get('birth_date')?.touched)
+              "
+              class="mt-1 text-sm text-red-500"
+            >
+              <div *ngIf="updateUserForm.get('birth_date')?.invalid">
+                Date of birth is required
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flex items-center">
+          <div class="input-label">Gender:</div>
+          <div class="flex-1">
+            <p-dropdown
+              formControlName="gender"
+              [options]="genders"
+              placeholder="Gender"
+              styleClass="j-dropdown-custom h-10"
+            ></p-dropdown>
+            <div
+              *ngIf="
+                updateUserForm.get('gender')?.invalid &&
+                (updateUserForm.get('gender')?.dirty ||
+                  updateUserForm.get('gender')?.touched)
+              "
+              class="mt-1 text-sm text-red-500"
+            >
+              <div *ngIf="updateUserForm.get('gender')?.invalid">
+                Gender is required
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-center mt-3">
+          <div class="input-label"></div>
+          <div>
+            <p-button
+              styleClass="bg-blue-500 text-white j-button-custom w-full flex justify-center"
+              (onClick)="handleUpateUser()"
+            >
+              Save
+            </p-button>
+          </div>
+        </div>
+      </form>
+    </div>
   </div>
   <div class="bg-green-50">hello</div>
 </div>
+
+<app-image-uploader
+  #bgUploader
+  [multiple]="false"
+  [showLoadingProgress]="false"
+  [showLoadingProgressInModal]="true"
+  [previewWidth]="500"
+  (onUploadSuccess)="handleUpdateBackground($event)"
+></app-image-uploader>
+
+<app-image-uploader
+  #avatarUploader
+  [multiple]="false"
+  [showLoadingProgress]="false"
+  [showLoadingProgressInModal]="true"
+  [previewWidth]="500"
+  (onUploadSuccess)="handleUpdateAvatar($event)"
+></app-image-uploader>

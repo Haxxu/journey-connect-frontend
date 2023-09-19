@@ -65,4 +65,14 @@ export class UserService {
         })
       );
   }
+
+  updateUser(userId: string, user: any): Observable<any> {
+    return this.http.put(`${environment.apiURL}/users/${userId}`, user).pipe(
+      tap((res: any) => {
+        if (res.success) {
+          this.userInfo$.next(res.data);
+        }
+      })
+    );
+  }
 }

@@ -4,4 +4,14 @@
     grid-template-columns: 8fr 4fr;
     grid-gap: 0.5rem;
   }
+
+  .j-bg-cover {
+    &:hover .j-change-bg-btn {
+      @apply block;
+    }
+  }
+
+  .input-label {
+    @apply text-md text-gray-500 w-24;
+  }
 }
