@@ -17,6 +17,7 @@ export class ImageUploaderComponent {
   uploadedFiles: any[] = [];
   @Input() multiple: boolean = true;
   @Input() showLoadingProgress: boolean = true;
+  @Input() showLoadingProgressInModal: boolean = false;
   @Input() previewWidth: number = 50;
 
   constructor(private fileService: FileService) {}
@@ -26,7 +27,9 @@ export class ImageUploaderComponent {
   }
 
   onUpload(event: FileUploadHandlerEvent) {
-    this.visible = false;
+    if (!this.showLoadingProgressInModal) {
+      this.visible = false;
+    }
 
     event.files.forEach((file, index) => {
       this.uploadedFiles.push({

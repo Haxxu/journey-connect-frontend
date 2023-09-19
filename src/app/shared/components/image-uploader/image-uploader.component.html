@@ -26,13 +26,20 @@
       [previewWidth]="previewWidth"
     >
       <ng-template pTemplate="content">
-        <ul *ngIf="uploadedFiles.length">
-          <li *ngFor="let file of uploadedFiles">
-            <div>
-              <img [src]="" alt="" />
+        <div *ngIf="showLoadingProgressInModal">
+          <div
+            *ngFor="let uploadedFile of uploadedFiles"
+            class="flex items-center w-full progress"
+          >
+            <p-progressBar
+              mode="indeterminate"
+              styleClass="h-2 w-14"
+            ></p-progressBar>
+            <div class="ml-2 text-gray-500 text-md">
+              {{ uploadedFile.name }}
             </div>
-          </li>
-        </ul>
+          </div>
+        </div>
       </ng-template>
     </p-fileUpload>
   </div>
