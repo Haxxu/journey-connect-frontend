@@ -5,3 +5,18 @@
 <button (click)="decrement()" class="bg-yellow-400">Decrement</button>
 
 <button (click)="reset()" class="bg-red-500">Reset Counter</button>
+
+<h2>Books</h2>
+<app-book-list
+  class="book-list"
+  [books]="(books$ | async)!"
+  (add)="onAdd($event)"
+></app-book-list>
+
+<h2>My Collection</h2>
+<app-book-collection
+  class="book-collection"
+  [books]="(bookCollection$ | async)!"
+  (remove)="onRemove($event)"
+>
+</app-book-collection>
