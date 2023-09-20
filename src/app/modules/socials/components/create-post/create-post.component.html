@@ -5,7 +5,11 @@
   <form [formGroup]="createPostForm">
     <div class="px-4 pt-2">
       <div class="flex items-center justify-between">
-        <p-avatar shape="circle" label="M"></p-avatar>
+        <p-avatar
+          shape="circle"
+          [image]="getMediaUrlById(userInfo.avatar, userInfo.medias)"
+          size="large"
+        ></p-avatar>
         <div class="flex-1 ml-4">
           <div class="py-1 font-semibold text-md">
             {{ userInfo.first_name }} {{ userInfo.last_name }}

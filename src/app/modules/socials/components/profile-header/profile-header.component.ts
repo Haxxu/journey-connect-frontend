@@ -8,6 +8,9 @@ import { MessageService } from 'primeng/api';
 import { TooltipModule } from 'primeng/tooltip';
 import { ButtonModule } from 'primeng/button';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { selectMeInfo } from '@/core/store/me/me.selectors';
+import { getMediaUrlById } from '@/utils/media';
 
 @Component({
   selector: 'app-profile-header',
@@ -24,7 +27,8 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
   styleUrls: ['./profile-header.component.scss'],
 })
 export class ProfileHeaderComponent implements OnInit {
-  meInfo$: Observable<any>;
+  getMediaUrlById = getMediaUrlById;
+  meInfo$ = this.store.select(selectMeInfo);
   userData$: Observable<any>;
   userId: string = '';
   isMyself: boolean = false;
@@ -33,9 +37,10 @@ export class ProfileHeaderComponent implements OnInit {
     private userService: UserService,
     private messageService: MessageService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private store: Store
   ) {
-    this.meInfo$ = this.userService.getUserInfo();
+    // this.meInfo$ = this.userService.getUserInfo();
     this.userData$ = this.userService.getUserData();
   }
 
@@ -49,11 +54,6 @@ export class ProfileHeaderComponent implements OnInit {
       .subscribe((isMyself) => {
         this.isMyself = isMyself;
       });
-  }
-
-  getMediaUrlById(id: string, medias: any): string | undefined {
-    const media = medias.find((m: any) => m.id === id);
-    return media ? media.url : undefined;
   }
 
   handleUpdateBackground(event: any) {
@@ -81,6 +81,6 @@ export class ProfileHeaderComponent implements OnInit {
   }
 
   handleEditUser() {
-    this.router.navigate(['edit'], { relativeTo: this.route });
+    this.router.navigate(['edit'], { queryParams: { act: 'info' } });
   }
 }

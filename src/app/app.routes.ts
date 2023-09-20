@@ -14,10 +14,6 @@ import { MyCounterComponent } from '@/components/test/my-counter/my-counter.comp
 
 export const APP_ROUTES: Routes = [
   {
-    path: 'test',
-    component: MyCounterComponent,
-  },
-  {
     path: '',
     pathMatch: 'full',
     redirectTo: 'feed',
@@ -47,15 +43,23 @@ export const APP_ROUTES: Routes = [
       },
     ],
   },
+
+  {
+    path: 'edit',
+    component: SocialLayoutComponent,
+    canActivate: [AuthGuard],
+    children: [
+      {
+        path: '',
+        component: EditUserComponent,
+      },
+    ],
+  },
   {
     path: `${AppRoutes.USERS}`,
     component: SocialLayoutComponent,
     canActivate: [AuthGuard],
     children: [
-      {
-        path: ':id/edit',
-        component: EditUserComponent,
-      },
       {
         path: ':id',
         component: UserComponent,

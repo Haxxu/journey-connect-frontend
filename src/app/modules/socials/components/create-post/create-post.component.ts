@@ -21,8 +21,9 @@ import { ImageUploaderComponent } from '@/shared/components/image-uploader/image
 import { FileService } from '@/services/file.service';
 import { PostService } from '@/services/post.service';
 import { MessageService } from 'primeng/api';
-import { UserService } from '@/services/user.service';
-import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { selectMeInfo } from '@/core/store/me/me.selectors';
+import { getMediaUrlById } from '@/utils/media';
 
 @Component({
   selector: 'app-create-post',
@@ -45,7 +46,8 @@ import { Observable } from 'rxjs';
   styleUrls: ['./create-post.component.scss'],
 })
 export class CreatePostComponent implements OnInit {
-  userInfo$: Observable<any>;
+  getMediaUrlById = getMediaUrlById;
+  userInfo$ = this.store.select(selectMeInfo);
   createPostForm: any;
   showEmojiPicker: boolean = false;
   visibilityOptions: any[] = [
@@ -72,7 +74,7 @@ export class CreatePostComponent implements OnInit {
     private fileService: FileService,
     private postService: PostService,
     private messageService: MessageService,
-    private userService: UserService
+    private store: Store
   ) {
     this.createPostForm = this.formBuilder.group({
       title: ['', Validators.required],
@@ -102,7 +104,6 @@ export class CreatePostComponent implements OnInit {
     });
 
     this.calculateGridDimensions();
-    this.userInfo$ = this.userService.getUserInfo();
   }
 
   ngOnInit(): void {}

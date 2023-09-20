@@ -21,6 +21,9 @@ import { CalendarModule } from 'primeng/calendar';
 import { formatDateToDDMMYYYY } from '@/utils/format';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
+import { Store } from '@ngrx/store';
+import { selectMeInfo } from '@/core/store/me/me.selectors';
+import { getMediaUrlById } from '@/utils/media';
 
 @Component({
   selector: 'app-edit-user',
@@ -39,24 +42,52 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
     InputTextModule,
     InputTextareaModule,
     ButtonModule,
+    RouterModule,
   ],
   templateUrl: './edit-user.component.html',
   styleUrls: ['./edit-user.component.scss'],
   providers: [DatePipe],
 })
 export class EditUserComponent implements OnInit {
-  meInfo$: Observable<any>;
+  meInfo$ = this.store.select(selectMeInfo);
   updateUserForm: FormGroup;
   maxDate: Date = new Date();
   userId: string = '';
+  getMediaUrlById = getMediaUrlById;
+  actQueryParam: string | null = 'info';
+
+  sidebarItems: any[] = [
+    {
+      name: 'Profile',
+      act: 'info',
+    },
+    {
+      name: 'Contact info',
+      act: 'contacts',
+    },
+    {
+      name: 'Work places',
+      act: 'career',
+    },
+    {
+      name: 'Education',
+      act: 'education',
+    },
+    {
+      name: 'Living places',
+      act: 'living-places',
+    },
+  ];
 
   constructor(
     private userService: UserService,
     private messageService: MessageService,
     private formBuilder: FormBuilder,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private store: Store,
+    private router: Router,
+    private route: ActivatedRoute
   ) {
-    this.meInfo$ = this.userService.getUserInfo();
     this.updateUserForm = this.formBuilder.group({
       first_name: ['', [Validators.required, noWhitespaceValidator]],
       last_name: ['', [Validators.required, noWhitespaceValidator]],
@@ -76,6 +107,10 @@ export class EditUserComponent implements OnInit {
       });
       this.userId = meInfo._id;
     });
+
+    this.route.queryParamMap.subscribe((queryParams) => {
+      this.actQueryParam = queryParams.get('act');
+    });
   }
 
   handleUpdateBackground(event: any) {
@@ -88,11 +123,6 @@ export class EditUserComponent implements OnInit {
         });
       }
     });
-  }
-
-  getMediaUrlById(id: string, medias: any): string | undefined {
-    const media = medias.find((m: any) => m.id === id);
-    return media ? media.url : undefined;
   }
 
   handleUpdateAvatar(event: any) {

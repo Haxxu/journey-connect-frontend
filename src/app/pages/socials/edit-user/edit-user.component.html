@@ -41,13 +41,16 @@
 
           <div class="pl-[126px] py-2 flex justify-between">
             <div>
-              <div class="text-xl font-semibold">Minh Nguyen</div>
+              <div class="text-xl font-semibold">
+                {{ meInfo.first_name }} {{ meInfo.last_name }}
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
     <div
+      *ngIf="actQueryParam === 'info'"
       class="bg-white border border-gray-200 rounded-xl min-h-[200px] mt-3 shadow-sm py-5"
     >
       <form
@@ -180,8 +183,21 @@
         </div>
       </form>
     </div>
+    <div *ngIf="actQueryParam === 'contacts'">Contact</div>
   </div>
-  <div class="bg-green-50">hello</div>
+  <div
+    class="bg-white min-h-[228px] shadow-sm border border-gray-200 rounded-lg flex flex-col gap-0.5 px-2 py-4"
+  >
+    <a
+      *ngFor="let item of sidebarItems"
+      class="flex items-center h-10 p-4 rounded-lg cursor-pointer hover:bg-gray-200"
+      [routerLink]="['/edit']"
+      [queryParams]="item ? { act: item.act } : {}"
+      routerLinkActive="bg-gray-200"
+    >
+      {{ item.name }}
+    </a>
+  </div>
 </div>
 
 <app-image-uploader

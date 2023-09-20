@@ -1,9 +1,10 @@
 import { AppRoutes } from '@/config/app_routes';
+import { selectMeInfo } from '@/core/store/me/me.selectors';
 import { HeaderComponent } from '@/modules/socials/components/header/header.component';
-import { UserService } from '@/services/user.service';
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
+import { Store } from '@ngrx/store';
 
 @Component({
   standalone: true,
@@ -12,8 +13,8 @@ import { Router, RouterModule } from '@angular/router';
   styleUrls: ['./social-layout.component.scss'],
   imports: [RouterModule, HeaderComponent, CommonModule],
 })
-export class SocialLayoutComponent {
-  userInfo: any;
+export class SocialLayoutComponent implements OnInit {
+  userInfo$ = this.store.select(selectMeInfo);
   sidebars: any[] = [
     {
       name: 'My profile',
@@ -37,10 +38,11 @@ export class SocialLayoutComponent {
     },
   ];
 
-  constructor(private userService: UserService, private router: Router) {
-    this.userService.getUserInfo().subscribe((val) => {
-      this.userInfo = val;
-      let userId = this.userInfo._id;
+  constructor(private router: Router, private store: Store) {}
+
+  ngOnInit(): void {
+    this.userInfo$.subscribe((val) => {
+      let userId = val._id;
       if (userId) {
         this.sidebars[0].path = '/users/' + userId;
       }

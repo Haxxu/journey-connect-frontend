@@ -3,6 +3,9 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject, tap } from 'rxjs';
 import { environment } from '@environments/environment';
 
+import { Store } from '@ngrx/store';
+import { updateMeInfo } from '@/core/store/me/me.actions';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -10,7 +13,7 @@ export class UserService {
   private userInfo$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   private userData$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private store: Store) {
     const storedUserInfo = localStorage.getItem('userInfo');
     if (storedUserInfo) {
       this.userInfo$.next(JSON.parse(storedUserInfo));
@@ -24,8 +27,9 @@ export class UserService {
   fetchUserInfo(): void {
     this.http.get(`${environment.apiURL}/me/info`).subscribe((res: any) => {
       if (res.success) {
-        this.userInfo$.next(res.data);
-        localStorage.setItem('userInfo', JSON.stringify(res.data));
+        // this.userInfo$.next(res.data);
+        this.store.dispatch(updateMeInfo({ meInfo: res.data }));
+        // localStorage.setItem('userInfo', JSON.stringify({ meInfo: res.data }));
       } else {
         console.log(res.message);
       }
@@ -61,6 +65,7 @@ export class UserService {
         tap((res: any) => {
           if (res.success) {
             this.userData$.next(res.data);
+            this.store.dispatch(updateMeInfo({ meInfo: res.data }));
           }
         })
       );
@@ -70,7 +75,7 @@ export class UserService {
     return this.http.put(`${environment.apiURL}/users/${userId}`, user).pipe(
       tap((res: any) => {
         if (res.success) {
-          this.userInfo$.next(res.data);
+          this.store.dispatch(updateMeInfo({ meInfo: res.data }));
         }
       })
     );
