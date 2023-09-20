@@ -10,8 +10,13 @@ import { UserComponent } from '@/pages/socials/user/user.component';
 import { AppRoutes } from './config/app_routes';
 import { AuthGuard } from '@/core/guards/auth.guard';
 import { EditUserComponent } from '@/pages/socials/edit-user/edit-user.component';
+import { MyCounterComponent } from '@/components/test/my-counter/my-counter.component';
 
 export const APP_ROUTES: Routes = [
+  {
+    path: 'test',
+    component: MyCounterComponent,
+  },
   {
     path: '',
     pathMatch: 'full',
