@@ -13,6 +13,7 @@ import { IconsModule } from './icons.module';
 import { NgxGridModule } from '@egjs/ngx-grid';
 import { PrimeNGModule } from './primeng.module';
 import { AuthInterceptor } from '@/core/interceptors/auth.interceptor';
+import { AppStoreModule } from './store.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -25,6 +26,7 @@ import { AuthInterceptor } from '@/core/interceptors/auth.interceptor';
     IconsModule,
     NgxGridModule,
     PrimeNGModule,
+    AppStoreModule,
   ],
   providers: [
     MessageService,

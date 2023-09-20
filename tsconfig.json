@@ -23,7 +23,9 @@
       "@/*": ["src/app/*"],
       "@configs/*": ["src/config/*"],
       "@assets/*": ["src/assets/*"],
-      "@environments/*": ["src/environments/*"]
+      "@environments/*": ["src/environments/*"],
+      "@store/*": ["src/app/core/store/*"],
+
     }, 
     "useDefineForClassFields": false,
     "lib": [
