@@ -119,17 +119,14 @@ export class CreatePostComponent implements OnInit {
   handleCreatePost() {
     if (this.createPostForm.valid) {
       this.submitting = true;
-      this.postService
-        .createPost(this.createPostForm.value)
-        .subscribe((res) => {
+      this.postService.createPost(this.createPostForm.value).subscribe({
+        next: (res) => {
           if (res.success) {
             this.messageService.add({
               severity: 'success',
               summary: 'Success',
               detail: res.message,
             });
-
-            // Reset form
             this.createPostForm.reset({
               title: '',
               post_type: 'individual_post',
@@ -140,16 +137,19 @@ export class CreatePostComponent implements OnInit {
             });
             this.medias = [];
             this.visibility = 'Public';
-          } else {
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Error',
-              detail: res.message,
-            });
           }
 
           this.submitting = false;
-        });
+        },
+        error: (error) => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Create post error',
+            detail: error.error.message,
+          });
+          this.submitting = false;
+        },
+      });
     }
   }
 

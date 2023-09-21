@@ -72,14 +72,23 @@ export class SignupComponent {
           gender: this.signupForm.value.gender.toLowerCase(),
           birth_date: formattedBirthDate,
         })
-        .subscribe((res) => {
-          if (res.success) {
+        .subscribe({
+          next: (res) => {
+            if (res.success) {
+              this.messageService.add({
+                severity: 'success',
+                summary: 'Success',
+                detail: res.message,
+              });
+            }
+          },
+          error: (error) => {
             this.messageService.add({
-              severity: 'success',
-              summary: 'Success',
-              detail: res.message,
+              severity: 'error',
+              summary: 'Signup failed',
+              detail: error.error.message,
             });
-          }
+          },
         });
     } else {
       this.signupForm.markAllAsTouched();

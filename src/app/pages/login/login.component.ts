@@ -54,15 +54,24 @@ export class LoginComponent {
 
   handleLogin(): void {
     if (this.loginForm.valid) {
-      this.authService.login(this.loginForm.value).subscribe((res) => {
-        if (res.success) {
+      this.authService.login(this.loginForm.value).subscribe({
+        next: (res: any) => {
+          if (res.success) {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Success',
+              detail: res.message,
+            });
+            this.router.navigate(['/feed']);
+          }
+        },
+        error: (error: any) => {
           this.messageService.add({
-            severity: 'success',
-            summary: 'Success',
-            detail: res.message,
+            severity: 'error',
+            summary: 'Login failed',
+            detail: error.error.message,
           });
-          this.router.navigate(['/feed']);
-        }
+        },
       });
     } else {
       this.loginForm.markAllAsTouched();

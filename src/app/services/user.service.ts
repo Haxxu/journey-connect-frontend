@@ -4,7 +4,7 @@ import { Observable, BehaviorSubject, tap } from 'rxjs';
 import { environment } from '@environments/environment';
 
 import { Store } from '@ngrx/store';
-import { updateMeInfo } from '@/core/store/me/me.actions';
+import { setMyPosts, updateMeInfo } from '@/core/store/me/me.actions';
 
 @Injectable({
   providedIn: 'root',
@@ -30,6 +30,16 @@ export class UserService {
         // this.userInfo$.next(res.data);
         this.store.dispatch(updateMeInfo({ meInfo: res.data }));
         // localStorage.setItem('userInfo', JSON.stringify({ meInfo: res.data }));
+      } else {
+        console.log(res.message);
+      }
+    });
+  }
+
+  fetchMyPosts(): void {
+    this.http.get(`${environment.apiURL}/me/posts`).subscribe((res: any) => {
+      if (res.success) {
+        this.store.dispatch(setMyPosts({ posts: res.data }));
       } else {
         console.log(res.message);
       }
