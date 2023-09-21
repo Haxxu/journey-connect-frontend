@@ -9,3 +9,8 @@ export const setMyPosts = createAction(
   '[ME] Set my posts',
   props<{ posts: any }>()
 );
+
+export const createPost = createAction(
+  '[ME] Create post',
+  props<{ post: any }>()
+);

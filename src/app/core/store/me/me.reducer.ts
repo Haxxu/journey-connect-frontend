@@ -1,7 +1,12 @@
 import { createReducer, on } from '@ngrx/store';
-import { setMyPosts, updateMeInfo } from './me.actions';
+import { createPost, setMyPosts, updateMeInfo } from './me.actions';
 
-export const initialState = {
+export interface MeState {
+  meInfo: any;
+  posts: any[];
+}
+
+export const initialState: MeState = {
   meInfo: {},
   posts: [],
 };
@@ -12,6 +17,10 @@ export const meReducer = createReducer(
     return { ...state, meInfo };
   }),
   on(setMyPosts, (state, { posts }) => {
+    return { ...state, posts };
+  }),
+  on(createPost, (state, { post }) => {
+    const posts = [post, ...state.posts];
     return { ...state, posts };
   })
 );
