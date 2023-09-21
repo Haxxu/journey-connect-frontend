@@ -6,6 +6,20 @@
     <p-progressBar mode="indeterminate" styleClass="h-2 w-14"></p-progressBar>
     <div class="ml-2 text-gray-500 text-md">{{ uploadedFile.name }}</div>
   </div>
+
+  <div
+    *ngFor="let file of failedFiles"
+    class="flex items-center w-full progress"
+  >
+    <p-progressBar
+      mode="determinate"
+      styleClass="h-2 w-14 bg-red-400"
+    ></p-progressBar>
+    <div class="ml-2 text-gray-500 text-md">upload {{ file.name }} failed</div>
+    <div (click)="removeFile(file.id)" class="h-full flex items-center ml-2">
+      <ng-icon name="matCloseRound"></ng-icon>
+    </div>
+  </div>
 </div>
 
 <p-dialog
@@ -15,10 +29,12 @@
   [draggable]="false"
   [resizable]="false"
   styleClass="min-w-[600px] max-w-[80%]"
+  [dismissableMask]="true"
 >
   <div class="flex justify-center w-full card">
     <p-fileUpload
-      (uploadHandler)="onUpload($event)"
+      #fileUpload
+      (uploadHandler)="onUpload($event, fileUpload)"
       [multiple]="multiple"
       accept="image/*"
       [maxFileSize]="1000000"
