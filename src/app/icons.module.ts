@@ -5,6 +5,7 @@ import {
   matCloseRound,
   matImageRound,
   matSearchRound,
+  matMoreHorizRound,
 } from '@ng-icons/material-icons/round';
 
 @NgModule({
@@ -14,6 +15,7 @@ import {
       matCloseRound,
       matImageRound,
       matSearchRound,
+      matMoreHorizRound,
     }),
   ],
   exports: [NgIconsModule],
