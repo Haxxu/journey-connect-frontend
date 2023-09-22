@@ -20,7 +20,19 @@ export const meReducer = createReducer(
     return { ...state, posts };
   }),
   on(createPost, (state, { post }) => {
-    const posts = [post, ...state.posts];
+    const posts = [
+      {
+        ...post,
+        owner: {
+          _id: state.meInfo._id,
+          first_name: state.meInfo.first_name,
+          last_name: state.meInfo.last_name,
+          avatar: state.meInfo.avatar,
+          medias: state.meInfo.medias,
+        },
+      },
+      ...state.posts,
+    ];
     return { ...state, posts };
   })
 );

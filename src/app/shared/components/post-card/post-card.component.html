@@ -1,4 +1,6 @@
-<div class="bg-white rounded-lg shadow-sm min-h-[20px] px-4 py-2">
+<div
+  class="bg-white rounded-lg shadow-sm border border-gray-200 min-h-[20px] px-4 py-3"
+>
   <div class="flex items-center justify-between">
     <p-avatar
       shape="circle"
@@ -9,13 +11,31 @@
       <div class="py-1 font-semibold text-md">
         {{ post.owner.first_name }} {{ post.owner.last_name }}
       </div>
-      <div class="text-gray-600 text-md">{{ formatDate(post.createdAt) }}</div>
+      <div class="text-gray-700 text-sm">{{ formatDate(post.createdAt) }}</div>
     </div>
-    <div class="cursor-pointer">
-      <ng-icon name="matMoreHorizRound" class="text-lg text-gray-700"></ng-icon>
+    <div
+      class="cursor-pointer w-6 h-6"
+      [popper]="postOption"
+      [popperPlacement]="NgxPopperjsPlacements.BOTTOMEND"
+    >
+      <ng-icon name="matMoreHorizRound" class="text-xl text-gray-700"></ng-icon>
     </div>
+    <popper-content #postOption class="rounded-xl shadow-sm">
+      <div class="w-16">
+        <div
+          class="px-2 py-1.5 hover:bg-gray-200 text-md rounded-md text-gray-700 cursor-pointer"
+        >
+          Edit
+        </div>
+        <div
+          class="px-2 py-1.5 hover:bg-gray-200 text-md rounded-md text-gray-700 cursor-pointer"
+        >
+          Save
+        </div>
+      </div>
+    </popper-content>
   </div>
-  <div class="mt-2 mb-2 text-md">
+  <div class="my-3 text-md">
     {{ post.title }}
   </div>
   <div
@@ -57,7 +77,7 @@
     </div>
 
     <hr />
-    <div class="flex justify-between mt-2 text-base">
+    <div class="flex justify-between mt-1.5 text-base">
       <div class="py-2">Like</div>
       <div class="py-2">Comments</div>
       <div class="py-2">Share</div>

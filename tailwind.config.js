@@ -9,8 +9,8 @@ module.exports = {
         Monsterrat: ["Monsterrat", "sans"],
       },
       fontSize: {
-        xs: ["0.5rem", "0.75rem"],
-        sm: ["0.625rem", "1rem"],
+        xs: ["0.625rem", "0.75rem"],
+        sm: ["0.75rem", "1rem"],
         md: ["0.875rem", "1.25rem"],
       },
       gridTemplateColumns: {

@@ -6,7 +6,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
 
-// PrimeNG
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { MessageService } from 'primeng/api';
 import { IconsModule } from './icons.module';
@@ -14,7 +13,7 @@ import { NgxGridModule } from '@egjs/ngx-grid';
 import { PrimeNGModule } from './primeng.module';
 import { AuthInterceptor } from '@/core/interceptors/auth.interceptor';
 import { AppStoreModule } from './store.module';
-
+import { NgxPopperjsModule } from 'ngx-popperjs';
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -27,6 +26,7 @@ import { AppStoreModule } from './store.module';
     NgxGridModule,
     PrimeNGModule,
     AppStoreModule,
+    NgxPopperjsModule,
   ],
   providers: [
     MessageService,
