@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { createPost, setMyPosts, updateMeInfo } from './me.actions';
+import { createPost, setMyPosts, updateMeInfo, updatePost } from './me.actions';
 
 export interface MeState {
   meInfo: any;
@@ -33,6 +33,16 @@ export const meReducer = createReducer(
       },
       ...state.posts,
     ];
+    return { ...state, posts };
+  }),
+  on(updatePost, (state, { post }) => {
+    const posts = state.posts?.map((item) => {
+      if (item._id === post._id) {
+        return post;
+      }
+      return item;
+    });
+
     return { ...state, posts };
   })
 );

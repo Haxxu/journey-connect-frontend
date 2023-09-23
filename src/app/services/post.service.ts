@@ -3,7 +3,10 @@ import { Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
 import { Observable, tap } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { createPost as createPostAction } from '@/core/store/me/me.actions';
+import {
+  createPost as createPostAction,
+  updatePost,
+} from '@/core/store/me/me.actions';
 
 @Injectable({
   providedIn: 'root',
@@ -16,6 +19,16 @@ export class PostService {
       tap((res: any) => {
         if (res.success) {
           this.store.dispatch(createPostAction({ post: res.data }));
+        }
+      })
+    );
+  }
+
+  updatePostById(id: string, body: any): Observable<any> {
+    return this.http.put(`${environment.apiURL}/posts/${id}`, body).pipe(
+      tap((res: any) => {
+        if (res.success) {
+          this.store.dispatch(updatePost({ post: res.data }));
         }
       })
     );

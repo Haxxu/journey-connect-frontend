@@ -1,0 +1,213 @@
+<form
+  *ngIf="meInfo$ | async as meInfo"
+  class="bg-white rounded-lg shadow-sm border border-gray-200 min-h-[20px] py-3"
+  [ngClass]="{
+    'border-blue-200 shadow-lg border-2': mode === 'edit'
+  }"
+  [formGroup]="editPostForm"
+>
+  <div class="flex items-center justify-between px-4">
+    <p-avatar
+      shape="circle"
+      [image]="getMediaUrlById(post.owner.avatar, post.owner.medias)"
+      size="large"
+    ></p-avatar>
+    <div class="flex-1 ml-4">
+      <div class="py-1 font-semibold text-md">
+        {{ post.owner.first_name }} {{ post.owner.last_name }}
+        <p-chip *ngIf="mode === 'edit'" styleClass="bg-gray-100">
+          <div class="p-1 font-semibold text-blue-700 text-md">Edit</div>
+        </p-chip>
+      </div>
+      <div class="text-sm text-gray-700">{{ formatDate(post.createdAt) }}</div>
+    </div>
+    <div class="flex items-center gap-2">
+      <div *ngIf="mode === 'edit'">
+        <button
+          type="button"
+          class="w-10 h-full text-center text-gray-500 hover:scale-110"
+          (click)="op.toggle($event)"
+          pTooltip="Emoji"
+          tooltipStyleClass="text-md"
+        >
+          😀
+        </button>
+        <p-overlayPanel #op styleClass="j-overlaypanel-custom">
+          <emoji-mart
+            (emojiClick)="handleEmojiClick($event)"
+            [emojiSize]="16"
+            class="text-md"
+          ></emoji-mart>
+        </p-overlayPanel>
+      </div>
+      <div
+        *ngIf="mode === 'view'"
+        class="w-6 h-6 cursor-pointer"
+        [popper]="postOption"
+        [popperPlacement]="NgxPopperjsPlacements.BOTTOMEND"
+      >
+        <ng-icon
+          name="matMoreHorizRound"
+          class="text-xl text-gray-700"
+        ></ng-icon>
+      </div>
+      <popper-content #postOption class="shadow-sm rounded-xl">
+        <div class="w-16">
+          <div
+            *ngIf="meInfo._id === post?.owner?._id"
+            class="px-2 py-1.5 hover:bg-gray-200 text-md rounded-md text-gray-700 cursor-pointer"
+            (click)="openEditMode()"
+          >
+            Edit
+          </div>
+
+          <div
+            class="px-2 py-1.5 hover:bg-gray-200 text-md rounded-md text-gray-700 cursor-pointer"
+          >
+            Save
+          </div>
+        </div>
+      </popper-content>
+    </div>
+  </div>
+
+  <!-- TITLE -->
+  <div *ngIf="mode === 'view'" class="px-4 my-3 text-md">
+    {{ post.title }}
+  </div>
+
+  <!-- EDIT TITLE -->
+  <div *ngIf="mode === 'edit'" class="px-4 my-3 text-md">
+    <textarea
+      pInputTextarea
+      placeholder="What's new?"
+      formControlName="title"
+      class="w-full text-md j-inputtext-custom"
+      rows="3"
+    ></textarea>
+  </div>
+
+  <!-- MEDIA -->
+  <div
+    *ngIf="mode === 'view'"
+    class="w-full"
+    NgxJustifiedGrid
+    [gap]="gap"
+    [defaultDirection]="defaultDirection"
+    [columnRange]="columnRange"
+    [rowRange]="rowRange"
+    [sizeRange]="sizeRange"
+    [isCroppedSize]="isCroppedSize"
+    [displayedRow]="displayedRow"
+    [autoResize]="true"
+  >
+    <div *ngFor="let media of post.medias" class="relative">
+      <img [src]="media.url" alt="" class="w-full h-full" />
+    </div>
+  </div>
+
+  <!-- EDIT MEDIA -->
+  <div *ngIf="mode === 'edit'" class="px-4">
+    <div
+      class="w-full"
+      NgxJustifiedGrid
+      [gap]="gap"
+      [defaultDirection]="defaultDirection"
+      [columnRange]="columnRange"
+      [rowRange]="rowRange"
+      [sizeRange]="sizeRange"
+      [isCroppedSize]="isCroppedSize"
+      [displayedRow]="displayedRow"
+      [autoResize]="true"
+    >
+      <div *ngFor="let media of editMedias" class="relative">
+        <img [src]="media.url" alt="" class="w-full h-full" />
+
+        <div
+          *ngIf="mode === 'edit'"
+          class="absolute top-0 right-0 flex w-4 h-4 bg-gray-700 cursor-pointer bg-opacity-70 item-center"
+          (click)="handleRemoveEditMedia(media.id)"
+        >
+          <ng-icon
+            name="matCloseRound"
+            class="text-base text-gray-300"
+          ></ng-icon>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <app-image-uploader
+      #imageUploader
+      (onUploadSuccess)="handleUploadFile($event)"
+    ></app-image-uploader>
+  </div>
+
+  <!-- EDIT ACTION -->
+  <div
+    *ngIf="mode === 'edit'"
+    class="flex items-center justify-between px-4 py-2 mt-2 border-t"
+  >
+    <div class="flex gap-2">
+      <div
+        class="w-6 h-6 cursor-pointer"
+        pTooltip="Photo"
+        (click)="imageUploader.showDialog()"
+      >
+        <ng-icon
+          name="matImageRound"
+          class="text-2xl text-green-600 hover:scale-110"
+        ></ng-icon>
+      </div>
+      <div
+        class="inline-flex items-center font-normal bg-gray-100 rounded-md cursor-pointer text-md px-1.5 py-0.5"
+        (click)="visibilityOp.toggle($event)"
+      >
+        <span>{{ visibility }}</span>
+        <ng-icon
+          name="matKeyboardArrowDownRound"
+          class="text-lg text-gray-800"
+        ></ng-icon>
+      </div>
+      <p-overlayPanel #visibilityOp styleClass="j-overlaypanel-custom">
+        <div
+          *ngFor="let option of visibilityOptions"
+          class="p-2 cursor-pointer text-md hover:bg-gray-100"
+          (click)="handleClickVisibility(option, visibilityOp)"
+        >
+          {{ option.label }}
+        </div>
+      </p-overlayPanel>
+    </div>
+    <div class="flex gap-2">
+      <p-button
+        styleClass="p-button-outlined p-button-secondary j-button-custom flex justify-center small"
+        label="Cancel"
+        (onClick)="closeEditMode()"
+      ></p-button>
+      <p-button
+        styleClass="bg-blue-500 text-white j-button-custom flex justify-center small"
+        [loading]="submitting"
+        (onClick)="handleEditPost()"
+        label="Save"
+      ></p-button>
+    </div>
+  </div>
+
+  <div class="px-4 mt-4">
+    <div class="flex justify-between pb-4 text-md">
+      <div>❤️👍<span>1,5k</span></div>
+      <div class="flex gap-3">
+        <div>10 comments</div>
+        <div>2 shares</div>
+      </div>
+    </div>
+
+    <hr />
+    <div class="flex justify-between mt-1.5 text-base">
+      <div class="py-2">Like</div>
+      <div class="py-2">Comments</div>
+      <div class="py-2">Share</div>
+    </div>
+  </div>
+</form>

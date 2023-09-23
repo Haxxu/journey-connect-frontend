@@ -80,26 +80,30 @@ export class CreatePostComponent implements OnInit {
       title: ['', Validators.required],
       post_type: [
         'individual_post',
-        Validators.required,
-        allowedValuesAsyncValidator([
-          'group_post',
-          'individual_post',
-          'share_post',
-        ]),
+        [Validators.required],
+        [
+          allowedValuesAsyncValidator([
+            'group_post',
+            'individual_post',
+            'share_post',
+          ]),
+        ],
       ],
       medias: [[]],
       places: [[]],
       friend_tags: [[]],
       visibility: [
         'public',
-        Validators.required,
-        allowedValuesAsyncValidator([
-          'private_group',
-          'public_group',
-          'friend_only',
-          'public',
-          'private',
-        ]),
+        [Validators.required],
+        [
+          allowedValuesAsyncValidator([
+            'private_group',
+            'public_group',
+            'friend_only',
+            'public',
+            'private',
+          ]),
+        ],
       ],
     });
 

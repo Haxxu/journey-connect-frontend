@@ -14,3 +14,8 @@ export const createPost = createAction(
   '[ME] Create post',
   props<{ post: any }>()
 );
+
+export const updatePost = createAction(
+  '[ME] update post',
+  props<{ post: any }>()
+);
