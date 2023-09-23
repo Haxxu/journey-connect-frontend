@@ -34,6 +34,7 @@
               "node_modules/quill/dist/quill.snow.css",
               "node_modules/@ctrl/ngx-emoji-mart/picker.css",
               "node_modules/ngx-popperjs/css/theme-white.css",
+              "node_modules/@angular/cdk/overlay-prebuilt.css",
               "src/styles.scss"
             ],
             "scripts": ["node_modules/quill/dist/quill.js"]

@@ -26,6 +26,8 @@ import { ImageUploaderComponent } from '@/shared/components/image-uploader/image
 import { FileService } from '@/services/file.service';
 import { PostService } from '@/services/post.service';
 import { MessageService } from 'primeng/api';
+import { GalleryModule, Gallery, GalleryItem, ImageItem } from 'ng-gallery';
+import { LightboxModule } from 'ng-gallery/lightbox';
 
 @Component({
   selector: 'app-post-card',
@@ -45,6 +47,8 @@ import { MessageService } from 'primeng/api';
     ButtonModule,
     TooltipModule,
     ImageUploaderComponent,
+    GalleryModule,
+    LightboxModule,
   ],
   templateUrl: './post-card.component.html',
   styleUrls: ['./post-card.component.scss'],
@@ -74,6 +78,7 @@ export class PostCardComponent implements OnInit {
     { label: 'Friend only', value: 'friend_only' },
   ];
   visibility: string = 'Public';
+  galleryItems: GalleryItem[] = [];
 
   constructor(
     private store: Store,
@@ -81,7 +86,8 @@ export class PostCardComponent implements OnInit {
     private fileService: FileService,
     private cdr: ChangeDetectorRef,
     private postService: PostService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    public gallery: Gallery
   ) {
     this.editPostForm = this.formBuilder.group({
       title: ['', Validators.required],
@@ -105,7 +111,18 @@ export class PostCardComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (this.post?.medias) {
+      this.galleryItems = this.post.medias.map((media: any, index: number) => {
+        return new ImageItem({
+          src: media.url,
+          thumb: media.url,
+        });
+      });
+      const galleryRef = this.gallery.ref(this.post._id);
+      galleryRef.load(this.galleryItems);
+    }
+  }
 
   openEditMode() {
     this.editPostForm.patchValue({

@@ -101,8 +101,13 @@
     [displayedRow]="displayedRow"
     [autoResize]="true"
   >
-    <div *ngFor="let media of post.medias" class="relative">
-      <img [src]="media.url" alt="" class="w-full h-full" />
+    <div
+      *ngFor="let item of galleryItems; let i = index"
+      class="relative"
+      [lightbox]="i"
+      [gallery]="post?._id"
+    >
+      <img [src]="item.data?.thumb || ''" alt="" class="w-full h-full" />
     </div>
   </div>
 
@@ -120,7 +125,7 @@
       [displayedRow]="displayedRow"
       [autoResize]="true"
     >
-      <div *ngFor="let media of editMedias" class="relative">
+      <div *ngFor="let media of editMedias">
         <img [src]="media.url" alt="" class="w-full h-full" />
 
         <div
