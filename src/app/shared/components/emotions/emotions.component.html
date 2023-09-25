@@ -1,45 +1,35 @@
 <div class="content">
   <div class="emotions">
-    <div class="emotion">
-      <img
-        src="/assets/emotions/like.emotion.svg"
-        alt="Like"
-        draggable="false"
-      />
-      <p>Like</p>
-    </div>
-    <div class="emotion">
-      <img
-        src="/assets/emotions/heart.emotion.svg"
-        alt="Heart"
-        draggable="false"
-      />
-      <p>Heart</p>
-    </div>
-    <div class="emotion">
-      <img src="/assets/emotions/wow.emotion.svg" alt="Wow" draggable="false" />
-      <p>Wow</p>
-    </div>
-    <div class="emotion">
-      <img
-        src="/assets/emotions/haha.emotion.svg"
-        alt="Haha"
-        draggable="false"
-      />
-      <p>Haha</p>
-    </div>
-    <div class="emotion">
-      <img src="/assets/emotions/sad.emotion.svg" alt="Sad" draggable="false" />
-      <p>Sad</p>
-    </div>
-    <div class="emotion">
-      <img
-        src="/assets/emotions/angry.emotion.svg"
-        alt="Angry"
-        draggable="false"
-      />
-      <p>Angry</p>
+    <div
+      *ngFor="let emotion of emotions"
+      class="emotion"
+      (click)="handleAddEmotion(emotion.key)"
+    >
+      <img [src]="emotion.src" [alt]="emotion.label" draggable="false" />
+      <p>{{ emotion.label }}</p>
     </div>
   </div>
-  <p>Like</p>
+  <div
+    class="flex items-center py-1 cursor-pointer text-md"
+    (click)="handleToggleEmotion()"
+  >
+    <div
+      *ngIf="currentEmotion; else noEmotion"
+      class="flex items-center py-1 cursor-pointer text-md"
+    >
+      <img
+        *ngIf="currentEmotion"
+        [src]="getCurrentEmotionImg()"
+        alt=""
+        class="w-7 h-7"
+      />
+      <span class="ml-1 capitalize">{{ currentEmotion.type }} </span>
+    </div>
+    <ng-template #noEmotion>
+      <div class="flex items-center py-1 cursor-pointer text-md">
+        <div class="w-7 h-7"></div>
+        <span class="ml-1 capitalize">Like</span>
+      </div>
+    </ng-template>
+  </div>
 </div>

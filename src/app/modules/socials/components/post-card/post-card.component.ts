@@ -29,6 +29,7 @@ import { MessageService } from 'primeng/api';
 import { GalleryModule, Gallery, GalleryItem, ImageItem } from 'ng-gallery';
 import { LightboxModule } from 'ng-gallery/lightbox';
 import { EmotionsComponent } from '@/shared/components/emotions/emotions.component';
+import { EmotionService } from '@/services/emotion.service';
 
 @Component({
   selector: 'app-post-card',
@@ -50,7 +51,7 @@ import { EmotionsComponent } from '@/shared/components/emotions/emotions.compone
     ImageUploaderComponent,
     GalleryModule,
     LightboxModule,
-    EmotionsComponent
+    EmotionsComponent,
   ],
   templateUrl: './post-card.component.html',
   styleUrls: ['./post-card.component.scss'],
@@ -81,6 +82,8 @@ export class PostCardComponent implements OnInit {
   ];
   visibility: string = 'Public';
   galleryItems: GalleryItem[] = [];
+  emotionData: any;
+  showEmotions: any[] = [];
 
   constructor(
     private store: Store,
@@ -89,7 +92,8 @@ export class PostCardComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private postService: PostService,
     private messageService: MessageService,
-    public gallery: Gallery
+    public gallery: Gallery,
+    private emotionService: EmotionService
   ) {
     this.editPostForm = this.formBuilder.group({
       title: ['', Validators.required],
@@ -124,6 +128,40 @@ export class PostCardComponent implements OnInit {
       const galleryRef = this.gallery.ref(this.post._id);
       galleryRef.load(this.galleryItems);
     }
+    this.getEmotions();
+  }
+
+  getTop3Emotions(count: { [key: string]: number }): {
+    [key: string]: number;
+  } {
+    const sortedKeys = Object.keys(count).sort((a, b) => count[b] - count[a]);
+    const top3Keys = sortedKeys.slice(1, 4);
+    const top3Emotions: { [key: string]: number } = {};
+    for (const key of top3Keys) {
+      top3Emotions[key] = count[key];
+    }
+    return top3Emotions;
+  }
+
+  getEmotions() {
+    this.emotionService
+      .getEmotions('post', this.post?._id)
+      .subscribe((res: any) => {
+        console.log(res);
+        this.emotionData = res.data;
+        this.showEmotions = this.convertObjectToArray(
+          this.getTop3Emotions(res.data.count)
+        );
+      });
+  }
+
+  convertObjectToArray(obj: {
+    [key: string]: number;
+  }): { src: string; value: number }[] {
+    return Object.keys(obj).map((key) => ({
+      src: key,
+      value: obj[key],
+    }));
   }
 
   openEditMode() {

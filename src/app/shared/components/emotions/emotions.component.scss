@@ -1,10 +1,10 @@
 :host ::ng-deep {
   .content {
-    @apply justify-center items-center relative w-[50px] h-[30px];
+    @apply justify-center items-center relative w-full h-full;
 
     .emotions {
-      @apply w-[340px] h-[60px] flex justify-center items-center bg-white border shadow-md rounded-full cursor-pointer absolute top-[-70px] invisible opacity-0;
-      //   transform: translateX(-50%);
+      @apply w-[340px] h-[60px] flex justify-between gap-1 px-3 items-center bg-white border shadow-md rounded-full cursor-pointer absolute top-[-70px] left-[-10px] invisible opacity-0;
+      // transform: translateX(-50%);
       transition: all 0.4s;
 
       img {
@@ -12,13 +12,13 @@
         transition: all 0.4s;
 
         &:hover {
-          @apply scale-125;
+          @apply scale-125 mt-[-10px];
         }
       }
 
       .emotion {
         p {
-          @apply bg-black bg-opacity-90 text-white absolute top-[-40px] rounded-3xl py-1 px-2.5 opacity-0;
+          @apply bg-black bg-opacity-80 text-white absolute top-[-40px] rounded-3xl py-1 px-2.5 opacity-0 text-md;
           transition: all 0.2s;
         }
 

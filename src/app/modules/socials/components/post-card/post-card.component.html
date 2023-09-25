@@ -1,6 +1,6 @@
 <form
   *ngIf="meInfo$ | async as meInfo"
-  class="bg-white rounded-lg shadow-sm border border-gray-200 min-h-[20px] py-3"
+  class="bg-white rounded-lg shadow-sm border border-gray-200 min-h-[20px] pt-3 pb-2"
   [ngClass]="{
     'border-blue-200 shadow-lg border-2': mode === 'edit'
   }"
@@ -201,7 +201,19 @@
 
   <div class="px-4 mt-4">
     <div class="flex justify-between pb-4 text-md">
-      <div>❤️👍<span>1,5k</span></div>
+      <div class="flex items-center">
+        <div class="flex">
+          <ng-container *ngFor="let showEmotion of showEmotions">
+            <div class="h-7 w-7" *ngIf="showEmotion.value > 0">
+              <img
+                [src]="'/assets/emotions/' + showEmotion.src + '.emotion.svg'"
+                class="h-7 w-7"
+              />
+            </div>
+          </ng-container>
+        </div>
+        <span>{{ emotionData?.count?.all }}</span>
+      </div>
       <div class="flex gap-3">
         <div>10 comments</div>
         <div>2 shares</div>
@@ -209,12 +221,16 @@
     </div>
 
     <hr />
-    <div class="flex justify-between mt-1.5 text-base">
-      <div class="py-2">
-        <app-emotions></app-emotions>
+    <div class="flex mt-1.5 items-center justify-around text-base">
+      <div class="px-2 text-md">
+        <app-emotions
+          [contextType]="'post'"
+          [contextId]="post._id"
+          (updateEmotion)="getEmotions()"
+        ></app-emotions>
       </div>
-      <div class="py-2">Comments</div>
-      <div class="py-2">Share</div>
+      <div class="px-2 text-md">Comments</div>
+      <div class="px-2 text-md">Share</div>
     </div>
   </div>
 </form>
