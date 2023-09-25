@@ -17,12 +17,12 @@ export class SocialLayoutComponent implements OnInit {
   userInfo$ = this.store.select(selectMeInfo);
   sidebars: any[] = [
     {
-      name: 'My profile',
-      path: `/users/:id`,
-    },
-    {
       name: 'Feed',
       path: '/feed',
+    },
+    {
+      name: 'My profile',
+      path: `/users/:id`,
     },
     {
       name: 'Friends',
@@ -44,7 +44,7 @@ export class SocialLayoutComponent implements OnInit {
     this.userInfo$.subscribe((val) => {
       let userId = val._id;
       if (userId) {
-        this.sidebars[0].path = '/users/' + userId;
+        this.sidebars[1].path = '/users/' + userId;
       }
     });
   }

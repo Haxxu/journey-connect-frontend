@@ -28,6 +28,7 @@ import { PostService } from '@/services/post.service';
 import { MessageService } from 'primeng/api';
 import { GalleryModule, Gallery, GalleryItem, ImageItem } from 'ng-gallery';
 import { LightboxModule } from 'ng-gallery/lightbox';
+import { EmotionsComponent } from '@/shared/components/emotions/emotions.component';
 
 @Component({
   selector: 'app-post-card',
@@ -49,6 +50,7 @@ import { LightboxModule } from 'ng-gallery/lightbox';
     ImageUploaderComponent,
     GalleryModule,
     LightboxModule,
+    EmotionsComponent
   ],
   templateUrl: './post-card.component.html',
   styleUrls: ['./post-card.component.scss'],

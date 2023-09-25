@@ -28,9 +28,9 @@
       <div class="flex items-center">
         <div
           class="mr-2 font-semibold text-gray-600 text-md"
-          *ngIf="userInfo$ | async as userInfo"
+          *ngIf="meInfo$ | async as meInfo"
         >
-          {{ userInfo.first_name }} {{ userInfo.last_name }}
+          {{ meInfo.first_name }} {{ meInfo.last_name }}
         </div>
         <p-avatar
           shape="circle"

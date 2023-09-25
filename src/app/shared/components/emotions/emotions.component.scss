@@ -1,0 +1,35 @@
+:host ::ng-deep {
+  .content {
+    @apply justify-center items-center relative w-[50px] h-[30px];
+
+    .emotions {
+      @apply w-[340px] h-[60px] flex justify-center items-center bg-white border shadow-md rounded-full cursor-pointer absolute top-[-70px] invisible opacity-0;
+      //   transform: translateX(-50%);
+      transition: all 0.4s;
+
+      img {
+        @apply block w-[50px] overflow-hidden rounded-full;
+        transition: all 0.4s;
+
+        &:hover {
+          @apply scale-125;
+        }
+      }
+
+      .emotion {
+        p {
+          @apply bg-black bg-opacity-90 text-white absolute top-[-40px] rounded-3xl py-1 px-2.5 opacity-0;
+          transition: all 0.2s;
+        }
+
+        &:hover p {
+          @apply visible opacity-100;
+        }
+      }
+    }
+
+    &:hover .emotions {
+      @apply visible opacity-100;
+    }
+  }
+}

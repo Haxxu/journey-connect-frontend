@@ -8,6 +8,8 @@ import { InputTextModule } from 'primeng/inputtext';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 
 import { UserService } from '@/services/user.service';
+import { Store } from '@ngrx/store';
+import { selectMeInfo } from '@/core/store/me/me.selectors';
 
 @Component({
   selector: 'app-header',
@@ -25,11 +27,9 @@ import { UserService } from '@/services/user.service';
 })
 export class HeaderComponent implements OnInit {
   suggestions: any[] = [{}];
-  userInfo$: Observable<any>;
+  meInfo$ = this.store.select(selectMeInfo);
 
-  constructor(private userService: UserService) {
-    this.userInfo$ = this.userService.getUserInfo();
-  }
+  constructor(private userService: UserService, private store: Store) {}
 
   ngOnInit(): void {}
 
