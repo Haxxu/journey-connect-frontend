@@ -42,4 +42,10 @@ export class PostService {
       })
     );
   }
+
+  getFeedPosts(page: number = 0, pageSize: number = 10): Observable<any> {
+    return this.http.get(`${environment.apiURL}/posts/feed`, {
+      params: { page, pageSize },
+    });
+  }
 }

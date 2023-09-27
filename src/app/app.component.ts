@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { PrimeNGConfig } from 'primeng/api';
 import { MessageService } from 'primeng/api';
 import { UserService } from '@/services/user.service';
+import { PostService } from '@/services/post.service';
+import { Store } from '@ngrx/store';
+import { setFeedPosts } from './core/store/feed-posts/feed-posts.actions';
 
 @Component({
   selector: 'app-root',
@@ -14,12 +17,20 @@ export class AppComponent implements OnInit {
 
   constructor(
     private primengConfig: PrimeNGConfig,
-    private userService: UserService
+    private userService: UserService,
+    private postService: PostService,
+    private store: Store
   ) {}
 
   ngOnInit() {
     this.primengConfig.ripple = true;
     this.userService.fetchUserInfo();
-    this.userService.fetchMyPosts();
+    this.postService.getFeedPosts(0, 20).subscribe({
+      next: (res: any) => {
+        if (res.success) {
+          this.store.dispatch(setFeedPosts({ posts: res.data.data }));
+        }
+      },
+    });
   }
 }
