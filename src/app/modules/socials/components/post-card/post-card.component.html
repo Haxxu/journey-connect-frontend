@@ -72,9 +72,11 @@
   </div>
 
   <!-- TITLE -->
-  <div *ngIf="mode === 'view'" class="px-4 my-3 text-md">
-    {{ post.title }}
-  </div>
+  <div
+    *ngIf="mode === 'view'"
+    class="px-4 my-3 text-md font-NotoColorEmoji"
+    [innerHtml]="post?.title"
+  ></div>
 
   <!-- EDIT TITLE -->
   <div *ngIf="mode === 'edit'" class="px-4 my-3 text-md">
@@ -204,10 +206,10 @@
       <div class="flex items-center">
         <div class="flex">
           <ng-container *ngFor="let showEmotion of showEmotions">
-            <div class="h-7 w-7" *ngIf="showEmotion.value > 0">
+            <div class="w-6 h-6" *ngIf="showEmotion.value > 0">
               <img
                 [src]="'/assets/emotions/' + showEmotion.src + '.emotion.svg'"
-                class="h-7 w-7"
+                class="w-6 h-6"
               />
             </div>
           </ng-container>

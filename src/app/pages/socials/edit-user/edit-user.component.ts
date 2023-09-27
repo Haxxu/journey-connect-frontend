@@ -101,8 +101,8 @@ export class EditUserComponent implements OnInit {
 
   ngOnInit(): void {
     this.meInfo$.subscribe((meInfo) => {
-      this.updateUserForm.patchValue(meInfo);
       this.updateUserForm.patchValue({
+        ...meInfo,
         birth_date: formatDateToDDMMYYYY(meInfo.birth_date),
       });
       this.userId = meInfo._id;

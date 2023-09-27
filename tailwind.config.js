@@ -7,6 +7,8 @@ module.exports = {
         Inter: ["Inter", "sans"],
         Roboto: ["Roboto", "sans"],
         Monsterrat: ["Monsterrat", "sans"],
+        NotoEmoji: ["Noto Emoji", "sans"],
+        NotoColorEmoji: ["Noto Color Emoji", "sans"],
       },
       fontSize: {
         xs: ["0.625rem", "0.75rem"],

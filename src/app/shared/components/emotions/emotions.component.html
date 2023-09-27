@@ -21,13 +21,13 @@
         *ngIf="currentEmotion"
         [src]="getCurrentEmotionImg()"
         alt=""
-        class="w-7 h-7"
+        class="w-6 h-6"
       />
       <span class="ml-1 capitalize">{{ currentEmotion.type }} </span>
     </div>
     <ng-template #noEmotion>
       <div class="flex items-center py-1 cursor-pointer text-md">
-        <div class="w-7 h-7"></div>
+        <div class="w-6 h-6"></div>
         <span class="ml-1 capitalize">Like</span>
       </div>
     </ng-template>
