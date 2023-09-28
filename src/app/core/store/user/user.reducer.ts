@@ -1,5 +1,16 @@
 import { createReducer, on } from '@ngrx/store';
+import { setUserProfileData } from './user.actions';
 
-export const initialState = 0;
+export interface UserState {}
 
-export const userReducer = createReducer(initialState);
+export const initialState: UserState = {
+  userProfileData: {},
+};
+
+export const userReducer = createReducer(
+  initialState,
+
+  on(setUserProfileData, (state, { user }) => {
+    return { ...state, userProfileData: user };
+  })
+);

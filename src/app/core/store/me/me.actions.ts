@@ -1,7 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 
 export const updateMeInfo = createAction(
-  '[Me] Update meInfo',
+  '[ME] Update meInfo',
   props<{ meInfo: any }>()
 );
 

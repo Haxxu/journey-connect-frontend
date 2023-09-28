@@ -11,6 +11,7 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { selectMeInfo } from '@/core/store/me/me.selectors';
 import { getMediaUrlById } from '@/utils/media';
+import { selectUserProfileData } from '@/core/store/user/user.selectors';
 
 @Component({
   selector: 'app-profile-header',
@@ -29,7 +30,7 @@ import { getMediaUrlById } from '@/utils/media';
 export class ProfileHeaderComponent implements OnInit {
   getMediaUrlById = getMediaUrlById;
   meInfo$ = this.store.select(selectMeInfo);
-  userData$: Observable<any>;
+  userProfileData$ = this.store.select(selectUserProfileData);
   userId: string = '';
   isMyself: boolean = false;
 
@@ -41,14 +42,13 @@ export class ProfileHeaderComponent implements OnInit {
     private store: Store
   ) {
     // this.meInfo$ = this.userService.getUserInfo();
-    this.userData$ = this.userService.getUserData();
   }
 
   ngOnInit(): void {
-    combineLatest([this.meInfo$, this.userData$])
+    combineLatest([this.meInfo$, this.userProfileData$])
       .pipe(
-        map(([meInfo, userData]) => {
-          return meInfo?._id === userData?._id;
+        map(([meInfo, userProfileData]) => {
+          return meInfo?._id === userProfileData?._id;
         })
       )
       .subscribe((isMyself) => {

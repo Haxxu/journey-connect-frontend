@@ -147,7 +147,6 @@ export class PostCardComponent implements OnInit {
     this.emotionService
       .getEmotions('post', this.post?._id)
       .subscribe((res: any) => {
-        console.log(res);
         this.emotionData = res.data;
         this.showEmotions = this.convertObjectToArray(
           this.getTop3Emotions(res.data.count)

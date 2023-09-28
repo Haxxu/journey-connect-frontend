@@ -5,6 +5,7 @@ import { environment } from '@environments/environment';
 
 import { Store } from '@ngrx/store';
 import { setMyPosts, updateMeInfo } from '@/core/store/me/me.actions';
+import { setUserProfileData } from '@/core/store/user/user.actions';
 
 @Injectable({
   providedIn: 'root',
@@ -54,7 +55,7 @@ export class UserService {
     return this.http.get(`${environment.apiURL}/users/${id}`).pipe(
       tap((res: any) => {
         if (res.success) {
-          this.userData$.next(res.data);
+          this.store.dispatch(setUserProfileData({ user: res.data }));
         }
       })
     );
@@ -76,6 +77,7 @@ export class UserService {
           if (res.success) {
             this.userData$.next(res.data);
             this.store.dispatch(updateMeInfo({ meInfo: res.data }));
+            this.store.dispatch(setUserProfileData({ user: res.data }));
           }
         })
       );
@@ -86,6 +88,7 @@ export class UserService {
       tap((res: any) => {
         if (res.success) {
           this.store.dispatch(updateMeInfo({ meInfo: res.data }));
+          this.store.dispatch(setUserProfileData({ user: res.data }));
         }
       })
     );
