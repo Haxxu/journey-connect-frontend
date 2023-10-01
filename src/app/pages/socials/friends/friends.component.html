@@ -1,4 +1,16 @@
-<div class="container">
-  <div>Friends work!</div>
-  <div class="bg-green-50">hello</div>
+<div class="">
+  <div class="flex gap-1 p-2 bg-white rounded-lg">
+    <a
+      *ngFor="let item of friendsLink"
+      class="flex items-center h-10 p-4 font-medium text-gray-700 rounded-lg cursor-pointer text-md hover:bg-gray-200"
+      [routerLink]="[item.src]"
+      routerLinkActive="bg-gray-200"
+      [routerLinkActiveOptions]="{ exact: true }"
+    >
+      {{ item.label }}
+    </a>
+  </div>
+  <div class="pt-2">
+    <router-outlet></router-outlet>
+  </div>
 </div>

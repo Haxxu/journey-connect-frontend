@@ -12,6 +12,8 @@ import { FeedComponent } from '@/pages/socials/feed/feed.component';
 import { UserComponent } from '@/pages/socials/user/user.component';
 import { EditUserComponent } from '@/pages/socials/edit-user/edit-user.component';
 import { FriendsComponent } from '@/pages/socials/friends/friends.component';
+import { ReceivedFriendRequestsComponent } from '@/modules/socials/components/friends/received-friend-requests/received-friend-requests.component';
+import { FriendListComponent } from '@/modules/socials/components/friends/friend-list/friend-list.component';
 
 export const APP_ROUTES: Routes = [
   {
@@ -63,6 +65,16 @@ export const APP_ROUTES: Routes = [
       {
         path: '',
         component: FriendsComponent,
+        children: [
+          {
+            path: '',
+            component: FriendListComponent,
+          },
+          {
+            path: 'received-friend-requests',
+            component: ReceivedFriendRequestsComponent,
+          },
+        ],
       },
     ],
   },
