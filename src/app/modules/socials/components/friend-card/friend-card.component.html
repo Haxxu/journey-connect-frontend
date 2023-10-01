@@ -1,0 +1,45 @@
+<div class="rounded-lg min-h-[300px] bg-white flex flex-col">
+  <img
+    [src]="getMediaUrlById(user?.avatar, user?.medias)"
+    alt=""
+    class="h-[200px] object-cover w-auto rounded-t-lg"
+  />
+  <div class="flex flex-col justify-between flex-1 p-3">
+    <div
+      class="text-base font-semibold cursor-pointer hover:underline"
+      [routerLink]="['/users/' + user?._id]"
+    >
+      {{ user?.first_name }} {{ user?.last_name }}
+    </div>
+    <div></div>
+    <div
+      class="flex flex-col gap-2"
+      *ngIf="type === FriendCardTypeEnum.Received"
+    >
+      <p-button
+        *ngIf="!actionSuccess"
+        styleClass="bg-blue-500 text-white j-button-custom w-full flex justify-center"
+        (onClick)="handleAcctionFriendRequest('accept')"
+        class="w-full"
+      >
+        Accept
+      </p-button>
+      <p-button
+        *ngIf="!actionSuccess"
+        styleClass="bg-gray-200 j-button-custom w-full flex justify-center"
+        (onClick)="handleAcctionFriendRequest('decline')"
+        class="w-full"
+      >
+        Decline
+      </p-button>
+      <p-button
+        *ngIf="actionSuccess"
+        styleClass="bg-gray-200 j-button-custom w-full flex justify-center"
+        class="w-full"
+        [disabled]="true"
+      >
+        {{ acctionSuccessText }}
+      </p-button>
+    </div>
+  </div>
+</div>
