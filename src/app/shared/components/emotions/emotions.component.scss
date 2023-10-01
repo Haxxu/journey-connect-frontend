@@ -3,12 +3,12 @@
     @apply justify-center items-center relative w-full h-full;
 
     .emotions {
-      @apply w-[340px] h-[60px] flex justify-between gap-1 px-3 items-center bg-white border shadow-md rounded-full cursor-pointer absolute top-[-70px] left-[-10px] invisible opacity-0;
+      @apply w-[280px] h-[60x] flex justify-between px-2.5 items-center bg-white border shadow-md rounded-full cursor-pointer absolute top-[-50px] left-[-10px] invisible opacity-0;
       // transform: translateX(-50%);
       transition: all 0.4s;
 
       img {
-        @apply block w-[50px] overflow-hidden rounded-full;
+        @apply block w-[40px] overflow-hidden rounded-full;
         transition: all 0.4s;
 
         &:hover {
