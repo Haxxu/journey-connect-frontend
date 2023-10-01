@@ -1,0 +1,11 @@
+<div
+  class="grid grid-cols-2 gap-4 2xl:grid-cols-4 md:grid-cols-3"
+  *ngIf="friends$ | async as friends"
+>
+  <div class="w-full" *ngFor="let friend of friends">
+    <app-friend-card
+      [user]="friend?.user"
+      [type]="friend.Received"
+    ></app-friend-card>
+  </div>
+</div>
