@@ -6,3 +6,5 @@ export const selectSentFriendRequests = (state: any) =>
 
 export const selectReceivedFriendRequests = (state: any) =>
   state.friend.receivedFriendRequests;
+
+export const selectMyFriends = (state: any) => state.friend.friends;
