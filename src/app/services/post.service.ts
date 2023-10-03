@@ -7,6 +7,11 @@ import {
   createPost as createPostAction,
   updatePost,
 } from '@/core/store/me/me.actions';
+import {
+  addFeedPost,
+  setFeedPosts,
+  updateFeedPost,
+} from '@/core/store/feed-posts/feed-posts.actions';
 
 @Injectable({
   providedIn: 'root',
@@ -19,6 +24,7 @@ export class PostService {
       tap((res: any) => {
         if (res.success) {
           this.store.dispatch(createPostAction({ post: res.data }));
+          this.store.dispatch(addFeedPost({ post: res.data }));
         }
       })
     );
@@ -29,6 +35,7 @@ export class PostService {
       tap((res: any) => {
         if (res.success) {
           this.store.dispatch(updatePost({ post: res.data }));
+          this.store.dispatch(updateFeedPost({ post: res.data }));
         }
       })
     );
@@ -43,9 +50,17 @@ export class PostService {
     );
   }
 
-  getFeedPosts(page: number = 0, pageSize: number = 10): Observable<any> {
-    return this.http.get(`${environment.apiURL}/posts/feed`, {
-      params: { page, pageSize },
-    });
+  getFeedPosts(page: number = 0, pageSize: number = 20): Observable<any> {
+    return this.http
+      .get(`${environment.apiURL}/posts/feed`, {
+        params: { page, pageSize },
+      })
+      .pipe(
+        tap((res: any) => {
+          if (res.success) {
+            this.store.dispatch(setFeedPosts({ posts: res.data.data }));
+          }
+        })
+      );
   }
 }

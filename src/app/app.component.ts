@@ -25,10 +25,10 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.primengConfig.ripple = true;
     this.userService.fetchUserInfo();
-    this.postService.getFeedPosts(0, 20).subscribe({
+    this.postService.getFeedPosts(0, 10).subscribe({
       next: (res: any) => {
         if (res.success) {
-          this.store.dispatch(setFeedPosts({ posts: res.data.data }));
+          // console.log(res.data);
         }
       },
     });
