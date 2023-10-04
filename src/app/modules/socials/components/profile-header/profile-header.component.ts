@@ -11,7 +11,12 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { selectMeInfo } from '@/core/store/me/me.selectors';
 import { getMediaUrlById } from '@/utils/media';
-import { selectUserProfileData } from '@/core/store/user/user.selectors';
+import {
+  selectUserInfo,
+  selectUsersState,
+} from '@/core/store/users/users.selectors';
+import { SkeletonModule } from 'primeng/skeleton';
+import { setUserInfo } from '@/core/store/users/users.actions';
 
 @Component({
   selector: 'app-profile-header',
@@ -23,6 +28,7 @@ import { selectUserProfileData } from '@/core/store/user/user.selectors';
     TooltipModule,
     ButtonModule,
     RouterModule,
+    SkeletonModule,
   ],
   templateUrl: './profile-header.component.html',
   styleUrls: ['./profile-header.component.scss'],
@@ -30,9 +36,11 @@ import { selectUserProfileData } from '@/core/store/user/user.selectors';
 export class ProfileHeaderComponent implements OnInit {
   getMediaUrlById = getMediaUrlById;
   meInfo$ = this.store.select(selectMeInfo);
-  userProfileData$ = this.store.select(selectUserProfileData);
+  userInfo$ = this.store.select(selectUserInfo);
+  usersStore$ = this.store.select(selectUsersState);
   userId: string = '';
   isMyself: boolean = false;
+  isLoading: boolean = true;
 
   constructor(
     private userService: UserService,
@@ -45,14 +53,15 @@ export class ProfileHeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    combineLatest([this.meInfo$, this.userProfileData$])
+    combineLatest([this.meInfo$, this.usersStore$])
       .pipe(
-        map(([meInfo, userProfileData]) => {
-          return meInfo?._id === userProfileData?._id;
+        map(([meInfo, usersStore]) => {
+          return meInfo?._id === usersStore.userInfo?._id;
         })
       )
       .subscribe((isMyself) => {
         this.isMyself = isMyself;
+        this.isLoading = false;
       });
   }
 

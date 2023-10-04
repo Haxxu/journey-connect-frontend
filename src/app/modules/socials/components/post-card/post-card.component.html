@@ -14,7 +14,9 @@
     ></p-avatar>
     <div class="flex-1 ml-4">
       <div class="py-1 font-semibold text-md">
-        {{ post.owner.first_name }} {{ post.owner.last_name }}
+        <a [routerLink]="'/' + AppRoutes.USERS + '/' + post.owner._id">
+          {{ post.owner.first_name }} {{ post.owner.last_name }}
+        </a>
         <p-chip *ngIf="mode === 'edit'" styleClass="bg-gray-100">
           <div class="p-1 font-semibold text-blue-700 text-md">Edit</div>
         </p-chip>

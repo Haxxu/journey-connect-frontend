@@ -1,10 +1,11 @@
 import { Store } from '@ngrx/store';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { CreatePostComponent } from '@/modules/socials/components/create-post/create-post.component';
 import { PostCardComponent } from '@/modules/socials/components/post-card/post-card.component';
-import { selectFeedPosts } from '@/core/store/feed-posts/feed-posts.selectors';
+import { selectPosts } from '@/core/store/posts/posts.selectors';
+import { PostService } from '@/services/post.service';
 
 @Component({
   selector: 'app-feed',
@@ -13,7 +14,17 @@ import { selectFeedPosts } from '@/core/store/feed-posts/feed-posts.selectors';
   templateUrl: './feed.component.html',
   styleUrls: ['./feed.component.scss'],
 })
-export class FeedComponent {
-  constructor(private store: Store) {}
-  posts$ = this.store.select(selectFeedPosts);
+export class FeedComponent implements OnInit {
+  constructor(private store: Store, private postService: PostService) {}
+  posts$ = this.store.select(selectPosts);
+
+  ngOnInit(): void {
+    this.postService.getFeedPosts(0, 10).subscribe({
+      next: (res: any) => {
+        if (res.success) {
+          // console.log(res.data);
+        }
+      },
+    });
+  }
 }

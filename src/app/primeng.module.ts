@@ -9,6 +9,7 @@ import { ToastModule } from 'primeng/toast';
 import { FileUploadModule } from 'primeng/fileupload';
 import { DialogModule } from 'primeng/dialog';
 import { AutoCompleteModule } from 'primeng/autocomplete';
+import { SkeletonModule } from 'primeng/skeleton';
 
 @NgModule({
   exports: [
@@ -21,6 +22,7 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
     FileUploadModule,
     DialogModule,
     AutoCompleteModule,
+    SkeletonModule,
   ],
 })
 export class PrimeNGModule {}

@@ -4,7 +4,6 @@ import { MessageService } from 'primeng/api';
 import { UserService } from '@/services/user.service';
 import { PostService } from '@/services/post.service';
 import { Store } from '@ngrx/store';
-import { setFeedPosts } from './core/store/feed-posts/feed-posts.actions';
 
 @Component({
   selector: 'app-root',
@@ -25,12 +24,5 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.primengConfig.ripple = true;
     this.userService.fetchUserInfo();
-    this.postService.getFeedPosts(0, 10).subscribe({
-      next: (res: any) => {
-        if (res.success) {
-          // console.log(res.data);
-        }
-      },
-    });
   }
 }

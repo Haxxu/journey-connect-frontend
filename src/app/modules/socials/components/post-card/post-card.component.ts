@@ -30,6 +30,8 @@ import { GalleryModule, Gallery, GalleryItem, ImageItem } from 'ng-gallery';
 import { LightboxModule } from 'ng-gallery/lightbox';
 import { EmotionsComponent } from '@/shared/components/emotions/emotions.component';
 import { EmotionService } from '@/services/emotion.service';
+import { RouterModule } from '@angular/router';
+import { AppRoutes } from '@/config/app_routes';
 
 @Component({
   selector: 'app-post-card',
@@ -52,6 +54,7 @@ import { EmotionService } from '@/services/emotion.service';
     GalleryModule,
     LightboxModule,
     EmotionsComponent,
+    RouterModule,
   ],
   templateUrl: './post-card.component.html',
   styleUrls: ['./post-card.component.scss'],
@@ -74,6 +77,7 @@ export class PostCardComponent implements OnInit {
   editPostForm: FormGroup;
   editMedias: any[] = [];
   submitting: boolean = false;
+  AppRoutes = AppRoutes;
 
   visibilityOptions: any[] = [
     { label: 'Public', value: 'public' },

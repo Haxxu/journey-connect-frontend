@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, BehaviorSubject, tap } from 'rxjs';
+import { Observable, BehaviorSubject, tap, debounceTime } from 'rxjs';
 import { environment } from '@environments/environment';
 
 import { Store } from '@ngrx/store';
 import { setMyPosts, updateMeInfo } from '@/core/store/me/me.actions';
-import { setUserProfileData } from '@/core/store/user/user.actions';
+import { setUserInfo, userStateAction } from '@/core/store/users/users.actions';
 
 @Injectable({
   providedIn: 'root',
@@ -52,11 +52,14 @@ export class UserService {
   }
 
   getUserById(id: string): Observable<any> {
+    this.store.dispatch(userStateAction.setIsLoading({ isLoading: true }));
     return this.http.get(`${environment.apiURL}/users/${id}`).pipe(
+      debounceTime(10000),
       tap((res: any) => {
         if (res.success) {
-          this.store.dispatch(setUserProfileData({ user: res.data }));
+          this.store.dispatch(setUserInfo({ user: res.data }));
         }
+        this.store.dispatch(userStateAction.setIsLoading({ isLoading: false }));
       })
     );
   }
@@ -77,7 +80,7 @@ export class UserService {
           if (res.success) {
             this.userData$.next(res.data);
             this.store.dispatch(updateMeInfo({ meInfo: res.data }));
-            this.store.dispatch(setUserProfileData({ user: res.data }));
+            this.store.dispatch(setUserInfo({ user: res.data }));
           }
         })
       );
@@ -88,7 +91,7 @@ export class UserService {
       tap((res: any) => {
         if (res.success) {
           this.store.dispatch(updateMeInfo({ meInfo: res.data }));
-          this.store.dispatch(setUserProfileData({ user: res.data }));
+          this.store.dispatch(setUserInfo({ user: res.data }));
         }
       })
     );

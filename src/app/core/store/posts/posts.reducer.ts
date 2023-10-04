@@ -1,28 +1,24 @@
 import { createReducer, on } from '@ngrx/store';
-import {
-  setFeedPosts,
-  addFeedPost,
-  updateFeedPost,
-} from './feed-posts.actions';
+import { setPosts, addPost, updatePost } from './posts.actions';
 
-export interface FeedPostsState {
+export interface PostsState {
   posts: any[];
 }
 
-export const initialState: FeedPostsState = {
+export const initialState: PostsState = {
   posts: [],
 };
 
-export const feedPostsReducer = createReducer(
+export const postsReducer = createReducer(
   initialState,
-  on(setFeedPosts, (state, { posts }) => {
+  on(setPosts, (state, { posts }) => {
     return { ...state, posts };
   }),
-  on(addFeedPost, (state, { post }) => {
+  on(addPost, (state, { post }) => {
     const updatedPosts = [post, ...state.posts];
     return { ...state, posts: updatedPosts };
   }),
-  on(updateFeedPost, (state, { post }) => {
+  on(updatePost, (state, { post }) => {
     const posts = state.posts?.map((item) => {
       if (item._id === post._id) {
         return post;

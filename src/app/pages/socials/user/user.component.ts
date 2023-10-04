@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { ProfileHeaderComponent } from '@/modules/socials/components/profile-header/profile-header.component';
 import { UserService } from '@/services/user.service';
 import { ActivatedRoute } from '@angular/router';
+import { ProfileBodyComponent } from '@/modules/socials/components/profile-body/profile-body.component';
 
 @Component({
   selector: 'app-user',
   standalone: true,
-  imports: [CommonModule, ProfileHeaderComponent],
+  imports: [CommonModule, ProfileHeaderComponent, ProfileBodyComponent],
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.scss'],
 })

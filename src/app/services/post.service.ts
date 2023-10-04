@@ -5,13 +5,13 @@ import { Observable, tap } from 'rxjs';
 import { Store } from '@ngrx/store';
 import {
   createPost as createPostAction,
-  updatePost,
+  updatePost as updateMePost,
 } from '@/core/store/me/me.actions';
 import {
-  addFeedPost,
-  setFeedPosts,
-  updateFeedPost,
-} from '@/core/store/feed-posts/feed-posts.actions';
+  addPost,
+  setPosts,
+  updatePost,
+} from '@/core/store/posts/posts.actions';
 
 @Injectable({
   providedIn: 'root',
@@ -24,7 +24,7 @@ export class PostService {
       tap((res: any) => {
         if (res.success) {
           this.store.dispatch(createPostAction({ post: res.data }));
-          this.store.dispatch(addFeedPost({ post: res.data }));
+          this.store.dispatch(addPost({ post: res.data }));
         }
       })
     );
@@ -34,8 +34,8 @@ export class PostService {
     return this.http.put(`${environment.apiURL}/posts/${id}`, body).pipe(
       tap((res: any) => {
         if (res.success) {
+          this.store.dispatch(updateMePost({ post: res.data }));
           this.store.dispatch(updatePost({ post: res.data }));
-          this.store.dispatch(updateFeedPost({ post: res.data }));
         }
       })
     );
@@ -58,7 +58,7 @@ export class PostService {
       .pipe(
         tap((res: any) => {
           if (res.success) {
-            this.store.dispatch(setFeedPosts({ posts: res.data.data }));
+            this.store.dispatch(setPosts({ posts: res.data.data }));
           }
         })
       );

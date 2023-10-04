@@ -1,5 +1,5 @@
 <div
-  class="px-4 py-3 bg-white rounded-lg shadow-sm border border-gray-200"
+  class="px-4 py-3 bg-white border border-gray-200 rounded-lg shadow-sm"
   *ngIf="userInfo$ | async as userInfo"
 >
   <form [formGroup]="createPostForm">
@@ -12,7 +12,9 @@
         ></p-avatar>
         <div class="flex-1 ml-4">
           <div class="py-1 font-semibold text-md">
-            {{ userInfo.first_name }} {{ userInfo.last_name }}
+            <a [routerLink]="'/users/' + userInfo._id">
+              {{ userInfo.first_name }} {{ userInfo.last_name }}
+            </a>
           </div>
           <div
             class="inline-flex items-center font-normal bg-gray-100 rounded-md cursor-pointer text-md px-1.5 py-0.5"

@@ -1,71 +1,102 @@
-<div
-  class="bg-white min-h-[328px] shadow-sm rounded-xl border border-gray-200 relative flex flex-col justify-end"
-  *ngIf="userProfileData$ | async as userProfileData"
->
-  <div
-    class="min-h-[240px] max-h-[250px] overflow-hidden rounded-xl j-bg-cover"
-  >
-    <img
-      [src]="
-        getMediaUrlById(userProfileData.background, userProfileData.medias)
-      "
-      alt=""
-      class="object-cover w-full h-[250px]"
-    />
-
-    <div *ngIf="isMyself" class="absolute z-10 top-4 right-4">
-      <button
-        class="hidden px-4 py-2 font-medium text-gray-100 bg-gray-900 bg-opacity-50 rounded-lg j-change-bg-btn text-md hover:bg-opacity-60"
-        type="button"
-        (click)="bgUploader.showDialog()"
-      >
-        Change cover
-      </button>
-    </div>
+<ng-container *ngIf="usersStore$ | async as usersStore">
+  <div *ngIf="usersStore.isLoading">
+    <p-skeleton width="w-full" height="20rem" styleClass="mb-2"></p-skeleton>
+    <p-skeleton width="w-full" styleClass="mb-2"></p-skeleton>
+    <p-skeleton width="w-full" styleClass="mb-2"></p-skeleton>
+    <p-skeleton width="w-full" height="1rem"></p-skeleton>
   </div>
   <div
-    class="bg-white border border-gray-200 min-h-[110px] rounded-xl w-full z-10 relative mt-[-20px]"
+    *ngIf="!usersStore.isLoading"
+    class="bg-white min-h-[328px] shadow-sm rounded-xl border border-gray-200 relative flex flex-col justify-end"
   >
     <div
-      class="w-[156px] h-[156px] overflow-hidden aspect-square rounded-full border-4 border-white shadow-md absolute top-[-75px] ml-5 cursor-pointer hover:border-cyan-300"
-      (click)="avatarUploader.showDialog()"
-      pTooltip="Upload avatar"
-      tooltipPosition="bottom"
-      [showDelay]="300"
+      class="min-h-[240px] max-h-[250px] overflow-hidden rounded-xl j-bg-cover"
     >
       <img
-        [src]="getMediaUrlById(userProfileData.avatar, userProfileData.medias)"
+        [src]="
+          getMediaUrlById(
+            usersStore.userInfo.background,
+            usersStore.userInfo.medias
+          )
+        "
         alt=""
-        class="object-cover w-full h-full"
+        class="object-cover w-full h-[250px]"
       />
-    </div>
 
-    <div class="pl-[196px] py-2 flex justify-between">
-      <div>
-        <div class="text-2xl font-bold">
-          {{ userProfileData.first_name }} {{ userProfileData.last_name }}
-        </div>
-        <div class="text-gray-500 text-md">
-          {{ userProfileData?.friends?.length }} friends
-        </div>
-        <div class="text-gray-500 text-md">
-          {{
-            userProfileData.description
-          }}
-        </div>
-      </div>
-      <div class="mt-3 mr-5">
-        <p-button
-          *ngIf="isMyself"
-          styleClass="bg-blue-500 text-white j-button-custom w-full flex justify-center"
-          (onClick)="handleEditUser()"
+      <div *ngIf="isMyself" class="absolute z-10 top-4 right-4">
+        <button
+          class="hidden px-4 py-2 font-medium text-gray-100 bg-gray-900 bg-opacity-50 rounded-lg j-change-bg-btn text-md hover:bg-opacity-60"
+          type="button"
+          (click)="bgUploader.showDialog()"
         >
-          Edit profile
-        </p-button>
+          Change cover
+        </button>
+      </div>
+    </div>
+    <div
+      class="bg-white border border-gray-200 min-h-[110px] rounded-xl w-full z-10 relative mt-[-20px]"
+    >
+      <div
+        *ngIf="isMyself"
+        class="w-[156px] h-[156px] overflow-hidden aspect-square rounded-full border-4 border-white shadow-md absolute top-[-75px] ml-5 cursor-pointer hover:border-cyan-300"
+        (click)="avatarUploader.showDialog()"
+        pTooltip="Upload avatar"
+        tooltipPosition="bottom"
+        [showDelay]="300"
+      >
+        <img
+          [src]="
+            getMediaUrlById(
+              usersStore.userInfo.avatar,
+              usersStore.userInfo.medias
+            )
+          "
+          alt=""
+          class="object-cover w-full h-full"
+        />
+      </div>
+      <div
+        *ngIf="!isMyself"
+        class="w-[156px] h-[156px] overflow-hidden aspect-square rounded-full border-4 border-white shadow-md absolute top-[-75px] ml-5"
+      >
+        <img
+          [src]="
+            getMediaUrlById(
+              usersStore.userInfo.avatar,
+              usersStore.userInfo.medias
+            )
+          "
+          alt=""
+          class="object-cover w-full h-full"
+        />
+      </div>
+
+      <div class="pl-[196px] py-2 flex justify-between">
+        <div>
+          <div class="text-2xl font-bold">
+            {{ usersStore.userInfo.first_name }}
+            {{ usersStore.userInfo.last_name }}
+          </div>
+          <div class="text-gray-500 text-md">
+            {{ usersStore.userInfo?.friends?.length }} friends
+          </div>
+          <div class="text-gray-500 text-md">
+            {{ usersStore.userInfo.description }}
+          </div>
+        </div>
+        <div class="mt-3 mr-5">
+          <p-button
+            *ngIf="isMyself"
+            styleClass="bg-blue-500 text-white j-button-custom w-full flex justify-center"
+            (onClick)="handleEditUser()"
+          >
+            Edit profile
+          </p-button>
+        </div>
       </div>
     </div>
   </div>
-</div>
+</ng-container>
 
 <app-image-uploader
   #bgUploader

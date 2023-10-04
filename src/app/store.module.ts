@@ -6,17 +6,17 @@ import { counterReducer } from '@/core/store/test/counter/counter.reducer';
 import { collectionReducer } from '@store/test/collection/collection.reducer';
 import { booksReducer } from '@store/test/books/books.reducer';
 import { meReducer } from '@/core/store/me/me.reducer';
-import { feedPostsReducer } from '@/core/store/feed-posts/feed-posts.reducer';
+import { postsReducer } from '@/core/store/posts/posts.reducer';
 import { friendReducer } from '@/core/store/friend/friend.reducer';
-import { userReducer } from '@/core/store/user/user.reducer';
+import { usersReducer } from '@/core/store/users/users.reducer';
 
 @NgModule({
   imports: [
     StoreModule.forRoot({
       me: meReducer,
-      feedPosts: feedPostsReducer,
+      posts: postsReducer,
       friend: friendReducer,
-      user: userReducer,
+      users: usersReducer,
     }),
     StoreDevtoolsModule.instrument({
       name: 'Journey Connect',

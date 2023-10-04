@@ -24,6 +24,7 @@ import { MessageService } from 'primeng/api';
 import { Store } from '@ngrx/store';
 import { selectMeInfo } from '@/core/store/me/me.selectors';
 import { getMediaUrlById } from '@/utils/media';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-create-post',
@@ -41,6 +42,7 @@ import { getMediaUrlById } from '@/utils/media';
     TooltipModule,
     NgxGridModule,
     ImageUploaderComponent,
+    RouterModule,
   ],
   templateUrl: './create-post.component.html',
   styleUrls: ['./create-post.component.scss'],
