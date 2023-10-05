@@ -1,3 +1,3 @@
 import { createFeatureSelector } from '@ngrx/store';
 
-export const selectPosts = (state: any) => state.posts.posts;
+export const selectFeedPosts = (state: any) => state.posts.feedPosts;

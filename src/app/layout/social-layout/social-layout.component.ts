@@ -1,6 +1,7 @@
 import { AppRoutes } from '@/config/app_routes';
 import { selectMeInfo } from '@/core/store/me/me.selectors';
 import { HeaderComponent } from '@/modules/socials/components/header/header.component';
+import { PostService } from '@/services/post.service';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
@@ -38,7 +39,11 @@ export class SocialLayoutComponent implements OnInit {
     },
   ];
 
-  constructor(private router: Router, private store: Store) {}
+  constructor(
+    private router: Router,
+    private store: Store,
+    private postService: PostService
+  ) {}
 
   ngOnInit(): void {
     this.userInfo$.subscribe((val) => {

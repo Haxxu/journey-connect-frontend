@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 
 import { CreatePostComponent } from '@/modules/socials/components/create-post/create-post.component';
 import { PostCardComponent } from '@/modules/socials/components/post-card/post-card.component';
-import { selectPosts } from '@/core/store/posts/posts.selectors';
+import { selectFeedPosts } from '@/core/store/posts/posts.selectors';
 import { PostService } from '@/services/post.service';
 
 @Component({
@@ -16,7 +16,7 @@ import { PostService } from '@/services/post.service';
 })
 export class FeedComponent implements OnInit {
   constructor(private store: Store, private postService: PostService) {}
-  posts$ = this.store.select(selectPosts);
+  posts$ = this.store.select(selectFeedPosts);
 
   ngOnInit(): void {
     this.postService.getFeedPosts(0, 10).subscribe({

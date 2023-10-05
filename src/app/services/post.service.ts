@@ -9,7 +9,7 @@ import {
 } from '@/core/store/me/me.actions';
 import {
   addPost,
-  setPosts,
+  setFeedPosts,
   updatePost,
 } from '@/core/store/posts/posts.actions';
 
@@ -58,7 +58,7 @@ export class PostService {
       .pipe(
         tap((res: any) => {
           if (res.success) {
-            this.store.dispatch(setPosts({ posts: res.data.data }));
+            this.store.dispatch(setFeedPosts({ posts: res.data.data }));
           }
         })
       );
