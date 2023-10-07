@@ -6,6 +6,12 @@ import {
   matImageRound,
   matSearchRound,
   matMoreHorizRound,
+  matPerson2Round,
+  matLogoutRound,
+  matRssFeedRound,
+  matPeopleAltRound,
+  matBookmarkRound,
+  matGroupsRound,
 } from '@ng-icons/material-icons/round';
 
 @NgModule({
@@ -16,6 +22,12 @@ import {
       matImageRound,
       matSearchRound,
       matMoreHorizRound,
+      matPerson2Round,
+      matLogoutRound,
+      matRssFeedRound,
+      matPeopleAltRound,
+      matBookmarkRound,
+      matGroupsRound,
     }),
   ],
   exports: [NgIconsModule],

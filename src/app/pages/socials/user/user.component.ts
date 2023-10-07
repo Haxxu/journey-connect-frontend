@@ -4,6 +4,7 @@ import { ProfileHeaderComponent } from '@/modules/socials/components/profile-hea
 import { UserService } from '@/services/user.service';
 import { ActivatedRoute } from '@angular/router';
 import { ProfileBodyComponent } from '@/modules/socials/components/profile-body/profile-body.component';
+import { PostService } from '@/services/post.service';
 
 @Component({
   selector: 'app-user',
@@ -17,6 +18,7 @@ export class UserComponent implements OnInit {
 
   constructor(
     private userService: UserService,
+    private postService: PostService,
     private route: ActivatedRoute
   ) {}
 
@@ -25,6 +27,7 @@ export class UserComponent implements OnInit {
       this.userId = params['id'];
       if (this.userId) {
         this.userService.getUserById(this.userId).subscribe();
+        this.postService.getPostsByUserId(this.userId).subscribe();
       }
     });
   }

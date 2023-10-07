@@ -78,6 +78,7 @@ export class PostCardComponent implements OnInit {
   editMedias: any[] = [];
   submitting: boolean = false;
   AppRoutes = AppRoutes;
+  popperClass = 'p-0';
 
   visibilityOptions: any[] = [
     { label: 'Public', value: 'public' },

@@ -10,6 +10,8 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { DialogModule } from 'primeng/dialog';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { SkeletonModule } from 'primeng/skeleton';
+import { ProgressBarModule } from 'primeng/progressbar';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 @NgModule({
   exports: [
@@ -23,6 +25,8 @@ import { SkeletonModule } from 'primeng/skeleton';
     DialogModule,
     AutoCompleteModule,
     SkeletonModule,
+    ProgressBarModule,
+    ProgressSpinnerModule,
   ],
 })
 export class PrimeNGModule {}

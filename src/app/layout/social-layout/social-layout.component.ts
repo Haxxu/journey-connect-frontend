@@ -5,6 +5,7 @@ import { PostService } from '@/services/post.service';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
+import { NgIconsModule } from '@ng-icons/core';
 import { Store } from '@ngrx/store';
 
 @Component({
@@ -12,7 +13,7 @@ import { Store } from '@ngrx/store';
   selector: 'app-social-layout',
   templateUrl: './social-layout.component.html',
   styleUrls: ['./social-layout.component.scss'],
-  imports: [RouterModule, HeaderComponent, CommonModule],
+  imports: [RouterModule, HeaderComponent, CommonModule, NgIconsModule],
 })
 export class SocialLayoutComponent implements OnInit {
   userInfo$ = this.store.select(selectMeInfo);
@@ -20,22 +21,27 @@ export class SocialLayoutComponent implements OnInit {
     {
       name: 'Feed',
       path: '/feed',
+      icon: 'matRssFeedRound',
     },
     {
       name: 'My profile',
       path: `/users/:id`,
+      icon: 'matPerson2Round',
     },
     {
       name: 'Friends',
       path: '/friends',
+      icon: 'matPeopleAltRound',
     },
     {
       name: 'Saved',
       path: '/saved',
+      icon: 'matBookmarkRound',
     },
     {
       name: 'Groups',
       path: '/groups',
+      icon: 'matGroupsRound',
     },
   ];
 

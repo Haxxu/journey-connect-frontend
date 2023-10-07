@@ -1,9 +1,26 @@
 <ng-container *ngIf="usersStore$ | async as usersStore">
-  <div *ngIf="usersStore.isLoading">
-    <p-skeleton width="w-full" height="20rem" styleClass="mb-2"></p-skeleton>
-    <p-skeleton width="w-full" styleClass="mb-2"></p-skeleton>
-    <p-skeleton width="w-full" styleClass="mb-2"></p-skeleton>
-    <p-skeleton width="w-full" height="1rem"></p-skeleton>
+  <div *ngIf="usersStore.isLoading" class="relative">
+    <p-skeleton width="w-full" height="180px" styleClass="mb-2"></p-skeleton>
+    <div class="flex justify-between">
+      <div class="w-[20%]">
+        <p-skeleton
+          shape="circle"
+          width="110px"
+          height="110px"
+          styleClass="mb-2"
+        ></p-skeleton>
+      </div>
+      <div class="w-[60%]">
+        <p-skeleton height="1rem" styleClass="mb-2"></p-skeleton>
+        <p-skeleton height="1rem" styleClass="mb-2"></p-skeleton>
+        <p-skeleton height="1rem" styleClass="mb-2"></p-skeleton>
+        <p-skeleton height="1rem" styleClass="mb-2"></p-skeleton>
+        <p-skeleton height="1rem" styleClass="mb-2"></p-skeleton>
+      </div>
+      <div class="w-[20%] px-2">
+        <p-skeleton height="3rem" styleClass="mb-2"></p-skeleton>
+      </div>
+    </div>
   </div>
   <div
     *ngIf="!usersStore.isLoading"

@@ -10,6 +10,8 @@ import {
 import {
   addPost,
   setFeedPosts,
+  setLoadingPosts,
+  setPosts,
   updatePost,
 } from '@/core/store/posts/posts.actions';
 
@@ -42,10 +44,13 @@ export class PostService {
   }
 
   getPostsByUserId(userId: string): Observable<any> {
-    return this.http.get(`${environment.apiURL}/posts`).pipe(
+    this.store.dispatch(setLoadingPosts({ loading: true }));
+    return this.http.get(`${environment.apiURL}/users/${userId}/posts`).pipe(
       tap((res: any) => {
         if (res.success) {
+          this.store.dispatch(setPosts({ posts: res.data }));
         }
+        this.store.dispatch(setLoadingPosts({ loading: false }));
       })
     );
   }
@@ -58,7 +63,7 @@ export class PostService {
       .pipe(
         tap((res: any) => {
           if (res.success) {
-            this.store.dispatch(setFeedPosts({ posts: res.data.data }));
+            // this.store.dispatch(setFeedPosts({ posts: res.data.data }));
           }
         })
       );

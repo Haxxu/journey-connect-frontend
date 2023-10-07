@@ -16,3 +16,13 @@ export const updatePost = createAction(
   '[POSTS] Update post',
   props<{ post: any }>()
 );
+
+export const addMoreFeedPosts = createAction(
+  '[POSTs] Add more feed posts',
+  props<{ posts: any }>()
+);
+
+export const setLoadingPosts = createAction(
+  '[POSTs] Set loading posts',
+  props<{ loading: any }>()
+);

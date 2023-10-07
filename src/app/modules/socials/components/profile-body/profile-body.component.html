@@ -1,1 +1,20 @@
-<p>profile-body works!</p>
+<div class="container" *ngIf="!loadingPosts">
+  <div>
+    <ng-container *ngIf="meInfo$ | async as meInfo">
+      <app-create-post *ngIf="meInfo._id === userId"></app-create-post>
+    </ng-container>
+    <div *ngIf="posts$ | async as posts" class="flex flex-col gap-3 mt-2">
+      <app-post-card *ngFor="let post of posts" [post]="post"></app-post-card>
+    </div>
+  </div>
+  <div class="bg-green-50">hello</div>
+</div>
+<div class="container" *ngIf="loadingPosts">
+  <div>
+    <p-skeleton height="190px" styleClass="mb-2"></p-skeleton>
+    <p-skeleton height="390px" styleClass="mb-2"></p-skeleton>
+  </div>
+  <div>
+    <p-skeleton height="30rem" styleClass="mb-2"></p-skeleton>
+  </div>
+</div>

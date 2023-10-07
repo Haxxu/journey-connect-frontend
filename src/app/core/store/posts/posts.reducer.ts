@@ -1,12 +1,21 @@
 import { createReducer, on } from '@ngrx/store';
-import { setPosts, addPost, updatePost, setFeedPosts } from './posts.actions';
+import {
+  setPosts,
+  addPost,
+  updatePost,
+  setFeedPosts,
+  addMoreFeedPosts,
+  setLoadingPosts,
+} from './posts.actions';
 
 export interface PostsState {
+  loadingPosts: boolean;
   posts: any[];
   feedPosts: any[];
 }
 
 export const initialState: PostsState = {
+  loadingPosts: false,
   posts: [],
   feedPosts: [],
 };
@@ -15,6 +24,10 @@ export const postsReducer = createReducer(
   initialState,
   on(setPosts, (state, { posts }) => {
     return { ...state, posts };
+  }),
+
+  on(setLoadingPosts, (state, { loading }) => {
+    return { ...state, loadingPosts: loading };
   }),
 
   on(setFeedPosts, (state, { posts }) => {
@@ -47,5 +60,13 @@ export const postsReducer = createReducer(
     });
 
     return { ...state, posts, feedPosts };
+  }),
+
+  on(addMoreFeedPosts, (state, { posts }) => {
+    const feedPosts = [...state.feedPosts, ...posts];
+    return {
+      ...state,
+      feedPosts,
+    };
   })
 );

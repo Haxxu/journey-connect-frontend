@@ -10,6 +10,10 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { UserService } from '@/services/user.service';
 import { Store } from '@ngrx/store';
 import { selectMeInfo } from '@/core/store/me/me.selectors';
+import { NgxPopperjsModule, NgxPopperjsPlacements } from 'ngx-popperjs';
+import { getMediaUrlById } from '@/utils/media';
+import { RouterLink } from '@angular/router';
+import { AuthService } from '@/services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -23,17 +27,30 @@ import { selectMeInfo } from '@/core/store/me/me.selectors';
     OverlayPanelModule,
     AutoCompleteModule,
     AvatarModule,
+    NgxPopperjsModule,
+    RouterLink,
   ],
 })
 export class HeaderComponent implements OnInit {
   suggestions: any[] = [{}];
   meInfo$ = this.store.select(selectMeInfo);
+  NgxPopperjsPlacements = NgxPopperjsPlacements;
+  getMediaUrlById = getMediaUrlById;
+  popperClass = 'p-0';
 
-  constructor(private userService: UserService, private store: Store) {}
+  constructor(
+    private userService: UserService,
+    private store: Store,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {}
 
   search(event: any) {
     console.log(event);
+  }
+
+  handleLogout() {
+    this.authService.logout();
   }
 }
