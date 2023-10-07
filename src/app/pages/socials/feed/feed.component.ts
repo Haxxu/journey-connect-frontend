@@ -8,7 +8,6 @@ import { selectFeedPosts } from '@/core/store/posts/posts.selectors';
 import { PostService } from '@/services/post.service';
 import { addMoreFeedPosts } from '@/core/store/posts/posts.actions';
 import { ScrollTrackerDirective } from '@/shared/directives/scroll-tracker.directive';
-import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { ButtonModule } from 'primeng/button';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
