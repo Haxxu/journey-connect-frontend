@@ -1,0 +1,101 @@
+<p-button
+  *ngIf="!isFriend && type === 'addFriend'"
+  styleClass="bg-blue-500 text-white j-button-custom w-full flex justify-center"
+  [loading]="loading"
+  (onClick)="handleAddFriend()"
+>
+  <div class="flex items-center gap-2 mr-1">
+    <ng-icon name="matPersonAddAlt1Round" class="text-xl text-white"></ng-icon>
+    <span> Add Friend </span>
+  </div>
+</p-button>
+
+<p-button
+  *ngIf="!isFriend && type === 'cancelFriendRequest'"
+  styleClass="bg-blue-500 text-white j-button-custom w-full flex justify-center"
+  [loading]="loading"
+  (onClick)="handleCancelFriendRequest()"
+>
+  <div class="flex items-center gap-2 mr-1">
+    <ng-icon name="bootstrapPersonXFill" class="text-xl text-white"></ng-icon>
+    <span> Cancel request </span>
+  </div>
+</p-button>
+
+<p-button
+  *ngIf="!isFriend && type === 'pendingRequest'"
+  styleClass="bg-blue-500 text-white j-button-custom w-full flex justify-center"
+  [loading]="loading"
+  [popper]="friendOptions"
+  [popperPlacement]="NgxPopperjsPlacements.BOTTOMSTART"
+  [popperApplyArrowClass]="'hidden'"
+  [popperApplyClass]="'p-0'"
+>
+  <div class="flex items-center gap-2 mr-1">
+    <ng-icon
+      name="bootstrapPersonCheckFill"
+      class="text-xl text-white"
+    ></ng-icon>
+    <span> Pending request </span>
+  </div>
+</p-button>
+
+<p-button
+  *ngIf="isFriend"
+  styleClass="bg-gray-200 border border-gray-300 text-gray-800 j-button-custom w-full flex justify-center"
+  [loading]="loading"
+  [popper]="friendOptions"
+  [popperPlacement]="NgxPopperjsPlacements.BOTTOMSTART"
+  [popperApplyArrowClass]="'hidden'"
+  [popperApplyClass]="'p-0'"
+>
+  <div class="flex items-center gap-2 mr-1">
+    <ng-icon
+      name="bootstrapPersonCheckFill"
+      class="text-xl text-gray-800"
+    ></ng-icon>
+    <span> Friend </span>
+  </div>
+</p-button>
+
+<popper-content #friendOptions class="shadow-sm rounded-xl">
+  <div class="w-28">
+    <div
+      *ngIf="type === 'friend'"
+      class="px-2 py-1.5 my-0.5 hover:bg-gray-200 text-md rounded-md text-gray-700 cursor-pointer flex items-center"
+      (click)="handleUnfriend()"
+    >
+      <ng-icon
+        name="matPersonRemoveAlt1Round"
+        class="text-xl text-gray-600"
+      ></ng-icon>
+      <span class="ml-2"> Unfriend </span>
+    </div>
+    <div
+      *ngIf="type === 'friend'"
+      class="px-2 py-1.5 my-0.5 hover:bg-gray-200 text-md rounded-md text-gray-700 cursor-pointer flex items-center"
+    >
+      <ng-icon name="matBlockRound" class="text-xl text-gray-600"></ng-icon>
+      <span class="ml-2">Block</span>
+    </div>
+    <div
+      *ngIf="type === 'pendingRequest'"
+      class="px-2 py-1.5 my-0.5 hover:bg-gray-200 text-md rounded-md text-gray-700 cursor-pointer flex items-center"
+      (click)="handlePendingRequest('accept')"
+    >
+      <ng-icon
+        name="matCheckCircleRound"
+        class="text-xl text-gray-400"
+      ></ng-icon>
+      <span class="ml-2">Accept</span>
+    </div>
+    <div
+      *ngIf="type === 'pendingRequest'"
+      class="px-2 py-1.5 my-0.5 hover:bg-gray-200 text-md rounded-md text-gray-700 cursor-pointer flex items-center"
+      (click)="handlePendingRequest('decline')"
+    >
+      <ng-icon name="matCancelRound" class="text-xl text-gray-400"></ng-icon>
+      <span class="ml-2">Decline</span>
+    </div>
+  </div>
+</popper-content>

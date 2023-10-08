@@ -5,6 +5,7 @@ import { UserService } from '@/services/user.service';
 import { ActivatedRoute } from '@angular/router';
 import { ProfileBodyComponent } from '@/modules/socials/components/profile-body/profile-body.component';
 import { PostService } from '@/services/post.service';
+import { FriendService } from '@/services/friend.service';
 
 @Component({
   selector: 'app-user',
@@ -19,6 +20,7 @@ export class UserComponent implements OnInit {
   constructor(
     private userService: UserService,
     private postService: PostService,
+    private friendService: FriendService,
     private route: ActivatedRoute
   ) {}
 

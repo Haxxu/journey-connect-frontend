@@ -17,6 +17,7 @@ import {
 } from '@/core/store/users/users.selectors';
 import { SkeletonModule } from 'primeng/skeleton';
 import { setUserInfo } from '@/core/store/users/users.actions';
+import { AddFriendButtonComponent } from '@/modules/socials/components/add-friend-button/add-friend-button.component';
 
 @Component({
   selector: 'app-profile-header',
@@ -29,6 +30,7 @@ import { setUserInfo } from '@/core/store/users/users.actions';
     ButtonModule,
     RouterModule,
     SkeletonModule,
+    AddFriendButtonComponent,
   ],
   templateUrl: './profile-header.component.html',
   styleUrls: ['./profile-header.component.scss'],

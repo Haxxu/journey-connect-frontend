@@ -12,7 +12,17 @@ import {
   matPeopleAltRound,
   matBookmarkRound,
   matGroupsRound,
+  matPersonAddAlt1Round,
+  matPersonRemoveAlt1Round,
+  matBlockRound,
+  matCheckCircleRound,
+  matCancelRound,
 } from '@ng-icons/material-icons/round';
+
+import {
+  bootstrapPersonCheckFill,
+  bootstrapPersonXFill,
+} from '@ng-icons/bootstrap-icons';
 
 @NgModule({
   imports: [
@@ -28,6 +38,14 @@ import {
       matPeopleAltRound,
       matBookmarkRound,
       matGroupsRound,
+      matPersonAddAlt1Round,
+      matPersonRemoveAlt1Round,
+      matBlockRound,
+      matCheckCircleRound,
+      matCancelRound,
+
+      bootstrapPersonCheckFill,
+      bootstrapPersonXFill,
     }),
   ],
   exports: [NgIconsModule],

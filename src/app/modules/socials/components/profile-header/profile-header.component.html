@@ -109,6 +109,11 @@
           >
             Edit profile
           </p-button>
+          <div *ngIf="!isMyself">
+            <app-add-friend-button
+              [userId]="usersStore.userInfo._id"
+            ></app-add-friend-button>
+          </div>
         </div>
       </div>
     </div>

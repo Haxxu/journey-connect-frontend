@@ -12,6 +12,7 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
 import { SkeletonModule } from 'primeng/skeleton';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { RippleModule } from 'primeng/ripple';
 
 @NgModule({
   exports: [
@@ -27,6 +28,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     SkeletonModule,
     ProgressBarModule,
     ProgressSpinnerModule,
+    RippleModule,
   ],
 })
 export class PrimeNGModule {}
