@@ -24,6 +24,10 @@ export class FriendsComponent implements OnInit {
       label: 'Friend requests',
       src: '/friends/received-friend-requests',
     },
+    {
+      label: 'Sent requests',
+      src: '/friends/sent-friend-requests',
+    },
   ];
 
   ngOnInit(): void {}

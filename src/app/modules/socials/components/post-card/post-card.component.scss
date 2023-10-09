@@ -21,4 +21,12 @@
   .ngxp__container {
     @apply p-1;
   }
+
+  .action-item {
+    @apply flex-1 px-2 text-md flex justify-center h-[40px] items-center rounded-md cursor-pointer;
+
+    &:hover {
+      @apply bg-gray-100;
+    }
+  }
 }

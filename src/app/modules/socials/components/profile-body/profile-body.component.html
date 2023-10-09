@@ -1,9 +1,11 @@
 <div class="container" *ngIf="!loadingPosts">
   <div>
     <ng-container *ngIf="meInfo$ | async as meInfo">
-      <app-create-post *ngIf="meInfo._id === userId"></app-create-post>
+      <div *ngIf="meInfo._id === userId" class="mb-2">
+        <app-create-post></app-create-post>
+      </div>
     </ng-container>
-    <div *ngIf="posts$ | async as posts" class="flex flex-col gap-3 mt-2">
+    <div *ngIf="posts$ | async as posts" class="flex flex-col gap-3">
       <app-post-card *ngFor="let post of posts" [post]="post"></app-post-card>
     </div>
   </div>

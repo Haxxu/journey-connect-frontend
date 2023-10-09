@@ -32,6 +32,7 @@ import { EmotionsComponent } from '@/shared/components/emotions/emotions.compone
 import { EmotionService } from '@/services/emotion.service';
 import { RouterModule } from '@angular/router';
 import { AppRoutes } from '@/config/app_routes';
+import { timeAgo } from '@/utils/format';
 
 @Component({
   selector: 'app-post-card',
@@ -64,6 +65,7 @@ export class PostCardComponent implements OnInit {
   meInfo$ = this.store.select(selectMeInfo);
   getMediaUrlById = getMediaUrlById;
   formatDate = formatDate;
+  timeAgo = timeAgo;
   NgxPopperjsPlacements = NgxPopperjsPlacements;
   visibleEditModal: boolean = false;
   mode: string = 'view';

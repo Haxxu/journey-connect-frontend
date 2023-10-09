@@ -7,11 +7,12 @@ import {
 import { Store } from '@ngrx/store';
 import { selectMyFriends } from '@/core/store/friend/friend.selectors';
 import { FriendService } from '@/services/friend.service';
+import { AddFriendButtonComponent } from '@/modules/socials/components/add-friend-button/add-friend-button.component';
 
 @Component({
   selector: 'app-friend-list',
   standalone: true,
-  imports: [CommonModule, FriendCardComponent],
+  imports: [CommonModule, FriendCardComponent, AddFriendButtonComponent],
   templateUrl: './friend-list.component.html',
   styleUrls: ['./friend-list.component.scss'],
 })

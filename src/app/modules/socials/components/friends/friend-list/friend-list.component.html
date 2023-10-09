@@ -5,7 +5,7 @@
   <div class="w-full" *ngFor="let friend of friends">
     <app-friend-card
       [user]="friend?.user"
-      [type]="friend.Received"
+      [type]="FriendCardTypeEnum.List"
     ></app-friend-card>
   </div>
 </div>

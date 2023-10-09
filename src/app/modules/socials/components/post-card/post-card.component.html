@@ -21,7 +21,9 @@
           <div class="p-1 font-semibold text-blue-700 text-md">Edit</div>
         </p-chip>
       </div>
-      <div class="text-sm text-gray-700">{{ formatDate(post.createdAt) }}</div>
+      <div class="text-sm text-gray-700">
+        {{ formatDate(post.createdAt) }} &bull; {{ timeAgo(post.createdAt) }}
+      </div>
     </div>
     <div class="flex items-center gap-2">
       <div *ngIf="mode === 'edit'">
@@ -227,15 +229,15 @@
 
     <hr />
     <div class="flex mt-1.5 items-center justify-around text-base">
-      <div class="px-2 text-md">
+      <div class="action-item">
         <app-emotions
           [contextType]="'post'"
           [contextId]="post._id"
           (updateEmotion)="getEmotions()"
         ></app-emotions>
       </div>
-      <div class="px-2 text-md">Comments</div>
-      <div class="px-2 text-md">Share</div>
+      <div class="action-item">Comments</div>
+      <div class="action-item">Share</div>
     </div>
   </div>
 </form>

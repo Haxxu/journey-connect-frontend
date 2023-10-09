@@ -4,15 +4,18 @@ import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { FriendService } from '@/services/friend.service';
 import { RouterModule } from '@angular/router';
+import { AddFriendButtonComponent } from '@/modules/socials/components/add-friend-button/add-friend-button.component';
 
 export enum FriendCardTypeEnum {
+  List = 'List',
   Received = 'Received',
+  Sent = 'Sent',
 }
 
 @Component({
   selector: 'app-friend-card',
   standalone: true,
-  imports: [CommonModule, ButtonModule, RouterModule],
+  imports: [CommonModule, ButtonModule, RouterModule, AddFriendButtonComponent],
   templateUrl: './friend-card.component.html',
   styleUrls: ['./friend-card.component.scss'],
 })

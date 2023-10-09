@@ -24,8 +24,11 @@ export class AddFriendButtonComponent implements OnInit {
   isFriend: boolean = false;
   loading: boolean = false;
   NgxPopperjsPlacements = NgxPopperjsPlacements;
-  type: 'addFriend' | 'friend' | 'pendingRequest' | 'cancelFriendRequest' =
-    'addFriend';
+  @Input() type:
+    | 'addFriend'
+    | 'friend'
+    | 'pendingRequest'
+    | 'cancelFriendRequest' = 'addFriend';
 
   constructor(private store: Store, private friendService: FriendService) {}
 

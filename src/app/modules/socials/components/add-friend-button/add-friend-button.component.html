@@ -1,6 +1,6 @@
 <p-button
   *ngIf="!isFriend && type === 'addFriend'"
-  styleClass="bg-blue-500 text-white j-button-custom w-full flex justify-center"
+  styleClass="bg-blue-500 hover:bg-blue-600 text-white j-button-custom w-full flex justify-center"
   [loading]="loading"
   (onClick)="handleAddFriend()"
 >
@@ -12,19 +12,22 @@
 
 <p-button
   *ngIf="!isFriend && type === 'cancelFriendRequest'"
-  styleClass="bg-blue-500 text-white j-button-custom w-full flex justify-center"
+  styleClass="bg-gray-200 hover:bg-gray-300 border border-gray-300 text-gray-800 j-button-custom w-full flex justify-center"
   [loading]="loading"
   (onClick)="handleCancelFriendRequest()"
 >
   <div class="flex items-center gap-2 mr-1">
-    <ng-icon name="bootstrapPersonXFill" class="text-xl text-white"></ng-icon>
+    <ng-icon
+      name="bootstrapPersonXFill"
+      class="text-xl text-gray-800"
+    ></ng-icon>
     <span> Cancel request </span>
   </div>
 </p-button>
 
 <p-button
   *ngIf="!isFriend && type === 'pendingRequest'"
-  styleClass="bg-blue-500 text-white j-button-custom w-full flex justify-center"
+  styleClass="bg-blue-500 hover:bg-blue-600 text-white j-button-custom w-full flex justify-center"
   [loading]="loading"
   [popper]="friendOptions"
   [popperPlacement]="NgxPopperjsPlacements.BOTTOMSTART"
@@ -42,7 +45,7 @@
 
 <p-button
   *ngIf="isFriend"
-  styleClass="bg-gray-200 border border-gray-300 text-gray-800 j-button-custom w-full flex justify-center"
+  styleClass="bg-gray-200 hover:bg-gray-300 border border-gray-300 text-gray-800 j-button-custom w-full flex justify-center"
   [loading]="loading"
   [popper]="friendOptions"
   [popperPlacement]="NgxPopperjsPlacements.BOTTOMSTART"
@@ -71,13 +74,13 @@
       ></ng-icon>
       <span class="ml-2"> Unfriend </span>
     </div>
-    <div
+    <!-- <div
       *ngIf="type === 'friend'"
       class="px-2 py-1.5 my-0.5 hover:bg-gray-200 text-md rounded-md text-gray-700 cursor-pointer flex items-center"
     >
       <ng-icon name="matBlockRound" class="text-xl text-gray-600"></ng-icon>
       <span class="ml-2">Block</span>
-    </div>
+    </div> -->
     <div
       *ngIf="type === 'pendingRequest'"
       class="px-2 py-1.5 my-0.5 hover:bg-gray-200 text-md rounded-md text-gray-700 cursor-pointer flex items-center"

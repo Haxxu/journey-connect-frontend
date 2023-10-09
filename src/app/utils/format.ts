@@ -33,7 +33,7 @@ export function formatDate(inputDate: any) {
   const minutes = date.getMinutes();
 
   // Determine if it's AM or PM
-  const amOrPm = hours >= 12 ? 'pm' : 'am';
+  const amOrPm = hours >= 12 ? 'PM' : 'AM';
 
   // Convert hours to 12-hour format
   const formattedHours = hours % 12 || 12;
@@ -45,4 +45,33 @@ export function formatDate(inputDate: any) {
   const formattedDate = `${day} ${month} at ${formattedHours}:${formattedMinutes} ${amOrPm}`;
 
   return formattedDate;
+}
+
+export function timeAgo(date: any) {
+  const currentDate = new Date();
+  const timestamp = new Date(date).getTime();
+  const currentTimestamp = currentDate.getTime();
+  const secondsAgo = Math.floor((currentTimestamp - timestamp) / 1000);
+
+  if (secondsAgo < 60) {
+    return secondsAgo + 's ago';
+  } else if (secondsAgo < 3600) {
+    const minutesAgo = Math.floor(secondsAgo / 60);
+    return minutesAgo + 'm ago';
+  } else if (secondsAgo < 86400) {
+    const hoursAgo = Math.floor(secondsAgo / 3600);
+    return hoursAgo + 'h ago';
+  } else if (secondsAgo < 604800) {
+    const daysAgo = Math.floor(secondsAgo / 86400);
+    return daysAgo + 'd ago';
+  } else if (secondsAgo < 2419200) {
+    const weeksAgo = Math.floor(secondsAgo / 604800);
+    return weeksAgo + 'w ago';
+  } else if (secondsAgo < 29030400) {
+    const monthsAgo = Math.floor(secondsAgo / 2419200);
+    return monthsAgo + 'mo ago';
+  } else {
+    const yearsAgo = Math.floor(secondsAgo / 29030400);
+    return yearsAgo + 'y ago';
+  }
 }

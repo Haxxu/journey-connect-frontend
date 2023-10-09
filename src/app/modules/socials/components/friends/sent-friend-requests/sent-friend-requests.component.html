@@ -1,0 +1,11 @@
+<div
+  class="grid grid-cols-2 gap-4 2xl:grid-cols-4 md:grid-cols-3"
+  *ngIf="sentFriendRequests$ | async as friendRequests"
+>
+  <div class="w-full" *ngFor="let friendRequest of friendRequests">
+    <app-friend-card
+      [user]="friendRequest?.user"
+      [type]="FriendCardTypeEnum.Sent"
+    ></app-friend-card>
+  </div>
+</div>
