@@ -12,14 +12,14 @@
 
 <p-button
   *ngIf="!isFriend && type === 'cancelFriendRequest'"
-  styleClass="bg-gray-200 hover:bg-gray-300 border border-gray-300 text-gray-800 j-button-custom w-full flex justify-center"
+  styleClass="bg-gray-200 hover:bg-gray-300 border border-gray-300 text-gray-700 j-button-custom w-full flex justify-center"
   [loading]="loading"
   (onClick)="handleCancelFriendRequest()"
 >
   <div class="flex items-center gap-2 mr-1">
     <ng-icon
       name="bootstrapPersonXFill"
-      class="text-xl text-gray-800"
+      class="text-xl text-gray-700"
     ></ng-icon>
     <span> Cancel request </span>
   </div>
@@ -45,7 +45,7 @@
 
 <p-button
   *ngIf="isFriend"
-  styleClass="bg-gray-200 hover:bg-gray-300 border border-gray-300 text-gray-800 j-button-custom w-full flex justify-center"
+  styleClass="bg-gray-200 hover:bg-gray-300 border border-gray-300 text-gray-700 j-button-custom w-full flex justify-center"
   [loading]="loading"
   [popper]="friendOptions"
   [popperPlacement]="NgxPopperjsPlacements.BOTTOMSTART"
@@ -55,7 +55,7 @@
   <div class="flex items-center gap-2 mr-1">
     <ng-icon
       name="bootstrapPersonCheckFill"
-      class="text-xl text-gray-800"
+      class="text-xl text-gray-700"
     ></ng-icon>
     <span> Friend </span>
   </div>
