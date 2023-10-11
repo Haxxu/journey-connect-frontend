@@ -9,6 +9,7 @@ import { meReducer } from '@/core/store/me/me.reducer';
 import { postsReducer } from '@/core/store/posts/posts.reducer';
 import { friendReducer } from '@/core/store/friend/friend.reducer';
 import { usersReducer } from '@/core/store/users/users.reducer';
+import { socketReducer } from '@/core/store/socket/socket.reducer';
 
 @NgModule({
   imports: [
@@ -17,6 +18,7 @@ import { usersReducer } from '@/core/store/users/users.reducer';
       posts: postsReducer,
       friend: friendReducer,
       users: usersReducer,
+      socket: socketReducer,
     }),
     StoreDevtoolsModule.instrument({
       name: 'Journey Connect',

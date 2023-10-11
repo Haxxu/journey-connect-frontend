@@ -4,6 +4,7 @@ import { MessageService } from 'primeng/api';
 import { UserService } from '@/services/user.service';
 import { PostService } from '@/services/post.service';
 import { Store } from '@ngrx/store';
+import { SocketService } from './services/socket.service';
 
 @Component({
   selector: 'app-root',
@@ -18,11 +19,17 @@ export class AppComponent implements OnInit {
     private primengConfig: PrimeNGConfig,
     private userService: UserService,
     private postService: PostService,
-    private store: Store
+    private store: Store,
+    private socketService: SocketService
   ) {}
 
   ngOnInit() {
     this.primengConfig.ripple = false;
     this.userService.fetchUserInfo();
+
+    // this.socketService.joinRoom('65236f380b77f60add423996');
+    // this.socketService.listen('createComment').subscribe((val) => {
+    //   console.log(val);
+    // });
   }
 }
