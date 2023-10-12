@@ -47,11 +47,11 @@ export class SocketService {
   }
 
   emit(event: string, data?: any) {
-    console.group();
-    console.log('----- SOCKET OUTGOING -----');
-    console.log('Action: ', event);
-    console.log('Payload: ', data);
-    console.groupEnd();
+    // console.group();
+    // console.log('----- SOCKET OUTGOING -----');
+    // console.log('Action: ', event);
+    // console.log('Payload: ', data);
+    // console.groupEnd();
 
     this.socket.emit(event);
   }
@@ -59,11 +59,11 @@ export class SocketService {
   listen(event: string): Observable<any> {
     return new Observable((observer) => {
       this.socket.on(event, (data) => {
-        console.group();
-        console.log('----- SOCKET INBOUND -----');
-        console.log('Action: ', event);
-        console.log('Payload: ', data);
-        console.groupEnd();
+        // console.group();
+        // console.log('----- SOCKET INBOUND -----');
+        // console.log('Action: ', event);
+        // console.log('Payload: ', data);
+        // console.groupEnd();
         observer.next(data);
       });
 

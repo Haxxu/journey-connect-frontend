@@ -1,0 +1,18 @@
+<div *ngIf="comments$ | async as comments" class="p-2">
+  <app-comment-input
+    [contextId]="contextId"
+    [contextType]="'post'"
+  ></app-comment-input>
+  <p-progressSpinner
+    *ngIf="loading"
+    styleClass="w-4rem h-4rem"
+    strokeWidth="8"
+    fill="var(--surface-ground)"
+    animationDuration=".5s"
+  ></p-progressSpinner>
+  <div *ngIf="!loading">
+    <div *ngFor="let comment of comments[contextId]?.comments || []">
+      <app-comment [comment]="comment"></app-comment>
+    </div>
+  </div>
+</div>

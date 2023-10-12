@@ -226,18 +226,21 @@
         <div>2 shares</div>
       </div>
     </div>
-
-    <hr />
-    <div class="flex mt-1.5 items-center justify-around text-base">
-      <div class="action-item">
-        <app-emotions
-          [contextType]="'post'"
-          [contextId]="post._id"
-          (updateEmotion)="getEmotions()"
-        ></app-emotions>
-      </div>
-      <div class="action-item">Comments</div>
-      <div class="action-item">Share</div>
+  </div>
+  <hr />
+  <div class="flex items-center justify-around text-base mx-4 py-2">
+    <div class="action-item">
+      <app-emotions
+        [contextType]="'post'"
+        [contextId]="post._id"
+        (updateEmotion)="getEmotions()"
+      ></app-emotions>
     </div>
+    <div class="action-item" (click)="toggleComments()">Comments</div>
+    <div class="action-item">Share</div>
+  </div>
+  <div *ngIf="showComments">
+    <hr />
+    <app-comments [contextId]="post._id"></app-comments>
   </div>
 </form>

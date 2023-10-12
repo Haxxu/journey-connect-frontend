@@ -33,6 +33,9 @@ import { EmotionService } from '@/services/emotion.service';
 import { RouterModule } from '@angular/router';
 import { AppRoutes } from '@/config/app_routes';
 import { timeAgo } from '@/utils/format';
+import { CommentsComponent } from '@/modules/socials/components/comments/comments/comments.component';
+import { SocketService } from '@/services/socket.service';
+import { CommentService } from '@/services/comment.service';
 
 @Component({
   selector: 'app-post-card',
@@ -56,6 +59,7 @@ import { timeAgo } from '@/utils/format';
     LightboxModule,
     EmotionsComponent,
     RouterModule,
+    CommentsComponent,
   ],
   templateUrl: './post-card.component.html',
   styleUrls: ['./post-card.component.scss'],
@@ -91,6 +95,7 @@ export class PostCardComponent implements OnInit {
   galleryItems: GalleryItem[] = [];
   emotionData: any;
   showEmotions: any[] = [];
+  showComments: boolean = true;
 
   constructor(
     private store: Store,
@@ -100,7 +105,9 @@ export class PostCardComponent implements OnInit {
     private postService: PostService,
     private messageService: MessageService,
     public gallery: Gallery,
-    private emotionService: EmotionService
+    private emotionService: EmotionService,
+    private socketService: SocketService,
+    private commentService: CommentService
   ) {
     this.editPostForm = this.formBuilder.group({
       title: ['', Validators.required],
@@ -135,7 +142,10 @@ export class PostCardComponent implements OnInit {
       const galleryRef = this.gallery.ref(this.post._id);
       galleryRef.load(this.galleryItems);
     }
+
     this.getEmotions();
+
+    this.commentService.getCommentsByContextId(this.post?._id).subscribe();
   }
 
   getTop3Emotions(count: { [key: string]: number }): {
@@ -280,5 +290,9 @@ export class PostCardComponent implements OnInit {
     this.editPostForm.get('visibility')?.setValue(option.value);
     this.visibility = option.label;
     visibilityOp.hide();
+  }
+
+  toggleComments() {
+    this.showComments = !this.showComments;
   }
 }

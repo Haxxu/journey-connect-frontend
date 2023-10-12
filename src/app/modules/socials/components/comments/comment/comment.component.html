@@ -1,0 +1,16 @@
+<div
+  [style]="{ 
+    opacity: comment?._id ? 1 : 0.5, 
+    pointerEvents: comment._id ? 'initial' : 'none', 
+  }"
+  class="flex"
+>
+  <div>
+    <p-avatar
+      shape="circle"
+      [image]="getMediaUrlById(comment.owner.avatar, comment.owner.medias)"
+    >
+    </p-avatar>
+  </div>
+  <app-comment-list [comment]="comment"></app-comment-list>
+</div>
