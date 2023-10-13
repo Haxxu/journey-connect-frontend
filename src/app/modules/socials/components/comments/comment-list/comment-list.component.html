@@ -74,10 +74,13 @@
         </div>
 
         <div
-          *ngIf="meInfo._id === comment?.owner?._id"
+          *ngIf="
+            meInfo._id === comment?.owner?._id ||
+            meInfo._id === comment?.context_owner
+          "
           class="px-2 py-1.5 hover:bg-gray-200 text-md rounded-md text-gray-700 cursor-pointer"
         >
-          Remove
+          Delete
         </div>
       </div>
     </popper-content>

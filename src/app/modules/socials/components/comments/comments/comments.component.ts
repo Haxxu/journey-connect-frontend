@@ -11,7 +11,7 @@ import { socket_constants } from '@/config/socket_constant';
 import {
   addCommentByContextId,
   addReplyComment,
-  updateCommentByContextId,
+  updateComment,
 } from '@/core/store/comments/comments.actions';
 
 @Component({
@@ -49,9 +49,7 @@ export class CommentsComponent implements OnInit, OnDestroy {
       .listen(socket_constants.UPDATE_COMMENT)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((comment: any) => {
-        this.store.dispatch(
-          updateCommentByContextId({ contextId: this.contextId, comment })
-        );
+        this.store.dispatch(updateComment({ comment }));
       });
 
     this.socketService

@@ -10,9 +10,9 @@ export const addCommentByContextId = createAction(
   props<{ contextId: string; comment: any }>()
 );
 
-export const updateCommentByContextId = createAction(
+export const updateComment = createAction(
   '[COMMENTS] Update comment by context id',
-  props<{ contextId: string; comment: any }>()
+  props<{ comment: any }>()
 );
 
 export const addReplyComment = createAction(
@@ -23,5 +23,5 @@ export const addReplyComment = createAction(
 export const CommentsAction = {
   addContextComments,
   addCommentByContextId,
-  updateCommentByContextId,
+  updateComment,
 };

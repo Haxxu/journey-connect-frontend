@@ -53,10 +53,22 @@ export class CommentService {
       .pipe(
         tap((res: any) => {
           if (res.success) {
+            res.data.comments;
             this.store.dispatch(
               CommentsAction.addContextComments({
                 contextId,
-                comments: res.data.comments,
+                comments: res.data.comments.map((cms: any) => {
+                  return {
+                    ...cms,
+                    reply_comments: cms.reply_comments.sort(
+                      (a: any, b: any) => {
+                        const dateA = new Date(a.createdAt);
+                        const dateB = new Date(b.createdAt);
+                        return dateB.getTime() - dateA.getTime();
+                      }
+                    ),
+                  };
+                }),
                 totalComments: res.data.totalComments,
               })
             );

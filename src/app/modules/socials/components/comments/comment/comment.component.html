@@ -17,7 +17,7 @@
     <ng-template #moreComments>
       <div>
         <div
-          *ngFor="let reply_cm of comment.reply_comments.slice(0, 3)"
+          *ngFor="let reply_cm of comment.reply_comments.slice(0, 10)"
           [style]="{
           opacity: reply_cm._id ? 1 : 0.5,
           pointerEvents: reply_cm._id ? 'initial' : 'none',

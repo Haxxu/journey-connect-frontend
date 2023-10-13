@@ -3,7 +3,7 @@ import {
   addCommentByContextId,
   addContextComments,
   addReplyComment,
-  updateCommentByContextId,
+  updateComment,
 } from './comments.actions';
 
 export interface CommentsState {
@@ -70,21 +70,48 @@ export const commentReducer = createReducer(
     return state;
   }),
 
-  on(updateCommentByContextId, (state, { contextId, comment }) => {
+  on(updateComment, (state, { comment }) => {
+    let contextId = comment?.context_id;
     if (state.comments[contextId]) {
-      return {
-        ...state,
-        comments: {
-          ...state.comments,
-          [contextId]: {
-            comments: state.comments[contextId].comments.map((cm) => {
-              if (cm._id !== comment._id) return cm;
-              else return comment;
-            }),
-            totalComments: state.comments[contextId].totalComments,
+      if (!comment.root_comment) {
+        return {
+          ...state,
+          comments: {
+            ...state.comments,
+            [contextId]: {
+              comments: state.comments[contextId].comments.map((cm) => {
+                if (cm._id !== comment._id) return cm;
+                else return comment;
+              }),
+              totalComments: state.comments[contextId].totalComments,
+            },
           },
-        },
-      };
+        };
+      } else {
+        return {
+          ...state,
+          comments: {
+            ...state.comments,
+            [contextId]: {
+              comments: state.comments[contextId].comments.map((cm) => {
+                if (cm._id !== comment.root_comment) return cm;
+                else {
+                  return {
+                    ...cm,
+                    reply_comments: cm.reply_comments.map((reply_cm: any) => {
+                      if (reply_cm._id === comment._id) {
+                        return comment;
+                      }
+                      return reply_cm;
+                    }),
+                  };
+                }
+              }),
+              totalComments: state.comments[contextId].totalComments,
+            },
+          },
+        };
+      }
     }
     return state;
   })
