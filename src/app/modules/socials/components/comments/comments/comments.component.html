@@ -2,6 +2,7 @@
   <app-comment-input
     [contextId]="contextId"
     [contextType]="'post'"
+    [showAvatar]="true"
   ></app-comment-input>
   <p-progressSpinner
     *ngIf="loading"
@@ -10,7 +11,7 @@
     fill="var(--surface-ground)"
     animationDuration=".5s"
   ></p-progressSpinner>
-  <div *ngIf="!loading">
+  <div *ngIf="!loading" class="mt-4 flex flex-col gap-2">
     <div *ngFor="let comment of comments[contextId]?.comments || []">
       <app-comment [comment]="comment"></app-comment>
     </div>

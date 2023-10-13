@@ -3,14 +3,43 @@
     opacity: comment?._id ? 1 : 0.5, 
     pointerEvents: comment._id ? 'initial' : 'none', 
   }"
-  class="flex"
+  class="flex gap-2"
 >
-  <div>
+  <div class="">
     <p-avatar
       shape="circle"
       [image]="getMediaUrlById(comment.owner.avatar, comment.owner.medias)"
+      styleClass="shadow-md"
     >
     </p-avatar>
   </div>
-  <app-comment-list [comment]="comment"></app-comment-list>
+  <app-comment-list [comment]="comment" class="min-w-[250px] w-full">
+    <ng-template #moreComments>
+      <div>
+        <div
+          *ngFor="let reply_cm of comment.reply_comments.slice(0, 3)"
+          [style]="{
+          opacity: reply_cm._id ? 1 : 0.5,
+          pointerEvents: reply_cm._id ? 'initial' : 'none',
+      }"
+          class="flex gap-2"
+        >
+          <div class="">
+            <p-avatar
+              shape="circle"
+              [image]="
+                getMediaUrlById(reply_cm.owner.avatar, reply_cm.owner.medias)
+              "
+              styleClass="shadow-md"
+            >
+            </p-avatar>
+          </div>
+          <app-comment-list
+            [comment]="reply_cm"
+            class="min-w-[250px] w-full"
+          ></app-comment-list>
+        </div>
+      </div>
+    </ng-template>
+  </app-comment-list>
 </div>

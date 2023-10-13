@@ -54,24 +54,24 @@ export function timeAgo(date: any) {
   const secondsAgo = Math.floor((currentTimestamp - timestamp) / 1000);
 
   if (secondsAgo < 60) {
-    return secondsAgo + 's ago';
+    return secondsAgo + ` second${secondsAgo > 1 ? 's' : ''} ago`;
   } else if (secondsAgo < 3600) {
     const minutesAgo = Math.floor(secondsAgo / 60);
-    return minutesAgo + 'm ago';
+    return minutesAgo + ` min${minutesAgo > 1 ? 's' : ''} ago`;
   } else if (secondsAgo < 86400) {
     const hoursAgo = Math.floor(secondsAgo / 3600);
-    return hoursAgo + 'h ago';
+    return hoursAgo + ` hour${hoursAgo > 1 ? 's' : ''} ago`;
   } else if (secondsAgo < 604800) {
     const daysAgo = Math.floor(secondsAgo / 86400);
-    return daysAgo + 'd ago';
+    return daysAgo + ` day${daysAgo > 1 ? 's' : ''} ago`;
   } else if (secondsAgo < 2419200) {
     const weeksAgo = Math.floor(secondsAgo / 604800);
-    return weeksAgo + 'w ago';
+    return weeksAgo + ` week${weeksAgo > 1 ? 's' : ''} ago`;
   } else if (secondsAgo < 29030400) {
     const monthsAgo = Math.floor(secondsAgo / 2419200);
-    return monthsAgo + 'mo ago';
+    return monthsAgo + `month${monthsAgo > 1 ? 's' : ''} ago`;
   } else {
     const yearsAgo = Math.floor(secondsAgo / 29030400);
-    return yearsAgo + 'y ago';
+    return yearsAgo + ` year${yearsAgo > 1 ? 's' : ''} ago`;
   }
 }

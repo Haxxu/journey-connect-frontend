@@ -1,4 +1,10 @@
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AvatarModule } from 'primeng/avatar';
 import { getMediaUrlById } from '@/utils/media';
@@ -63,6 +69,7 @@ import { CommentService } from '@/services/comment.service';
   ],
   templateUrl: './post-card.component.html',
   styleUrls: ['./post-card.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PostCardComponent implements OnInit {
   @Input() post: any;
@@ -168,6 +175,7 @@ export class PostCardComponent implements OnInit {
         this.showEmotions = this.convertObjectToArray(
           this.getTop3Emotions(res.data.count)
         );
+        this.cdr.detectChanges();
       });
   }
 
@@ -194,11 +202,13 @@ export class PostCardComponent implements OnInit {
       (item) => item.value === this.post?.visibility
     ).label;
     this.mode = 'edit';
+    this.cdr.detectChanges();
   }
 
   closeEditMode() {
     this.mode = 'view';
     this.calculateGridDimensions('postMedias');
+    this.cdr.detectChanges();
   }
 
   handleEmojiClick(event: any) {
@@ -245,10 +255,11 @@ export class PostCardComponent implements OnInit {
       this.rowRange = [1, 3];
       this.columnRange = [1, 4];
     }
+    this.cdr.detectChanges();
   }
 
   handleEditPost() {
-    console.log(this.editPostForm);
+    // console.log(this.editPostForm);
     if (this.editPostForm.valid) {
       this.submitting = true;
       this.postService
@@ -273,6 +284,7 @@ export class PostCardComponent implements OnInit {
             }
 
             this.submitting = false;
+            this.cdr.detectChanges();
           },
           error: (error) => {
             this.messageService.add({
@@ -281,8 +293,10 @@ export class PostCardComponent implements OnInit {
               detail: error.error.message,
             });
             this.submitting = false;
+            this.cdr.detectChanges();
           },
         });
+      this.cdr.detectChanges();
     }
   }
 
@@ -290,9 +304,11 @@ export class PostCardComponent implements OnInit {
     this.editPostForm.get('visibility')?.setValue(option.value);
     this.visibility = option.label;
     visibilityOp.hide();
+    this.cdr.detectChanges();
   }
 
   toggleComments() {
     this.showComments = !this.showComments;
+    this.cdr.detectChanges();
   }
 }

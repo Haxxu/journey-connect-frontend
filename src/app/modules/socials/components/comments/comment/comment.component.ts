@@ -1,5 +1,5 @@
 import { getMediaUrlById } from '@/utils/media';
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AvatarModule } from 'primeng/avatar';
 import { CommentListComponent } from '../comment-list/comment-list.component';
@@ -10,6 +10,7 @@ import { CommentListComponent } from '../comment-list/comment-list.component';
   imports: [CommonModule, AvatarModule, CommentListComponent],
   templateUrl: './comment.component.html',
   styleUrls: ['./comment.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CommentComponent {
   @Input() comment: any;

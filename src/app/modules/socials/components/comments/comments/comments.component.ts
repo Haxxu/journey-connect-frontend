@@ -8,7 +8,11 @@ import { Observable, Subject, takeUntil } from 'rxjs';
 import { CommentInputComponent } from '../comment-input/comment-input.component';
 import { SocketService } from '@/services/socket.service';
 import { socket_constants } from '@/config/socket_constant';
-import { addCommentByContextId } from '@/core/store/comments/comments.actions';
+import {
+  addCommentByContextId,
+  addReplyComment,
+  updateCommentByContextId,
+} from '@/core/store/comments/comments.actions';
 
 @Component({
   selector: 'app-comments',
@@ -39,6 +43,22 @@ export class CommentsComponent implements OnInit, OnDestroy {
         this.store.dispatch(
           addCommentByContextId({ contextId: this.contextId, comment })
         );
+      });
+
+    this.socketService
+      .listen(socket_constants.UPDATE_COMMENT)
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((comment: any) => {
+        this.store.dispatch(
+          updateCommentByContextId({ contextId: this.contextId, comment })
+        );
+      });
+
+    this.socketService
+      .listen(socket_constants.REPLY_COMMENT)
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((comment: any) => {
+        this.store.dispatch(addReplyComment({ comment }));
       });
   }
 

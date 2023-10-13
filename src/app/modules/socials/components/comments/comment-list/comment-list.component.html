@@ -1,3 +1,100 @@
-<div>
-  <p>{{ comment.content }}</p>
+<div *ngIf="meInfo$ | async as meInfo">
+  <div class="" *ngIf="editCommentMode">
+    <app-comment-input
+      type="edit"
+      [contextId]="comment.context_id"
+      [content]="comment.content"
+      [commentId]="comment._id"
+      contextType="post"
+      (onCancel)="editCommentMode = false"
+    ></app-comment-input>
+  </div>
+  <div *ngIf="!editCommentMode" class="min-w-[250px]">
+    <div
+      class="bg-gray-100 border border-gray-200 shadow-sm rounded-lg px-3 py-2"
+    >
+      <div class="max-w-full whitespace-nowrap">
+        <div>
+          <a
+            [routerLink]="'/users/' + comment.owner._id"
+            class="text-gray-600 text-md font-medium"
+          >
+            {{ comment.owner.first_name }} {{ comment.owner.last_name }}
+          </a>
+          &bull;
+          <span class="text-md text-gray-500">
+            {{ timeAgo(comment.createdAt) }}
+          </span>
+        </div>
+      </div>
+      <div class="block">
+        <a
+          *ngIf="comment.reply_user"
+          [routerLink]="'/users/' + comment.reply_user?._id"
+          class="text-md font-medium text-blue-400 mr-2"
+        >
+          {{ comment.reply_user.first_name }}
+          {{ comment.reply_user.last_name }}
+        </a>
+        <span class="text-md text-gray-800">
+          {{ comment.content }}
+        </span>
+      </div>
+    </div>
+  </div>
+  <div class="flex items-center">
+    <app-emotions
+      [contextType]="'post'"
+      [contextId]="comment._id"
+    ></app-emotions>
+    <span class="mx-2"> &bull; </span>
+    <span
+      class="text-md font-medium text-gray-600 cursor-pointer hover:underline"
+      (click)="toggleReply()"
+    >
+      {{ replyMode ? "Cancel" : "Reply" }}
+    </span>
+    <span class="mx-2"> &bull; </span>
+    <span
+      class="flex items-center cursor-pointer"
+      [popper]="commentOptions"
+      [popperPlacement]="NgxPopperjsPlacements.RIGHTSTART"
+      [popperApplyClass]="'p-0'"
+    >
+      <ng-icon name="matMoreHorizRound" class="text-lg text-gray-500"></ng-icon>
+    </span>
+    <popper-content #commentOptions class="shadow-sm rounded-xl">
+      <div class="w-16">
+        <div
+          *ngIf="meInfo._id === comment?.owner?._id"
+          class="px-2 py-1.5 hover:bg-gray-200 text-md rounded-md text-gray-700 cursor-pointer"
+          (click)="editCommentMode = true"
+        >
+          Edit
+        </div>
+
+        <div
+          *ngIf="meInfo._id === comment?.owner?._id"
+          class="px-2 py-1.5 hover:bg-gray-200 text-md rounded-md text-gray-700 cursor-pointer"
+        >
+          Remove
+        </div>
+      </div>
+    </popper-content>
+  </div>
+  <div *ngIf="replyMode" class="mb-2">
+    <app-comment-input
+      [contextId]="comment.context_id"
+      contextType="post"
+      type="reply"
+      [rootComment]="comment?.root_comment || comment._id"
+      [replyUser]="comment.owner._id"
+      (onSuccess)="replyMode = false"
+      [showAvatar]="true"
+    ></app-comment-input>
+  </div>
+  <ng-container
+    *ngIf="moreComments"
+    [ngTemplateOutlet]="moreComments"
+  ></ng-container>
 </div>

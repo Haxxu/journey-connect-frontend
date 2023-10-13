@@ -1,4 +1,9 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormBuilder,
@@ -46,6 +51,7 @@ import { RouterModule } from '@angular/router';
   ],
   templateUrl: './create-post.component.html',
   styleUrls: ['./create-post.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreatePostComponent implements OnInit {
   getMediaUrlById = getMediaUrlById;

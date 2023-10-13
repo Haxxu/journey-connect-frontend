@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
 import {
@@ -22,6 +27,7 @@ import { SkeletonModule } from 'primeng/skeleton';
   ],
   templateUrl: './profile-body.component.html',
   styleUrls: ['./profile-body.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProfileBodyComponent implements OnInit {
   posts$ = this.store.select(selectPosts);
@@ -30,15 +36,21 @@ export class ProfileBodyComponent implements OnInit {
   userId: string = '';
   loadingPosts: boolean = false;
 
-  constructor(private store: Store, private route: ActivatedRoute) {}
+  constructor(
+    private store: Store,
+    private route: ActivatedRoute,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       this.userId = params['id'];
+      this.cdr.detectChanges();
     });
 
     this.loadingPosts$.subscribe((val) => {
       this.loadingPosts = val;
+      this.cdr.detectChanges();
     });
   }
 }

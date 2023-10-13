@@ -23,6 +23,28 @@ export class CommentService {
     });
   }
 
+  replyComment(
+    content: string,
+    contextId: string,
+    contextType: string = 'post',
+    rootComment: string,
+    replyUser: string
+  ): Observable<any> {
+    return this.http.post(`${environment.apiURL}/comments/reply`, {
+      content,
+      context_id: contextId,
+      context_type: contextType,
+      root_comment: rootComment,
+      reply_user: replyUser,
+    });
+  }
+
+  updateCommentById(id: string, content: string): Observable<any> {
+    return this.http.patch(`${environment.apiURL}/comments/${id}`, {
+      content,
+    });
+  }
+
   getCommentsByContextId(contextId: string): Observable<any> {
     return this.http
       .get(`${environment.apiURL}/comments`, {

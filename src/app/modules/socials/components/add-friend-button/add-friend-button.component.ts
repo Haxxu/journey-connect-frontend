@@ -1,4 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { NgIconComponent } from '@ng-icons/core';
@@ -16,6 +22,7 @@ import { NgxPopperjsModule, NgxPopperjsPlacements } from 'ngx-popperjs';
   imports: [CommonModule, ButtonModule, NgIconComponent, NgxPopperjsModule],
   templateUrl: './add-friend-button.component.html',
   styleUrls: ['./add-friend-button.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddFriendButtonComponent implements OnInit {
   @Input() userId: string = '';
@@ -30,7 +37,11 @@ export class AddFriendButtonComponent implements OnInit {
     | 'pendingRequest'
     | 'cancelFriendRequest' = 'addFriend';
 
-  constructor(private store: Store, private friendService: FriendService) {}
+  constructor(
+    private store: Store,
+    private friendService: FriendService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     this.updateType();
@@ -44,11 +55,14 @@ export class AddFriendButtonComponent implements OnInit {
           this.updateType();
         }
         this.loading = false;
+        this.cdr.detectChanges();
       },
       error: (err: any) => {
         this.loading = false;
+        this.cdr.detectChanges();
       },
     });
+    this.cdr.detectChanges();
   }
 
   handlePendingRequest(type: 'accept' | 'decline' = 'accept'): void {
@@ -59,11 +73,14 @@ export class AddFriendButtonComponent implements OnInit {
           this.updateType();
         }
         this.loading = false;
+        this.cdr.detectChanges();
       },
       error: (err: any) => {
         this.loading = false;
+        this.cdr.detectChanges();
       },
     });
+    this.cdr.detectChanges();
   }
 
   handleUnfriend(): void {
@@ -74,11 +91,14 @@ export class AddFriendButtonComponent implements OnInit {
           this.updateType();
         }
         this.loading = false;
+        this.cdr.detectChanges();
       },
       error: (err: any) => {
         this.loading = false;
+        this.cdr.detectChanges();
       },
     });
+    this.cdr.detectChanges();
   }
 
   handleCancelFriendRequest(): void {
@@ -89,11 +109,14 @@ export class AddFriendButtonComponent implements OnInit {
           this.updateType();
         }
         this.loading = false;
+        this.cdr.detectChanges();
       },
       error: (err: any) => {
         this.loading = false;
+        this.cdr.detectChanges();
       },
     });
+    this.cdr.detectChanges();
   }
 
   updateType(): void {
@@ -110,6 +133,7 @@ export class AddFriendButtonComponent implements OnInit {
           } else if (res.data === 'receivedFriend') {
             this.type = 'pendingRequest';
           }
+          this.cdr.detectChanges();
         }
       },
       error: (err: any) => {},

@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AvatarModule } from 'primeng/avatar';
 import { UserService } from '@/services/user.service';
@@ -34,6 +39,7 @@ import { AddFriendButtonComponent } from '@/modules/socials/components/add-frien
   ],
   templateUrl: './profile-header.component.html',
   styleUrls: ['./profile-header.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProfileHeaderComponent implements OnInit {
   getMediaUrlById = getMediaUrlById;
@@ -49,7 +55,8 @@ export class ProfileHeaderComponent implements OnInit {
     private messageService: MessageService,
     private route: ActivatedRoute,
     private router: Router,
-    private store: Store
+    private store: Store,
+    private cdr: ChangeDetectorRef
   ) {
     // this.meInfo$ = this.userService.getUserInfo();
   }
@@ -64,6 +71,7 @@ export class ProfileHeaderComponent implements OnInit {
       .subscribe((isMyself) => {
         this.isMyself = isMyself;
         this.isLoading = false;
+        this.cdr.detectChanges();
       });
   }
 

@@ -1,29 +1,39 @@
 <div class="flex gap-2" *ngIf="meInfo$ | async as meInfo">
-  <div class="">
+  <div *ngIf="showAvatar" class="">
     <p-avatar
       shape="circle"
       [image]="getMediaUrlById(meInfo.avatar, meInfo.medias)"
       styleClass="shadow-lg"
     ></p-avatar>
   </div>
-  <div class="border rounded-md border-primary-300 flex-1">
+  <div class="border rounded-md border-primary-300 shadow-sm flex-1">
     <textarea
       pInputTextarea
       placeholder=""
-      [formControl]="content"
+      [formControl]="contentForm"
       class="w-full text-md j-inputtext-custom no-border-focus"
       rows="1"
     ></textarea>
     <div class="flex justify-between">
-      <button
-        type="button"
-        class="w-10 h-full text-center text-gray-500 hover:scale-110"
-        (click)="op.toggle($event)"
-        pTooltip="Emoji"
-        tooltipStyleClass="text-md"
-      >
-        😀
-      </button>
+      <div>
+        <button
+          type="button"
+          class="w-10 h-full text-center text-gray-500 hover:scale-110"
+          (click)="op.toggle($event)"
+          pTooltip="Emoji"
+          tooltipStyleClass="text-md"
+        >
+          😀
+        </button>
+        <button
+          *ngIf="type === 'edit'"
+          type="button"
+          class="w-10 h-full text-center text-md text-gray-500 hover:text-gray-600"
+          (click)="onCancel.emit()"
+        >
+          Cancel
+        </button>
+      </div>
       <button class="px-2" type="button" (click)="handleSubmit()">
         <ng-icon
           name="matSendRound"
