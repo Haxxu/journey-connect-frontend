@@ -8,11 +8,7 @@ import { Observable, Subject, takeUntil } from 'rxjs';
 import { CommentInputComponent } from '../comment-input/comment-input.component';
 import { SocketService } from '@/services/socket.service';
 import { socket_constants } from '@/config/socket_constant';
-import {
-  addCommentByContextId,
-  addReplyComment,
-  updateComment,
-} from '@/core/store/comments/comments.actions';
+import { CommentsAction } from '@/core/store/comments/comments.actions';
 
 @Component({
   selector: 'app-comments',
@@ -41,7 +37,10 @@ export class CommentsComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((comment: any) => {
         this.store.dispatch(
-          addCommentByContextId({ contextId: this.contextId, comment })
+          CommentsAction.addCommentByContextId({
+            contextId: this.contextId,
+            comment,
+          })
         );
       });
 
@@ -49,14 +48,21 @@ export class CommentsComponent implements OnInit, OnDestroy {
       .listen(socket_constants.UPDATE_COMMENT)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((comment: any) => {
-        this.store.dispatch(updateComment({ comment }));
+        this.store.dispatch(CommentsAction.updateComment({ comment }));
       });
 
     this.socketService
       .listen(socket_constants.REPLY_COMMENT)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((comment: any) => {
-        this.store.dispatch(addReplyComment({ comment }));
+        this.store.dispatch(CommentsAction.addReplyComment({ comment }));
+      });
+
+    this.socketService
+      .listen(socket_constants.DELETE_COMMENT)
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((comment: any) => {
+        this.store.dispatch(CommentsAction.deleteComment({ comment }));
       });
   }
 

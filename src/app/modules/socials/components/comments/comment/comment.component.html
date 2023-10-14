@@ -17,7 +17,7 @@
     <ng-template #moreComments>
       <div>
         <div
-          *ngFor="let reply_cm of comment.reply_comments.slice(0, 10)"
+          *ngFor="let reply_cm of comment.reply_comments.slice(0, next)"
           [style]="{
           opacity: reply_cm._id ? 1 : 0.5,
           pointerEvents: reply_cm._id ? 'initial' : 'none',
@@ -38,6 +38,24 @@
             [comment]="reply_cm"
             class="min-w-[250px] w-full"
           ></app-comment-list>
+        </div>
+        <div class="cursor-pointer">
+          <small
+            *ngIf="comment.reply_comments.length - next > 0; else hideComment"
+            class="font-bold text-red-400 text-md"
+            (click)="handleSeeMoreComments()"
+          >
+            See more...
+          </small>
+          <ng-template #hideComment>
+            <small
+              *ngIf="comment.reply_comments.length > 2"
+              class="font-bold text-blue-300 text-md"
+              (click)="resetReplyComments()"
+            >
+              Hide...
+            </small>
+          </ng-template>
         </div>
       </div>
     </ng-template>

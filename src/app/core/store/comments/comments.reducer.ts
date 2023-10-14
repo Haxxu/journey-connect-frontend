@@ -3,6 +3,7 @@ import {
   addCommentByContextId,
   addContextComments,
   addReplyComment,
+  deleteComment,
   updateComment,
 } from './comments.actions';
 
@@ -80,8 +81,11 @@ export const commentReducer = createReducer(
             ...state.comments,
             [contextId]: {
               comments: state.comments[contextId].comments.map((cm) => {
-                if (cm._id !== comment._id) return cm;
-                else return comment;
+                if (cm._id !== comment._id) {
+                  return cm;
+                } else {
+                  return { ...cm, content: comment.content };
+                }
               }),
               totalComments: state.comments[contextId].totalComments,
             },
@@ -112,6 +116,48 @@ export const commentReducer = createReducer(
           },
         };
       }
+    }
+    return state;
+  }),
+
+  on(deleteComment, (state, { comment }) => {
+    let contextId = comment?.context_id;
+    console.log(comment);
+
+    if (state.comments[contextId]) {
+      if (!comment.root_comment) {
+        return {
+          ...state,
+          comments: {
+            ...state.comments,
+            [contextId]: {
+              comments: state.comments[contextId].comments.filter(
+                (cm) => cm._id !== comment._id
+              ),
+              totalComments: state.comments[contextId].totalComments - 1,
+            },
+          },
+        };
+      }
+      return {
+        ...state,
+        comments: {
+          ...state.comments,
+          [contextId]: {
+            comments: state.comments[contextId].comments.map((cm) =>
+              cm._id !== comment.root_comment
+                ? cm
+                : {
+                    ...cm,
+                    reply_comments: cm.reply_comments.filter(
+                      (rp_cm: any) => rp_cm._id !== comment._id
+                    ),
+                  }
+            ),
+            totalComments: state.comments[contextId].totalComments - 1,
+          },
+        },
+      };
     }
     return state;
   })

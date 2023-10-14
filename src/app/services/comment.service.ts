@@ -45,6 +45,10 @@ export class CommentService {
     });
   }
 
+  deleteCommentById(id: string): Observable<any> {
+    return this.http.delete(`${environment.apiURL}/comments/${id}`);
+  }
+
   getCommentsByContextId(contextId: string): Observable<any> {
     return this.http
       .get(`${environment.apiURL}/comments`, {

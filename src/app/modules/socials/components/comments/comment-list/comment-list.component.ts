@@ -16,6 +16,7 @@ import { CommentInputComponent } from '../comment-input/comment-input.component'
 import { NgxPopperjsModule, NgxPopperjsPlacements } from 'ngx-popperjs';
 import { Store } from '@ngrx/store';
 import { selectMeInfo } from '@/core/store/me/me.selectors';
+import { CommentService } from '@/services/comment.service';
 
 @Component({
   selector: 'app-comment-list',
@@ -44,9 +45,13 @@ export class CommentListComponent {
 
   @ContentChild('moreComments') moreComments: TemplateRef<{}> | undefined;
 
-  constructor(private store: Store) {}
+  constructor(private store: Store, private commentService: CommentService) {}
 
   toggleReply() {
     this.replyMode = !this.replyMode;
+  }
+
+  handleDeleteComment(commentId: string) {
+    this.commentService.deleteCommentById(commentId).subscribe();
   }
 }

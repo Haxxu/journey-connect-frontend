@@ -20,8 +20,15 @@ export const addReplyComment = createAction(
   props<{ comment: any }>()
 );
 
+export const deleteComment = createAction(
+  '[COMMENTS] Delete comment',
+  props<{ comment: any }>()
+);
+
 export const CommentsAction = {
   addContextComments,
   addCommentByContextId,
   updateComment,
+  addReplyComment,
+  deleteComment,
 };
