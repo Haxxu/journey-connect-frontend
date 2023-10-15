@@ -11,9 +11,24 @@
     fill="var(--surface-ground)"
     animationDuration=".5s"
   ></p-progressSpinner>
-  <div *ngIf="!loading" class="mt-4 flex flex-col gap-2">
-    <div *ngFor="let comment of comments[contextId]?.comments || []">
+  <div *ngIf="!loading" class="flex flex-col gap-2 mt-4">
+    <div
+      *ngFor="let comment of comments[contextId]?.comments.slice(0, next) || []"
+    >
       <app-comment [comment]="comment"></app-comment>
+    </div>
+    <div
+      class="flex items-center justify-center mt-4 mb-2"
+      *ngIf="next < comments[contextId]?.comments.length"
+    >
+      <p-button
+        styleClass="bg-blue-500 text-white j-button-custom w-full flex justify-center"
+        (onClick)="handleMoreComments()"
+        type="submit"
+        class="w-full"
+      >
+        Load More Comments
+      </p-button>
     </div>
   </div>
 </div>

@@ -54,6 +54,9 @@ export function timeAgo(date: any) {
   const secondsAgo = Math.floor((currentTimestamp - timestamp) / 1000);
 
   if (secondsAgo < 60) {
+    if (secondsAgo === 0) {
+      return ` now`;
+    }
     return secondsAgo + ` second${secondsAgo > 1 ? 's' : ''} ago`;
   } else if (secondsAgo < 3600) {
     const minutesAgo = Math.floor(secondsAgo / 60);

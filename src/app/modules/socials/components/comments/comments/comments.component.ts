@@ -1,4 +1,10 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { CommentComponent } from '@/modules/socials/components/comments/comment/comment.component';
@@ -9,6 +15,7 @@ import { CommentInputComponent } from '../comment-input/comment-input.component'
 import { SocketService } from '@/services/socket.service';
 import { socket_constants } from '@/config/socket_constant';
 import { CommentsAction } from '@/core/store/comments/comments.actions';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-comments',
@@ -18,9 +25,11 @@ import { CommentsAction } from '@/core/store/comments/comments.actions';
     ProgressSpinnerModule,
     CommentComponent,
     CommentInputComponent,
+    ButtonModule,
   ],
   templateUrl: './comments.component.html',
   styleUrls: ['./comments.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CommentsComponent implements OnInit, OnDestroy {
   constructor(private store: Store, private socketService: SocketService) {}
@@ -28,6 +37,7 @@ export class CommentsComponent implements OnInit, OnDestroy {
   @Input() contextId: string = '';
   comments$ = this.store.select(CommentsSelector.selectComments);
   unsubscribe$: Subject<void> = new Subject();
+  next: number = 5;
 
   ngOnInit(): void {
     this.socketService.joinRoom(this.contextId);
@@ -70,5 +80,9 @@ export class CommentsComponent implements OnInit, OnDestroy {
     this.socketService.outRoom(this.contextId);
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
+  }
+
+  handleMoreComments() {
+    this.next = this.next + 5;
   }
 }

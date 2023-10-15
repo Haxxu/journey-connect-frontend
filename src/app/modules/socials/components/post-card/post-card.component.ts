@@ -102,7 +102,7 @@ export class PostCardComponent implements OnInit {
   galleryItems: GalleryItem[] = [];
   emotionData: any;
   showEmotions: any[] = [];
-  showComments: boolean = true;
+  showComments: boolean = false;
 
   constructor(
     private store: Store,
