@@ -122,8 +122,6 @@ export const commentReducer = createReducer(
 
   on(deleteComment, (state, { comment }) => {
     let contextId = comment?.context_id;
-    console.log(comment);
-
     if (state.comments[contextId]) {
       if (!comment.root_comment) {
         return {

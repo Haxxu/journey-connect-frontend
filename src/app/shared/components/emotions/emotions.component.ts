@@ -1,4 +1,12 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EmotionService } from '@/services/emotion.service';
 
@@ -8,6 +16,7 @@ import { EmotionService } from '@/services/emotion.service';
   imports: [CommonModule],
   templateUrl: './emotions.component.html',
   styleUrls: ['./emotions.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EmotionsComponent implements OnInit {
   @Input() contextType = 'post';
@@ -15,7 +24,10 @@ export class EmotionsComponent implements OnInit {
   @Output() updateEmotion = new EventEmitter<any>();
   currentEmotion: any;
 
-  constructor(private emotionService: EmotionService) {}
+  constructor(
+    private emotionService: EmotionService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     this.getMyEmotion();
@@ -27,6 +39,7 @@ export class EmotionsComponent implements OnInit {
       .subscribe((res) => {
         if (res.success) {
           this.currentEmotion = res.data.emotion;
+          this.cdr.detectChanges();
         }
       });
   }
@@ -38,6 +51,7 @@ export class EmotionsComponent implements OnInit {
         if (res.success) {
           this.currentEmotion = res.data.emotion;
           this.updateEmotion.emit();
+          this.cdr.detectChanges();
         }
       });
   }
@@ -111,6 +125,7 @@ export class EmotionsComponent implements OnInit {
           if (res.success) {
             this.currentEmotion = null;
             this.updateEmotion.emit();
+            this.cdr.detectChanges();
           }
         });
     } else {

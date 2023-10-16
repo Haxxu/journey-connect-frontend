@@ -1,6 +1,6 @@
 <form
   *ngIf="meInfo$ | async as meInfo"
-  class="bg-white rounded-lg shadow-sm border border-gray-200 min-h-[20px] pt-3 pb-2"
+  class="bg-white rounded-lg shadow-sm border border-gray-200 min-h-[20px] pt-3 pb-0"
   [ngClass]="{
     'border-blue-200 shadow-lg border-2': mode === 'edit'
   }"
@@ -206,41 +206,48 @@
     </div>
   </div>
 
-  <div class="px-4 mt-4">
-    <div class="flex justify-between pb-4 text-md">
-      <div class="flex items-center">
-        <div class="flex">
-          <ng-container *ngFor="let showEmotion of showEmotions">
-            <div class="w-6 h-6" *ngIf="showEmotion.value > 0">
-              <img
-                [src]="'/assets/emotions/' + showEmotion.src + '.emotion.svg'"
-                class="w-6 h-6"
-              />
-            </div>
-          </ng-container>
+  <ng-container *ngIf="comments$ | async as comments">
+    <div class="px-4 mt-4">
+      <div class="flex justify-between pb-4 text-md">
+        <div class="flex items-center">
+          <div class="flex">
+            <ng-container *ngFor="let showEmotion of showEmotions">
+              <div class="w-6 h-6" *ngIf="showEmotion.value > 0">
+                <img
+                  [src]="'/assets/emotions/' + showEmotion.src + '.emotion.svg'"
+                  class="w-6 h-6"
+                />
+              </div>
+            </ng-container>
+          </div>
+          <span>{{ emotionData?.count?.all }}</span>
         </div>
-        <span>{{ emotionData?.count?.all }}</span>
-      </div>
-      <div class="flex gap-3">
-        <div>10 comments</div>
-        <div>2 shares</div>
+        <div class="flex gap-3">
+          <div *ngIf="comments[post?._id]?.totalComments">
+            {{ comments[post?._id]?.totalComments }} comments
+          </div>
+          <div>2 shares</div>
+        </div>
       </div>
     </div>
-  </div>
-  <hr />
-  <div class="flex items-center justify-around text-base mx-4 py-2">
-    <div class="action-item">
-      <app-emotions
-        [contextType]="'post'"
-        [contextId]="post._id"
-        (updateEmotion)="getEmotions()"
-      ></app-emotions>
-    </div>
-    <div class="action-item" (click)="toggleComments()">Comments</div>
-    <div class="action-item">Share</div>
-  </div>
-  <div *ngIf="showComments">
     <hr />
-    <app-comments [contextId]="post._id"></app-comments>
-  </div>
+    <div class="flex items-center justify-around py-2 mx-2 text-base">
+      <div class="action-item">
+        <app-emotions
+          [contextType]="'post'"
+          [contextId]="post._id"
+          (updateEmotion)="getEmotions()"
+        ></app-emotions>
+      </div>
+      <div class="action-item" (click)="toggleComments()">Comments</div>
+      <div class="action-item">Share</div>
+    </div>
+    <div *ngIf="showComments">
+      <hr />
+      <app-comments
+        [contextId]="post._id"
+        [comments]="comments[post._id]?.comments"
+      ></app-comments>
+    </div>
+  </ng-container>
 </form>

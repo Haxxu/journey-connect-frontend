@@ -36,6 +36,7 @@ export class CommentsComponent implements OnInit, OnDestroy {
   loading: boolean = false;
   @Input() contextId: string = '';
   comments$ = this.store.select(CommentsSelector.selectComments);
+  @Input() comments: any[] = [];
   unsubscribe$: Subject<void> = new Subject();
   next: number = 5;
 

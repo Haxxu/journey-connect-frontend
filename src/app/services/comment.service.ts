@@ -73,7 +73,7 @@ export class CommentService {
                     ),
                   };
                 }),
-                totalComments: res.data.totalComments,
+                totalComments: res.data?.totalComments || 0,
               })
             );
           }

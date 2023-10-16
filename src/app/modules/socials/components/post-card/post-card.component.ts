@@ -42,6 +42,7 @@ import { timeAgo } from '@/utils/format';
 import { CommentsComponent } from '@/modules/socials/components/comments/comments/comments.component';
 import { SocketService } from '@/services/socket.service';
 import { CommentService } from '@/services/comment.service';
+import { selectComments } from '@/core/store/comments/comments.selector';
 
 @Component({
   selector: 'app-post-card',
@@ -103,6 +104,7 @@ export class PostCardComponent implements OnInit {
   emotionData: any;
   showEmotions: any[] = [];
   showComments: boolean = false;
+  comments$ = this.store.select(selectComments);
 
   constructor(
     private store: Store,
