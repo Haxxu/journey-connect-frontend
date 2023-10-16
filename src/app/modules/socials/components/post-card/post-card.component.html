@@ -207,8 +207,8 @@
   </div>
 
   <ng-container *ngIf="comments$ | async as comments">
-    <div class="px-4 mt-4">
-      <div class="flex justify-between pb-4 text-md">
+    <div class="p-4">
+      <div class="flex justify-between text-md">
         <div class="flex items-center">
           <div class="flex">
             <ng-container *ngFor="let showEmotion of showEmotions">
@@ -224,7 +224,8 @@
         </div>
         <div class="flex gap-3">
           <div *ngIf="comments[post?._id]?.totalComments">
-            {{ comments[post?._id]?.totalComments }} comments
+            {{ comments[post?._id]?.totalComments }}
+            {{ comments[post?._id].totalComments > 1 ? "comments" : "comment" }}
           </div>
           <div>2 shares</div>
         </div>
