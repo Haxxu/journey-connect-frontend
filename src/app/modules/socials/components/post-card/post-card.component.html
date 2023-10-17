@@ -303,7 +303,16 @@
         ></app-emotions>
       </div>
       <div class="action-item" (click)="toggleComments()">Comments</div>
-      <div class="action-item" (click)="toggleSharePost()">Share</div>
+      <div
+        class="action-item"
+        (click)="
+          openCreatePostModal(
+            post.post_type === 'share_post' ? post.inner_post : post
+          )
+        "
+      >
+        Share
+      </div>
     </div>
     <div *ngIf="showComments">
       <hr />
@@ -314,18 +323,3 @@
     </div>
   </ng-container>
 </form>
-
-<p-dialog
-  header="Share post"
-  [(visible)]="sharePostVisible"
-  [modal]="true"
-  [style]="{ width: '50vw' }"
-  [draggable]="false"
-  [resizable]="false"
->
-  <app-create-post
-    [sharePost]="true"
-    [innerPost]="post.post_type === 'share_post' ? post?.inner_post : post"
-    (onSuccess)="sharePostVisible = false"
-  ></app-create-post>
-</p-dialog>

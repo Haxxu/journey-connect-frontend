@@ -45,6 +45,7 @@ import { CommentService } from '@/services/comment.service';
 import { selectComments } from '@/core/store/comments/comments.selector';
 import { CreateSharePostComponent } from '../create-share-post/create-share-post.component';
 import { CreatePostComponent } from '../create-post/create-post.component';
+import { CreatePostModalService } from '@/modules/socials/services/create-post-modal.service';
 
 @Component({
   selector: 'app-post-card',
@@ -122,7 +123,8 @@ export class PostCardComponent implements OnInit {
     public gallery: Gallery,
     private emotionService: EmotionService,
     private socketService: SocketService,
-    private commentService: CommentService
+    private commentService: CommentService,
+    private createPostModalService: CreatePostModalService
   ) {
     this.editPostForm = this.formBuilder.group({
       title: ['', Validators.required],
@@ -174,6 +176,11 @@ export class PostCardComponent implements OnInit {
     this.getEmotions();
 
     this.commentService.getCommentsByContextId(this.post?._id).subscribe();
+  }
+
+  openCreatePostModal(sharePostData: any) {
+    this.createPostModalService.openModal(sharePostData);
+    this.cdr.markForCheck();
   }
 
   getTop3Emotions(count: { [key: string]: number }): {

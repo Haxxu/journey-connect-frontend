@@ -46,7 +46,6 @@
           formControlName="title"
           class="w-full border-none outline-none focus:border-none text-md j-inputtext-custom no-border-focus"
           rows="1"
-          [autoResize]="true"
         ></textarea>
       </div>
 
@@ -85,34 +84,34 @@
 
     <!-- INNER POST -->
     <div
-      *ngIf="innerPost && sharePost"
-      class="pt-2 pb-4 mx-4 mt-2 border rounded-lg bg-gray-50 boder-gray-200"
+      *ngIf="postType === 'share_post' && sharePost"
+      class="w-full pt-2 pb-4 mt-2 border rounded-lg bg-gray-50 boder-gray-200"
     >
       <div class="flex items-center justify-between px-4">
         <p-avatar
           shape="circle"
           [image]="
-            getMediaUrlById(innerPost.owner.avatar, innerPost.owner.medias)
+            getMediaUrlById(sharePost.owner.avatar, sharePost.owner.medias)
           "
           size="large"
         ></p-avatar>
         <div class="flex-1 ml-4">
           <div class="py-1 font-semibold text-md">
-            <a [routerLink]="'/' + AppRoutes.USERS + '/' + innerPost.owner._id">
-              {{ innerPost.owner.first_name }}
-              {{ innerPost.owner.last_name }}
+            <a [routerLink]="'/' + AppRoutes.USERS + '/' + sharePost.owner._id">
+              {{ sharePost.owner.first_name }}
+              {{ sharePost.owner.last_name }}
             </a>
           </div>
           <div class="text-sm text-gray-700">
-            {{ formatDate(innerPost.createdAt) }} &bull;
-            {{ timeAgo(innerPost.createdAt) }}
+            {{ formatDate(sharePost.createdAt) }} &bull;
+            {{ timeAgo(sharePost.createdAt) }}
           </div>
         </div>
       </div>
 
-      <div class="px-4 my-3 text-md" [innerHtml]="innerPost?.title"></div>
+      <div class="px-4 my-3 text-md" [innerHtml]="sharePost?.title"></div>
 
-      <!-- <div
+      <div
         class="w-full"
         NgxJustifiedGrid
         [gap]="gap"
@@ -125,18 +124,18 @@
         [autoResize]="true"
       >
         <div
-          *ngFor="let media of innerPost.medias; let i = index"
+          *ngFor="let media of sharePost.medias; let i = index"
           class="relative"
         >
           <img [src]="media.url" alt="" class="w-full h-full" />
         </div>
-      </div> -->
+      </div>
     </div>
 
     <div class="flex items-center justify-between px-4 py-2 mt-2 border-t">
       <div>
         <div
-          *ngIf="!sharePost || !innerPost"
+          *ngIf="!sharePost || postType !== 'share_post'"
           class="w-6 h-6 cursor-pointer"
           pTooltip="Photo"
           (click)="imageUploader.showDialog()"
@@ -152,7 +151,7 @@
         [disabled]="createPostForm.invalid"
         [loading]="submitting"
         (onClick)="handleCreatePost()"
-        label="Post"
+        [label]="postType === 'share_post' ? 'Share' : 'Post'"
       ></p-button>
     </div>
   </form>

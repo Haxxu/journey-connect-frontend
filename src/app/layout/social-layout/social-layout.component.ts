@@ -1,6 +1,8 @@
 import { AppRoutes } from '@/config/app_routes';
 import { selectMeInfo } from '@/core/store/me/me.selectors';
+import { CreatePostComponent } from '@/modules/socials/components/create-post/create-post.component';
 import { HeaderComponent } from '@/modules/socials/components/header/header.component';
+import { CreatePostModalService } from '@/modules/socials/services/create-post-modal.service';
 import { PostService } from '@/services/post.service';
 import { CommonModule } from '@angular/common';
 import {
@@ -12,13 +14,21 @@ import {
 import { Router, RouterModule } from '@angular/router';
 import { NgIconsModule } from '@ng-icons/core';
 import { Store } from '@ngrx/store';
+import { DialogModule } from 'primeng/dialog';
 
 @Component({
   standalone: true,
   selector: 'app-social-layout',
   templateUrl: './social-layout.component.html',
   styleUrls: ['./social-layout.component.scss'],
-  imports: [RouterModule, HeaderComponent, CommonModule, NgIconsModule],
+  imports: [
+    RouterModule,
+    HeaderComponent,
+    CommonModule,
+    NgIconsModule,
+    CreatePostComponent,
+    DialogModule,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SocialLayoutComponent implements OnInit {
@@ -50,12 +60,14 @@ export class SocialLayoutComponent implements OnInit {
       icon: 'matGroupsRound',
     },
   ];
+  showCreatePostModal: boolean = false;
 
   constructor(
     private router: Router,
     private store: Store,
     private postService: PostService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    public createPostModalService: CreatePostModalService
   ) {}
 
   ngOnInit(): void {
@@ -65,6 +77,11 @@ export class SocialLayoutComponent implements OnInit {
         this.sidebars[1].path = '/users/' + userId;
         this.cdr.detectChanges();
       }
+    });
+
+    this.createPostModalService.showModal$.subscribe((val) => {
+      this.showCreatePostModal = val;
+      this.cdr.detectChanges();
     });
   }
 

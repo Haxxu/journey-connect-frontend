@@ -37,6 +37,7 @@ import { Gallery, GalleryItem, ImageItem } from 'ng-gallery';
 import { formatDate, timeAgo } from '@/utils/format';
 import { AppRoutes } from '@/config/app_routes';
 import { LightboxModule } from 'ng-gallery/lightbox';
+import { CreatePostModalService } from '../../services/create-post-modal.service';
 
 @Component({
   selector: 'app-create-post',
@@ -62,8 +63,8 @@ import { LightboxModule } from 'ng-gallery/lightbox';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreatePostComponent implements OnInit {
-  @Input() sharePost: boolean = false;
-  @Input() innerPost: any;
+  @Input() sharePost: any;
+  @Input() postType: string = 'individual_post';
   @Output() onSuccess = new EventEmitter();
   getMediaUrlById = getMediaUrlById;
   userInfo$ = this.store.select(selectMeInfo);
@@ -99,7 +100,8 @@ export class CreatePostComponent implements OnInit {
     private postService: PostService,
     private messageService: MessageService,
     private store: Store,
-    public gallery: Gallery
+    public gallery: Gallery,
+    private createPostModalService: CreatePostModalService
   ) {
     this.createPostForm = this.formBuilder.group({
       title: ['', Validators.required],
@@ -135,20 +137,7 @@ export class CreatePostComponent implements OnInit {
     this.calculateGridDimensions();
   }
 
-  ngOnInit(): void {
-    // if (this.innerPost && this.sharePost) {
-    //   this.innerPostGalleryItems = this.innerPost.medias.map(
-    //     (media: any, index: number) => {
-    //       return new ImageItem({
-    //         src: media.url,
-    //         thumb: media.url,
-    //       });
-    //     }
-    //   );
-    //   const galleryRef = this.gallery.ref(this.innerPost._id);
-    //   galleryRef.load(this.innerPostGalleryItems);
-    // }
-  }
+  ngOnInit(): void {}
 
   handleEmojiClick(event: any) {
     const emoji = event.emoji.native;
@@ -162,11 +151,11 @@ export class CreatePostComponent implements OnInit {
     if (this.createPostForm.valid) {
       this.submitting = true;
       let body = { ...this.createPostForm.value };
-      if (this.sharePost && this.innerPost) {
+      if (this.postType === 'share_post' && this.sharePost) {
         body = {
           ...body,
           post_type: 'share_post',
-          inner_post: this.innerPost._id,
+          inner_post: this.sharePost._id,
         };
       }
 
@@ -224,7 +213,12 @@ export class CreatePostComponent implements OnInit {
   }
 
   calculateGridDimensions() {
-    const numMedias = this.medias.length;
+    let numMedias;
+    if (this.postType === 'share_post') {
+      numMedias = this.sharePost.medias.length;
+    } else {
+      numMedias = this.medias.length;
+    }
     if (numMedias <= 3) {
       this.rowRange = [1, 1];
       this.columnRange = [1, 3];

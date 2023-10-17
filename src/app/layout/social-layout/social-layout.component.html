@@ -20,3 +20,19 @@
     </div>
   </div>
 </div>
+
+<p-dialog
+  header="Share post"
+  [(visible)]="showCreatePostModal"
+  [modal]="true"
+  [style]="{ width: '50vw' }"
+  [draggable]="false"
+  [resizable]="false"
+  class="j-dialog-custom"
+>
+  <app-create-post
+    [postType]="'share_post'"
+    [sharePost]="createPostModalService.sharePost$ | async"
+    (onSuccess)="createPostModalService.closeModal()"
+  ></app-create-post>
+</p-dialog>
