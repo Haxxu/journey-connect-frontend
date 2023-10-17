@@ -68,8 +68,9 @@
 
           <div
             class="px-2 py-1.5 hover:bg-gray-200 text-md rounded-md text-gray-700 cursor-pointer"
+            (click)="handleDeletePost(post?._id)"
           >
-            Save
+            Delete
           </div>
         </div>
       </popper-content>
@@ -92,6 +93,65 @@
       class="w-full text-md j-inputtext-custom"
       rows="3"
     ></textarea>
+  </div>
+
+  <!-- INNER POST -->
+  <div
+    *ngIf="post.post_type === 'share_post'"
+    class="pt-2 pb-4 mx-4 border rounded-lg bg-gray-50 boder-gray-200"
+  >
+    <div class="flex items-center justify-between px-4">
+      <p-avatar
+        shape="circle"
+        [image]="
+          getMediaUrlById(
+            post.inner_post.owner.avatar,
+            post.inner_post.owner.medias
+          )
+        "
+        size="large"
+      ></p-avatar>
+      <div class="flex-1 ml-4">
+        <div class="py-1 font-semibold text-md">
+          <a
+            [routerLink]="
+              '/' + AppRoutes.USERS + '/' + post.inner_post.owner._id
+            "
+          >
+            {{ post.inner_post.owner.first_name }}
+            {{ post.inner_post.owner.last_name }}
+          </a>
+        </div>
+        <div class="text-sm text-gray-700">
+          {{ formatDate(post.inner_post.createdAt) }} &bull;
+          {{ timeAgo(post.inner_post.createdAt) }}
+        </div>
+      </div>
+    </div>
+
+    <div class="px-4 my-3 text-md" [innerHtml]="post.inner_post?.title"></div>
+
+    <div
+      class="w-full"
+      NgxJustifiedGrid
+      [gap]="gap"
+      [defaultDirection]="defaultDirection"
+      [columnRange]="columnRange"
+      [rowRange]="rowRange"
+      [sizeRange]="sizeRange"
+      [isCroppedSize]="isCroppedSize"
+      [displayedRow]="displayedRow"
+      [autoResize]="true"
+    >
+      <div
+        *ngFor="let item of innerPostGalleryItems; let i = index"
+        class="relative"
+        [lightbox]="i"
+        [gallery]="post?.inner_post?._id"
+      >
+        <img [src]="item.data?.thumb || ''" alt="" class="w-full h-full" />
+      </div>
+    </div>
   </div>
 
   <!-- MEDIA -->
@@ -207,27 +267,29 @@
   </div>
 
   <ng-container *ngIf="comments$ | async as comments">
-    <div class="p-4">
-      <div class="flex justify-between text-md">
-        <div class="flex items-center">
-          <div class="flex">
-            <ng-container *ngFor="let showEmotion of showEmotions">
-              <div class="w-6 h-6" *ngIf="showEmotion.value > 0">
-                <img
-                  [src]="'/assets/emotions/' + showEmotion.src + '.emotion.svg'"
-                  class="w-6 h-6"
-                />
-              </div>
-            </ng-container>
-          </div>
-          <span>{{ emotionData?.count?.all }}</span>
+    <div class="flex justify-between px-4 py-2 text-md">
+      <div class="flex items-center">
+        <div class="flex">
+          <ng-container *ngFor="let showEmotion of showEmotions">
+            <div class="w-6 h-6" *ngIf="showEmotion.value > 0">
+              <img
+                [src]="'/assets/emotions/' + showEmotion.src + '.emotion.svg'"
+                class="w-6 h-6"
+              />
+            </div>
+          </ng-container>
         </div>
-        <div class="flex gap-3">
-          <div *ngIf="comments[post?._id]?.totalComments">
-            {{ comments[post?._id]?.totalComments }}
-            {{ comments[post?._id].totalComments > 1 ? "comments" : "comment" }}
-          </div>
-          <div>2 shares</div>
+        <span *ngIf="emotionData?.count?.all">{{
+          emotionData?.count?.all
+        }}</span>
+      </div>
+      <div class="flex gap-3">
+        <div *ngIf="comments[post?._id]?.totalComments">
+          {{ comments[post?._id]?.totalComments }}
+          {{ comments[post?._id].totalComments > 1 ? "comments" : "comment" }}
+        </div>
+        <div *ngIf="post.shares.length > 0">
+          {{ post.shares.length }} share{{ post.shares.length > 1 ? "s" : "" }}
         </div>
       </div>
     </div>
@@ -241,7 +303,7 @@
         ></app-emotions>
       </div>
       <div class="action-item" (click)="toggleComments()">Comments</div>
-      <div class="action-item">Share</div>
+      <div class="action-item" (click)="toggleSharePost()">Share</div>
     </div>
     <div *ngIf="showComments">
       <hr />
@@ -252,3 +314,14 @@
     </div>
   </ng-container>
 </form>
+
+<p-dialog
+  header="Share post"
+  [(visible)]="sharePostVisible"
+  [modal]="true"
+  [style]="{ width: '50vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <app-create-share-post [post]="post"></app-create-share-post>
+</p-dialog>

@@ -17,6 +17,11 @@ export const updatePost = createAction(
   props<{ post: any }>()
 );
 
+export const deletePost = createAction(
+  '[POSTS] Delete post',
+  props<{ post: any }>()
+);
+
 export const addMoreFeedPosts = createAction(
   '[POSTs] Add more feed posts',
   props<{ posts: any }>()

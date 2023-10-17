@@ -43,6 +43,7 @@ import { CommentsComponent } from '@/modules/socials/components/comments/comment
 import { SocketService } from '@/services/socket.service';
 import { CommentService } from '@/services/comment.service';
 import { selectComments } from '@/core/store/comments/comments.selector';
+import { CreateSharePostComponent } from '../create-share-post/create-share-post.component';
 
 @Component({
   selector: 'app-post-card',
@@ -67,6 +68,7 @@ import { selectComments } from '@/core/store/comments/comments.selector';
     EmotionsComponent,
     RouterModule,
     CommentsComponent,
+    CreateSharePostComponent,
   ],
   templateUrl: './post-card.component.html',
   styleUrls: ['./post-card.component.scss'],
@@ -93,6 +95,7 @@ export class PostCardComponent implements OnInit {
   submitting: boolean = false;
   AppRoutes = AppRoutes;
   popperClass = 'p-0';
+  sharePostVisible: boolean = false;
 
   visibilityOptions: any[] = [
     { label: 'Public', value: 'public' },
@@ -101,6 +104,7 @@ export class PostCardComponent implements OnInit {
   ];
   visibility: string = 'Public';
   galleryItems: GalleryItem[] = [];
+  innerPostGalleryItems: GalleryItem[] = [];
   emotionData: any;
   showEmotions: any[] = [];
   showComments: boolean = false;
@@ -150,6 +154,19 @@ export class PostCardComponent implements OnInit {
       });
       const galleryRef = this.gallery.ref(this.post._id);
       galleryRef.load(this.galleryItems);
+    }
+
+    if (this.post?.inner_post && this.post?.inner_post?.medias) {
+      this.innerPostGalleryItems = this.post.inner_post.medias.map(
+        (media: any, index: number) => {
+          return new ImageItem({
+            src: media.url,
+            thumb: media.url,
+          });
+        }
+      );
+      const galleryRef = this.gallery.ref(this.post.inner_post._id);
+      galleryRef.load(this.innerPostGalleryItems);
     }
 
     this.getEmotions();
@@ -286,7 +303,6 @@ export class PostCardComponent implements OnInit {
             }
 
             this.submitting = false;
-            this.cdr.detectChanges();
           },
           error: (error) => {
             this.messageService.add({
@@ -295,11 +311,31 @@ export class PostCardComponent implements OnInit {
               detail: error.error.message,
             });
             this.submitting = false;
-            this.cdr.detectChanges();
           },
         });
       this.cdr.detectChanges();
     }
+  }
+
+  handleDeletePost(postId: string): void {
+    this.postService.deletePostById(postId).subscribe({
+      next: (res) => {
+        if (res.success) {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: res.message,
+          });
+        }
+      },
+      error: (error) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Delete post error',
+          detail: error.error.message,
+        });
+      },
+    });
   }
 
   handleClickVisibility(option: any, visibilityOp: any) {
@@ -312,5 +348,9 @@ export class PostCardComponent implements OnInit {
   toggleComments() {
     this.showComments = !this.showComments;
     this.cdr.detectChanges();
+  }
+
+  toggleSharePost() {
+    this.sharePostVisible = !this.sharePostVisible;
   }
 }

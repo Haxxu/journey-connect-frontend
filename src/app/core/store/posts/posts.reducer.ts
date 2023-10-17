@@ -6,6 +6,7 @@ import {
   setFeedPosts,
   addMoreFeedPosts,
   setLoadingPosts,
+  deletePost,
 } from './posts.actions';
 
 export interface PostsState {
@@ -58,6 +59,14 @@ export const postsReducer = createReducer(
       }
       return item;
     });
+
+    return { ...state, posts, feedPosts };
+  }),
+
+  on(deletePost, (state, { post }) => {
+    const posts = state.posts?.filter((item) => item._id !== post._id);
+
+    const feedPosts = state.feedPosts?.filter((item) => item._id !== post._id);
 
     return { ...state, posts, feedPosts };
   }),

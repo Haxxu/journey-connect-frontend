@@ -6,6 +6,7 @@ import { Store } from '@ngrx/store';
 import {
   createPost as createPostAction,
   updatePost as updateMePost,
+  deletePost as deleteMePost,
 } from '@/core/store/me/me.actions';
 import {
   addPost,
@@ -13,6 +14,7 @@ import {
   setLoadingPosts,
   setPosts,
   updatePost,
+  deletePost,
 } from '@/core/store/posts/posts.actions';
 
 @Injectable({
@@ -38,6 +40,17 @@ export class PostService {
         if (res.success) {
           this.store.dispatch(updateMePost({ post: res.data }));
           this.store.dispatch(updatePost({ post: res.data }));
+        }
+      })
+    );
+  }
+
+  deletePostById(id: string): Observable<any> {
+    return this.http.delete(`${environment.apiURL}/posts/${id}`).pipe(
+      tap((res: any) => {
+        if (res.success) {
+          this.store.dispatch(deleteMePost({ post: res.data }));
+          this.store.dispatch(deletePost({ post: res.data }));
         }
       })
     );

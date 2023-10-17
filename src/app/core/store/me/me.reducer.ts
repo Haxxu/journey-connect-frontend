@@ -1,5 +1,11 @@
 import { createReducer, on } from '@ngrx/store';
-import { createPost, setMyPosts, updateMeInfo, updatePost } from './me.actions';
+import {
+  createPost,
+  deletePost,
+  setMyPosts,
+  updateMeInfo,
+  updatePost,
+} from './me.actions';
 
 export interface MeState {
   meInfo: any;
@@ -33,5 +39,11 @@ export const meReducer = createReducer(
     });
 
     return { ...state, posts };
+  }),
+  on(deletePost, (state, { post }) => {
+    return {
+      ...state,
+      posts: state.posts.filter((item) => item._id !== post._id),
+    };
   })
 );
