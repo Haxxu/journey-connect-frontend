@@ -44,6 +44,7 @@ import { SocketService } from '@/services/socket.service';
 import { CommentService } from '@/services/comment.service';
 import { selectComments } from '@/core/store/comments/comments.selector';
 import { CreateSharePostComponent } from '../create-share-post/create-share-post.component';
+import { CreatePostComponent } from '../create-post/create-post.component';
 
 @Component({
   selector: 'app-post-card',
@@ -69,6 +70,7 @@ import { CreateSharePostComponent } from '../create-share-post/create-share-post
     RouterModule,
     CommentsComponent,
     CreateSharePostComponent,
+    CreatePostComponent,
   ],
   templateUrl: './post-card.component.html',
   styleUrls: ['./post-card.component.scss'],

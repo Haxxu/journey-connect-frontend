@@ -82,9 +82,61 @@
         ></app-image-uploader>
       </div>
     </div>
+
+    <!-- INNER POST -->
+    <div
+      *ngIf="innerPost && sharePost"
+      class="pt-2 pb-4 mx-4 mt-2 border rounded-lg bg-gray-50 boder-gray-200"
+    >
+      <div class="flex items-center justify-between px-4">
+        <p-avatar
+          shape="circle"
+          [image]="
+            getMediaUrlById(innerPost.owner.avatar, innerPost.owner.medias)
+          "
+          size="large"
+        ></p-avatar>
+        <div class="flex-1 ml-4">
+          <div class="py-1 font-semibold text-md">
+            <a [routerLink]="'/' + AppRoutes.USERS + '/' + innerPost.owner._id">
+              {{ innerPost.owner.first_name }}
+              {{ innerPost.owner.last_name }}
+            </a>
+          </div>
+          <div class="text-sm text-gray-700">
+            {{ formatDate(innerPost.createdAt) }} &bull;
+            {{ timeAgo(innerPost.createdAt) }}
+          </div>
+        </div>
+      </div>
+
+      <div class="px-4 my-3 text-md" [innerHtml]="innerPost?.title"></div>
+
+      <!-- <div
+        class="w-full"
+        NgxJustifiedGrid
+        [gap]="gap"
+        [defaultDirection]="defaultDirection"
+        [columnRange]="columnRange"
+        [rowRange]="rowRange"
+        [sizeRange]="sizeRange"
+        [isCroppedSize]="isCroppedSize"
+        [displayedRow]="displayedRow"
+        [autoResize]="true"
+      >
+        <div
+          *ngFor="let media of innerPost.medias; let i = index"
+          class="relative"
+        >
+          <img [src]="media.url" alt="" class="w-full h-full" />
+        </div>
+      </div> -->
+    </div>
+
     <div class="flex items-center justify-between px-4 py-2 mt-2 border-t">
       <div>
         <div
+          *ngIf="!sharePost || !innerPost"
           class="w-6 h-6 cursor-pointer"
           pTooltip="Photo"
           (click)="imageUploader.showDialog()"

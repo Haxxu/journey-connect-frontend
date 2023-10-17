@@ -323,5 +323,9 @@
   [draggable]="false"
   [resizable]="false"
 >
-  <app-create-share-post [post]="post"></app-create-share-post>
+  <app-create-post
+    [sharePost]="true"
+    [innerPost]="post.post_type === 'share_post' ? post?.inner_post : post"
+    (onSuccess)="sharePostVisible = false"
+  ></app-create-post>
 </p-dialog>

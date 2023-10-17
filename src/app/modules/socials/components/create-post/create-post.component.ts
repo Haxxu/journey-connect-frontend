@@ -2,7 +2,10 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  EventEmitter,
+  Input,
   OnInit,
+  Output,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
@@ -30,6 +33,10 @@ import { Store } from '@ngrx/store';
 import { selectMeInfo } from '@/core/store/me/me.selectors';
 import { getMediaUrlById } from '@/utils/media';
 import { RouterModule } from '@angular/router';
+import { Gallery, GalleryItem, ImageItem } from 'ng-gallery';
+import { formatDate, timeAgo } from '@/utils/format';
+import { AppRoutes } from '@/config/app_routes';
+import { LightboxModule } from 'ng-gallery/lightbox';
 
 @Component({
   selector: 'app-create-post',
@@ -48,12 +55,16 @@ import { RouterModule } from '@angular/router';
     NgxGridModule,
     ImageUploaderComponent,
     RouterModule,
+    LightboxModule,
   ],
   templateUrl: './create-post.component.html',
   styleUrls: ['./create-post.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreatePostComponent implements OnInit {
+  @Input() sharePost: boolean = false;
+  @Input() innerPost: any;
+  @Output() onSuccess = new EventEmitter();
   getMediaUrlById = getMediaUrlById;
   userInfo$ = this.store.select(selectMeInfo);
   createPostForm: any;
@@ -76,13 +87,19 @@ export class CreatePostComponent implements OnInit {
   medias: any[] = [];
   submitting: boolean = false;
 
+  innerPostGalleryItems: GalleryItem[] = [];
+  formatDate = formatDate;
+  timeAgo = timeAgo;
+  AppRoutes = AppRoutes;
+
   constructor(
     private formBuilder: FormBuilder,
     private cdr: ChangeDetectorRef,
     private fileService: FileService,
     private postService: PostService,
     private messageService: MessageService,
-    private store: Store
+    private store: Store,
+    public gallery: Gallery
   ) {
     this.createPostForm = this.formBuilder.group({
       title: ['', Validators.required],
@@ -118,7 +135,20 @@ export class CreatePostComponent implements OnInit {
     this.calculateGridDimensions();
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    // if (this.innerPost && this.sharePost) {
+    //   this.innerPostGalleryItems = this.innerPost.medias.map(
+    //     (media: any, index: number) => {
+    //       return new ImageItem({
+    //         src: media.url,
+    //         thumb: media.url,
+    //       });
+    //     }
+    //   );
+    //   const galleryRef = this.gallery.ref(this.innerPost._id);
+    //   galleryRef.load(this.innerPostGalleryItems);
+    // }
+  }
 
   handleEmojiClick(event: any) {
     const emoji = event.emoji.native;
@@ -131,7 +161,16 @@ export class CreatePostComponent implements OnInit {
   handleCreatePost() {
     if (this.createPostForm.valid) {
       this.submitting = true;
-      this.postService.createPost(this.createPostForm.value).subscribe({
+      let body = { ...this.createPostForm.value };
+      if (this.sharePost && this.innerPost) {
+        body = {
+          ...body,
+          post_type: 'share_post',
+          inner_post: this.innerPost._id,
+        };
+      }
+
+      this.postService.createPost(body).subscribe({
         next: (res) => {
           if (res.success) {
             this.messageService.add({
@@ -149,6 +188,7 @@ export class CreatePostComponent implements OnInit {
             });
             this.medias = [];
             this.visibility = 'Public';
+            this.onSuccess.emit();
           }
 
           this.submitting = false;

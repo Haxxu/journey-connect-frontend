@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { CreatePostComponent } from '../create-post/create-post.component';
 
 @Component({
   selector: 'app-create-share-post',
