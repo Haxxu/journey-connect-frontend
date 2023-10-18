@@ -6,24 +6,8 @@
       </div>
     </div>
     <div class="flex items-center justify-between h-full">
-      <div class="min-w-[250px]">
-        <div class="relative flex items-center">
-          <div class="w-6 h-6 mr-2">
-            <ng-icon
-              name="matSearchRound"
-              class="text-2xl font-bold text-gray-400"
-            ></ng-icon>
-          </div>
-          <div>
-            <input
-              type="text"
-              pInputText
-              placeholder="Search"
-              class="w-full h-10 j-inputtext-custom"
-            />
-          </div>
-          <div class="flex card justify-content-center"></div>
-        </div>
+      <div class="min-w-[350px]">
+        <app-search-users class="h-full"></app-search-users>
       </div>
       <div
         class="flex items-center h-full px-2 cursor-pointer hover:bg-gray-100"
@@ -35,11 +19,10 @@
         <div class="mr-2 font-semibold text-gray-600 text-md">
           {{ meInfo.first_name }} {{ meInfo.last_name }}
         </div>
-        <p-avatar
-          shape="circle"
-          [image]="getMediaUrlById(meInfo.avatar, meInfo.medias)"
-          styleClass="cursor-pointer"
-        ></p-avatar>
+        <img
+          [src]="getMediaUrlById(meInfo.avatar, meInfo.medias)"
+          class="shadow-md object-cover w-8 h-8 rounded-full"
+        />
       </div>
     </div>
   </div>

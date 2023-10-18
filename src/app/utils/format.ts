@@ -55,7 +55,7 @@ export function timeAgo(date: any) {
 
   if (secondsAgo < 60) {
     if (secondsAgo === 0) {
-      return ` now`;
+      return ` Now`;
     }
     return secondsAgo + ` second${secondsAgo > 1 ? 's' : ''} ago`;
   } else if (secondsAgo < 3600) {

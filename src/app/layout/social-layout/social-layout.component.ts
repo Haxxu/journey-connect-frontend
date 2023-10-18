@@ -80,9 +80,7 @@ export class SocialLayoutComponent implements OnInit {
     });
 
     this.createPostModalService.showModal$.subscribe((val) => {
-      if (val) {
-        this.showCreatePostModal = val;
-      }
+      this.showCreatePostModal = val;
     });
   }
 

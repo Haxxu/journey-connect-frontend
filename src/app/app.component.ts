@@ -33,11 +33,5 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.primengConfig.ripple = false;
     this.userService.fetchUserInfo();
-
-    // this.socketService.joinRoom('65236f380b77f60add423996');
-    // this.socketService.listen('createComment').subscribe((val) => {
-    //   console.log(val);
-    // });
-    // this.cdr.detectChanges();
   }
 }

@@ -6,13 +6,12 @@ import {
   ChangeDetectorRef,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AvatarModule } from 'primeng/avatar';
 import { CommentListComponent } from '../comment-list/comment-list.component';
 
 @Component({
   selector: 'app-comment',
   standalone: true,
-  imports: [CommonModule, AvatarModule, CommentListComponent],
+  imports: [CommonModule, CommentListComponent],
   templateUrl: './comment.component.html',
   styleUrls: ['./comment.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

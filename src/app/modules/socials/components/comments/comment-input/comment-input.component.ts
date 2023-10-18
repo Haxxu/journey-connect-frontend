@@ -18,7 +18,6 @@ import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { TooltipModule } from 'primeng/tooltip';
 import { Store } from '@ngrx/store';
 import { selectMeInfo } from '@/core/store/me/me.selectors';
-import { AvatarModule } from 'primeng/avatar';
 import { NgIconsModule } from '@ng-icons/core';
 import { CommentService } from '@/services/comment.service';
 
@@ -33,7 +32,6 @@ import { CommentService } from '@/services/comment.service';
     OverlayPanelModule,
     PickerModule,
     TooltipModule,
-    AvatarModule,
     NgIconsModule,
   ],
   templateUrl: './comment-input.component.html',

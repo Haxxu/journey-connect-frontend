@@ -15,7 +15,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
-import { AvatarModule } from 'primeng/avatar';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 
@@ -46,7 +45,6 @@ import { CreatePostModalService } from '../../services/create-post-modal.service
     CommonModule,
     ReactiveFormsModule,
     PickerModule,
-    AvatarModule,
     OverlayPanelModule,
     InputTextareaModule,
     DropdownModule,

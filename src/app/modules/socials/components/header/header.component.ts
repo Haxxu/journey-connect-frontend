@@ -1,9 +1,7 @@
-import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { NgIconsModule } from '@ng-icons/core';
 import { AutoCompleteModule } from 'primeng/autocomplete';
-import { AvatarModule } from 'primeng/avatar';
 import { InputTextModule } from 'primeng/inputtext';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 
@@ -14,6 +12,7 @@ import { NgxPopperjsModule, NgxPopperjsPlacements } from 'ngx-popperjs';
 import { getMediaUrlById } from '@/utils/media';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '@/services/auth.service';
+import { SearchUsersComponent } from '../search-users/search-users.component';
 
 @Component({
   selector: 'app-header',
@@ -26,9 +25,9 @@ import { AuthService } from '@/services/auth.service';
     NgIconsModule,
     OverlayPanelModule,
     AutoCompleteModule,
-    AvatarModule,
     NgxPopperjsModule,
     RouterLink,
+    SearchUsersComponent,
   ],
 })
 export class HeaderComponent implements OnInit {

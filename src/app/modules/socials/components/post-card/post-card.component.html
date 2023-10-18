@@ -7,11 +7,10 @@
   [formGroup]="editPostForm"
 >
   <div class="flex items-center justify-between px-4">
-    <p-avatar
-      shape="circle"
-      [image]="getMediaUrlById(post.owner.avatar, post.owner.medias)"
-      size="large"
-    ></p-avatar>
+    <img
+      [src]="getMediaUrlById(post.owner.avatar, post.owner.medias)"
+      class="shadow-md object-cover w-12 h-12 rounded-full"
+    />
     <div class="flex-1 ml-4">
       <div class="py-1 font-semibold text-md">
         <a [routerLink]="'/' + AppRoutes.USERS + '/' + post.owner._id">
@@ -67,10 +66,16 @@
           </div>
 
           <div
+            *ngIf="meInfo._id === post?.owner?._id"
             class="px-2 py-1.5 hover:bg-gray-200 text-md rounded-md text-gray-700 cursor-pointer"
             (click)="handleDeletePost(post?._id)"
           >
             Delete
+          </div>
+          <div
+            class="px-2 py-1.5 hover:bg-gray-200 text-md rounded-md text-gray-700 cursor-pointer"
+          >
+            Save
           </div>
         </div>
       </popper-content>
@@ -98,19 +103,18 @@
   <!-- INNER POST -->
   <div
     *ngIf="post.post_type === 'share_post'"
-    class="pt-2 pb-4 mx-4 border rounded-lg bg-gray-50 boder-gray-200"
+    class="pt-2 pb-4 mx-4 border rounded-md bg-gray-50 boder-gray-200"
   >
     <div class="flex items-center justify-between px-4">
-      <p-avatar
-        shape="circle"
-        [image]="
+      <img
+        [src]="
           getMediaUrlById(
             post.inner_post.owner.avatar,
             post.inner_post.owner.medias
           )
         "
-        size="large"
-      ></p-avatar>
+        class="shadow-md object-cover w-12 h-12 rounded-full"
+      />
       <div class="flex-1 ml-4">
         <div class="py-1 font-semibold text-md">
           <a

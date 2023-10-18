@@ -5,11 +5,10 @@
   <form [formGroup]="createPostForm">
     <div class="">
       <div class="flex items-center justify-between">
-        <p-avatar
-          shape="circle"
-          [image]="getMediaUrlById(userInfo.avatar, userInfo.medias)"
-          size="large"
-        ></p-avatar>
+        <img
+          [src]="getMediaUrlById(userInfo.avatar, userInfo.medias)"
+          class="shadow-md object-cover w-12 h-12 rounded-full"
+        />
         <div class="flex-1 ml-4">
           <div class="py-1 font-semibold text-md">
             <a [routerLink]="'/users/' + userInfo._id">
@@ -88,13 +87,12 @@
       class="w-full pt-2 pb-4 mt-2 border rounded-lg bg-gray-50 boder-gray-200"
     >
       <div class="flex items-center justify-between px-4">
-        <p-avatar
-          shape="circle"
-          [image]="
+        <img
+          [src]="
             getMediaUrlById(sharePost.owner.avatar, sharePost.owner.medias)
           "
-          size="large"
-        ></p-avatar>
+          class="shadow-md object-cover w-12 h-12 rounded-full"
+        />
         <div class="flex-1 ml-4">
           <div class="py-1 font-semibold text-md">
             <a [routerLink]="'/' + AppRoutes.USERS + '/' + sharePost.owner._id">

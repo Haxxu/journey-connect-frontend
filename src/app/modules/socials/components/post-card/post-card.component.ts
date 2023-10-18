@@ -6,7 +6,6 @@ import {
   OnInit,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AvatarModule } from 'primeng/avatar';
 import { getMediaUrlById } from '@/utils/media';
 import { formatDate } from '@/utils/format';
 import { NgxGridModule } from '@egjs/ngx-grid';
@@ -52,7 +51,6 @@ import { CreatePostModalService } from '@/modules/socials/services/create-post-m
   standalone: true,
   imports: [
     CommonModule,
-    AvatarModule,
     NgxGridModule,
     NgIconsModule,
     NgxPopperjsModule,

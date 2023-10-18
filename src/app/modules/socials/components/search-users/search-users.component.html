@@ -1,0 +1,25 @@
+<div>
+  <p-autoComplete
+    [suggestions]="filteredUsers"
+    (completeMethod)="searchUsers($event)"
+    field="full_name"
+    placeholder="Search user"
+    (onSelect)="onUserSelect($event)"
+    [minLength]="2"
+    styleClass="j-autocomplete-custom w-full"
+    inputStyleClass="h-[36px] p-2 min-w-[350px]"
+  >
+    <ng-template let-user pTemplate="item">
+      <div class="flex items-center gap-3">
+        <img
+          src="{{ getMediaUrlById(user.avatar, user.medias) }}"
+          class="object-cover w-8 h-8 rounded-full"
+        />
+        <div>
+          <div class="text-gray-700">{{ user.full_name }}</div>
+          <!-- <div class="text-gray-500 text-md">12 mutual friends</div> -->
+        </div>
+      </div>
+    </ng-template>
+  </p-autoComplete>
+</div>

@@ -6,12 +6,10 @@
   class="flex gap-2"
 >
   <div class="">
-    <p-avatar
-      shape="circle"
-      [image]="getMediaUrlById(comment.owner.avatar, comment.owner.medias)"
-      styleClass="shadow-md"
-    >
-    </p-avatar>
+    <img
+      [src]="getMediaUrlById(comment.owner.avatar, comment.owner.medias)"
+      class="shadow-lg object-cover w-8 h-8 rounded-full"
+    />
   </div>
   <app-comment-list [comment]="comment" class="min-w-[250px] w-full">
     <ng-template #moreComments>
@@ -25,14 +23,12 @@
           class="flex gap-2"
         >
           <div class="">
-            <p-avatar
-              shape="circle"
-              [image]="
+            <img
+              [src]="
                 getMediaUrlById(reply_cm.owner.avatar, reply_cm.owner.medias)
               "
-              styleClass="shadow-md"
-            >
-            </p-avatar>
+              class="shadow-lg object-cover w-8 h-8 rounded-full"
+            />
           </div>
           <app-comment-list
             [comment]="reply_cm"
