@@ -28,7 +28,7 @@
   [style]="{ width: '50vw' }"
   [draggable]="false"
   [resizable]="false"
-  class="j-dialog-custom"
+  (onHide)="createPostModalService.closeModal()"
 >
   <app-create-post
     [postType]="'share_post'"
