@@ -9,7 +9,7 @@
   <div class="flex items-center justify-between px-4">
     <img
       [src]="getMediaUrlById(post.owner.avatar, post.owner.medias)"
-      class="shadow-md object-cover w-12 h-12 rounded-full"
+      class="shadow-md object-cover w-10 h-10 rounded-full"
     />
     <div class="flex-1 ml-4">
       <div class="py-1 font-semibold text-md">
@@ -113,7 +113,7 @@
             post.inner_post.owner.medias
           )
         "
-        class="shadow-md object-cover w-12 h-12 rounded-full"
+        class="shadow-md object-cover w-10 h-10 rounded-full"
       />
       <div class="flex-1 ml-4">
         <div class="py-1 font-semibold text-md">
@@ -304,6 +304,7 @@
           [contextType]="'post'"
           [contextId]="post._id"
           (updateEmotion)="getEmotions()"
+          class="flex-1"
         ></app-emotions>
       </div>
       <div class="action-item" (click)="toggleComments()">Comments</div>

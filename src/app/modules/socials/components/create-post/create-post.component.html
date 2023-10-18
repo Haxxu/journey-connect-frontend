@@ -7,7 +7,7 @@
       <div class="flex items-center justify-between">
         <img
           [src]="getMediaUrlById(userInfo.avatar, userInfo.medias)"
-          class="shadow-md object-cover w-12 h-12 rounded-full"
+          class="shadow-md object-cover w-10 h-10 rounded-full"
         />
         <div class="flex-1 ml-4">
           <div class="py-1 font-semibold text-md">
@@ -49,6 +49,7 @@
       </div>
 
       <div
+        *ngIf="medias.length > 0"
         class="w-full"
         NgxJustifiedGrid
         [gap]="gap"
@@ -91,7 +92,7 @@
           [src]="
             getMediaUrlById(sharePost.owner.avatar, sharePost.owner.medias)
           "
-          class="shadow-md object-cover w-12 h-12 rounded-full"
+          class="shadow-md object-cover w-10 h-10 rounded-full"
         />
         <div class="flex-1 ml-4">
           <div class="py-1 font-semibold text-md">

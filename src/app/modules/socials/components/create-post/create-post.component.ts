@@ -179,6 +179,7 @@ export class CreatePostComponent implements OnInit {
           }
 
           this.submitting = false;
+          this.cdr.detectChanges();
         },
         error: (error) => {
           this.messageService.add({
