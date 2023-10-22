@@ -15,8 +15,20 @@ import { FriendsComponent } from '@/pages/socials/friends/friends.component';
 import { ReceivedFriendRequestsComponent } from '@/modules/socials/components/friends/received-friend-requests/received-friend-requests.component';
 import { FriendListComponent } from '@/modules/socials/components/friends/friend-list/friend-list.component';
 import { SentFriendRequestsComponent } from '@/modules/socials/components/friends/sent-friend-requests/sent-friend-requests.component';
+import { AppLayoutComponent } from './layout/dashboard/app.layout.component';
+import { TestPageComponent } from './modules/admin/test-page/test-page.component';
 
 export const APP_ROUTES: Routes = [
+  {
+    path: 'dashboard',
+    component: AppLayoutComponent,
+    children: [
+      {
+        path: '',
+        component: TestPageComponent,
+      },
+    ],
+  },
   {
     path: '',
     pathMatch: 'full',

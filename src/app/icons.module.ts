@@ -18,6 +18,12 @@ import {
   matCheckCircleRound,
   matCancelRound,
   matSendRound,
+  matDashboardRound,
+  matFeedRound,
+  matShareRound,
+  matDynamicFeedRound,
+  matCommentRound,
+  matReportRound,
 } from '@ng-icons/material-icons/round';
 
 import {
@@ -45,6 +51,12 @@ import {
       matCheckCircleRound,
       matCancelRound,
       matSendRound,
+      matDashboardRound,
+      matFeedRound,
+      matShareRound,
+      matDynamicFeedRound,
+      matCommentRound,
+      matReportRound,
       bootstrapPersonCheckFill,
       bootstrapPersonXFill,
     }),

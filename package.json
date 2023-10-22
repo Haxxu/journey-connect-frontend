@@ -30,6 +30,7 @@
     "hammerjs": "^2.0.8",
     "ng-gallery": "^11.0.0",
     "ngx-popperjs": "^16.0.6",
+    "primeflex": "^3.3.1",
     "primeicons": "^6.0.1",
     "primeng": "^16.4.1",
     "quill": "^1.3.7",

@@ -14,6 +14,7 @@ import { PrimeNGModule } from './primeng.module';
 import { AuthInterceptor } from '@/core/interceptors/auth.interceptor';
 import { AppStoreModule } from './store.module';
 import { NgxPopperjsModule } from 'ngx-popperjs';
+import { AppLayoutModule } from './layout/dashboard/app.layout.module';
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -27,6 +28,7 @@ import { NgxPopperjsModule } from 'ngx-popperjs';
     PrimeNGModule,
     AppStoreModule,
     NgxPopperjsModule,
+    AppLayoutModule,
   ],
   providers: [
     MessageService,
