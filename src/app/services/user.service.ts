@@ -7,6 +7,14 @@ import { Store } from '@ngrx/store';
 import { setMyPosts, updateMeInfo } from '@/core/store/me/me.actions';
 import { setUserInfo, userStateAction } from '@/core/store/users/users.actions';
 
+export interface IGetUserQuery {
+  page: number;
+  pageSize: number;
+  search?: string;
+  createdStartDate?: string;
+  createdEndDate?: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -95,5 +103,19 @@ export class UserService {
         }
       })
     );
+  }
+
+  getUsers(
+    page: number = 1,
+    pageSize: number = 10,
+    search: string = ''
+  ): Observable<any> {
+    return this.http.get(`${environment.apiURL}/users`, {
+      params: {
+        page,
+        pageSize,
+        search,
+      },
+    });
   }
 }

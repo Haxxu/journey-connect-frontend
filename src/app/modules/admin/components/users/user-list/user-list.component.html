@@ -1,0 +1,62 @@
+<div class="card">
+  <p-table
+    #dt
+    [value]="users"
+    [lazy]="true"
+    dataKey="idakdsf-dksf"
+    (onLazyLoad)="handleLoadUsers($event)"
+    [rows]="pageSize"
+    [first]="(page - 1) * pageSize"
+    [rowsPerPageOptions]="[2, 5, 10, 25, 50]"
+    [showCurrentPageReport]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} users"
+    [paginator]="true"
+    [totalRecords]="totalUsers"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th class="w-16">ID</th>
+        <th pSortableColumn="first_name">
+          <div class="flex items-center justify-center">
+            First name
+            <p-sortIcon field="first_name"></p-sortIcon>
+            <p-columnFilter
+              type="text"
+              field="first_name"
+              display="menu"
+              class="ml-auto"
+            ></p-columnFilter>
+          </div>
+        </th>
+        <th pSortableColumn="last_name">
+          <div class="flex items-center justify-center">
+            Last name
+            <p-sortIcon field="last_name"></p-sortIcon>
+            <p-columnFilter
+              type="text"
+              field="last_name"
+              display="menu"
+              class="ml-auto"
+            ></p-columnFilter>
+          </div>
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-user>
+      <tr>
+        <td>
+          <span class="p-column-title">ID</span>
+          {{ user._id }}
+        </td>
+        <td>
+          <span class="p-column-title">First name</span>
+          {{ user.first_name }}
+        </td>
+        <td>
+          <span class="p-column-title">Last name</span>
+          {{ user.last_name }}
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

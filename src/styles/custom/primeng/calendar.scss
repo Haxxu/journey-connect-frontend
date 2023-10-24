@@ -1,6 +1,6 @@
 .j-calendar-custom {
   .p-inputtext {
-    @apply px-3 py-2 text-md;
+    @apply px-3 py-2 text-md border border-gray-200;
 
     &:enabled:focus {
       @apply border-blue-400;

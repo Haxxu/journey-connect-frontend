@@ -36,6 +36,7 @@ export class HeaderComponent implements OnInit {
   NgxPopperjsPlacements = NgxPopperjsPlacements;
   getMediaUrlById = getMediaUrlById;
   popperClass = 'p-0';
+  isAdmin: boolean = false;
 
   constructor(
     private userService: UserService,
@@ -43,7 +44,22 @@ export class HeaderComponent implements OnInit {
     private authService: AuthService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.authService.checkIsAdmin().subscribe({
+      next: (res: any) => {
+        if (res.success) {
+          console.log(res);
+          this.isAdmin = true;
+        } else {
+          this.isAdmin = false;
+        }
+      },
+      error: (error: any) => {
+        console.log(error);
+        this.isAdmin = false;
+      },
+    });
+  }
 
   search(event: any) {
     console.log(event);

@@ -13,6 +13,7 @@ import { SkeletonModule } from 'primeng/skeleton';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { RippleModule } from 'primeng/ripple';
+import { TableModule } from 'primeng/table';
 
 @NgModule({
   exports: [
@@ -29,6 +30,7 @@ import { RippleModule } from 'primeng/ripple';
     ProgressBarModule,
     ProgressSpinnerModule,
     RippleModule,
+    TableModule,
   ],
 })
 export class PrimeNGModule {}

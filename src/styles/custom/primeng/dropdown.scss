@@ -1,5 +1,6 @@
 .j-dropdown-custom {
   &.p-dropdown {
+    @apply border border-gray-200;
     .p-inputtext {
       @apply px-3 py-2 text-md;
 

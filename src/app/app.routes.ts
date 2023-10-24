@@ -17,15 +17,22 @@ import { FriendListComponent } from '@/modules/socials/components/friends/friend
 import { SentFriendRequestsComponent } from '@/modules/socials/components/friends/sent-friend-requests/sent-friend-requests.component';
 import { AppLayoutComponent } from './layout/dashboard/app.layout.component';
 import { TestPageComponent } from './modules/admin/test-page/test-page.component';
+import { AdminGuard } from './core/guards/admin.guard';
+import { UserListComponent } from './modules/admin/components/users/user-list/user-list.component';
 
 export const APP_ROUTES: Routes = [
   {
     path: 'dashboard',
     component: AppLayoutComponent,
+    canActivate: [AuthGuard, AdminGuard],
     children: [
       {
         path: '',
         component: TestPageComponent,
+      },
+      {
+        path: 'users/list',
+        component: UserListComponent,
       },
     ],
   },

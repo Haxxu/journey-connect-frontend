@@ -21,12 +21,11 @@
         </div>
         <img
           [src]="getMediaUrlById(meInfo.avatar, meInfo.medias)"
-          class="shadow-md object-cover w-8 h-8 rounded-full"
+          class="object-cover w-8 h-8 rounded-full shadow-md"
         />
       </div>
     </div>
   </div>
-  
 
   <popper-content #headerMenuOption class="shadow-sm rounded-xl">
     <div class="w-28">
@@ -36,6 +35,17 @@
       >
         <ng-icon name="matPerson2Round" class="text-xl text-gray-600"></ng-icon>
         <span class="ml-2"> Profile </span>
+      </div>
+      <div
+        *ngIf="isAdmin"
+        class="px-2 py-1.5 my-0.5 hover:bg-gray-200 text-md rounded-md text-gray-700 cursor-pointer flex items-center"
+        [routerLink]="'/dashboard'"
+      >
+        <ng-icon
+          name="matDashboardRound"
+          class="text-xl text-gray-600"
+        ></ng-icon>
+        <span class="ml-2"> Dashboard </span>
       </div>
       <hr />
       <div

@@ -51,4 +51,8 @@ export class AuthService {
     const token = this.tokenStorageService.getAccessToken();
     return !!token;
   }
+
+  checkIsAdmin(): Observable<any> {
+    return this.http.get(`${environment.apiURL}/me/is-admin`);
+  }
 }
