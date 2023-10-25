@@ -13,32 +13,71 @@
     [paginator]="true"
     [totalRecords]="totalUsers"
   >
+    <ng-template pTemplate="caption">
+      <div class="flex items-center justify-between">
+        <h5 class="m-0">Manage Users</h5>
+        <input
+          type="text"
+          pInputText
+          placeholder="Search users"
+          class="h-10 max-w"
+        />
+      </div>
+    </ng-template>
     <ng-template pTemplate="header">
       <tr>
         <th class="w-16">ID</th>
+        <th class="w-10">Avatar</th>
         <th pSortableColumn="first_name">
           <div class="flex items-center justify-center">
             First name
-            <p-sortIcon field="first_name"></p-sortIcon>
+            <!-- <p-sortIcon field="first_name"></p-sortIcon>
             <p-columnFilter
               type="text"
               field="first_name"
               display="menu"
               class="ml-auto"
-            ></p-columnFilter>
+            ></p-columnFilter> -->
           </div>
         </th>
         <th pSortableColumn="last_name">
           <div class="flex items-center justify-center">
             Last name
-            <p-sortIcon field="last_name"></p-sortIcon>
+            <!-- <p-sortIcon field="last_name"></p-sortIcon>
             <p-columnFilter
               type="text"
               field="last_name"
               display="menu"
               class="ml-auto"
-            ></p-columnFilter>
+            ></p-columnFilter> -->
           </div>
+        </th>
+        <th pSortableColumn="email">
+          <div class="flex items-center justify-center">
+            Email
+            <!-- <p-sortIcon field="email"></p-sortIcon>
+            <p-columnFilter
+              type="text"
+              field="email"
+              display="menu"
+              class="ml-auto"
+            ></p-columnFilter> -->
+          </div>
+        </th>
+        <th pSortableColumn="friends">
+          <div class="flex items-center justify-center">
+            Total Friends
+            <!-- <p-sortIcon field="friends"></p-sortIcon>
+            <p-columnFilter
+              type="text"
+              field="friends"
+              display="menu"
+              class="ml-auto"
+            ></p-columnFilter> -->
+          </div>
+        </th>
+        <th>
+          <div class="flex items-center justify-center">Gender</div>
         </th>
       </tr>
     </ng-template>
@@ -48,6 +87,12 @@
           <span class="p-column-title">ID</span>
           {{ user._id }}
         </td>
+        <td class="flex items-center justify-center">
+          <img
+            [src]="getMediaUrlById(user.avatar, user.medias)"
+            class="object-cover w-8 h-8 rounded-full shadow-md"
+          />
+        </td>
         <td>
           <span class="p-column-title">First name</span>
           {{ user.first_name }}
@@ -55,6 +100,18 @@
         <td>
           <span class="p-column-title">Last name</span>
           {{ user.last_name }}
+        </td>
+        <td>
+          <span class="p-column-title">email</span>
+          {{ user.email }}
+        </td>
+        <td>
+          <span class="p-column-title">email</span>
+          {{ user.friends.length }}
+        </td>
+        <td>
+          <span class="capitalize p-column-title">Gender</span>
+          {{ user.gender }}
         </td>
       </tr>
     </ng-template>

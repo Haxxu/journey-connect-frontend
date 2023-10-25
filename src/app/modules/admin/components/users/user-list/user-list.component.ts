@@ -1,3 +1,4 @@
+import { getMediaUrlById } from '@/utils/media';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -24,6 +25,7 @@ export class UserListComponent implements OnInit {
   totalUsers: number = 0;
   page: number = 1;
   pageSize: number = 10;
+  getMediaUrlById = getMediaUrlById;
 
   constructor(
     private userService: UserService,
@@ -55,11 +57,10 @@ export class UserListComponent implements OnInit {
   }
 
   handleFirstChange(value: number) {
-    console.log(value);
+    // console.log(value);
   }
 
   handleLoadUsers(event: TableLazyLoadEvent) {
-    console.log(event);
     this.page = Number(event.first) / Number(event.rows) + 1;
     this.pageSize = Number(event.rows);
     this.loadUsers();
