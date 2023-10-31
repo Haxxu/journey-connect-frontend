@@ -14,6 +14,8 @@ import { ProgressBarModule } from 'primeng/progressbar';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { RippleModule } from 'primeng/ripple';
 import { TableModule } from 'primeng/table';
+import { ChipModule } from 'primeng/chip';
+import { TagModule } from 'primeng/tag';
 
 @NgModule({
   exports: [
@@ -31,6 +33,8 @@ import { TableModule } from 'primeng/table';
     ProgressSpinnerModule,
     RippleModule,
     TableModule,
+    ChipModule,
+    TagModule,
   ],
 })
 export class PrimeNGModule {}

@@ -20,16 +20,16 @@
           type="text"
           pInputText
           placeholder="Search users"
-          class="h-10 max-w"
+          class="h-10 max-w p-2 rounded-lg border border-gray-300 text-base font-normal text-gray-800"
         />
       </div>
     </ng-template>
     <ng-template pTemplate="header">
       <tr>
-        <th class="w-16">ID</th>
+        <!-- <th class="w-16">ID</th> -->
         <th class="w-10">Avatar</th>
         <th pSortableColumn="first_name">
-          <div class="flex items-center justify-center">
+          <div class="flex items-center justify-start">
             First name
             <!-- <p-sortIcon field="first_name"></p-sortIcon>
             <p-columnFilter
@@ -41,52 +41,37 @@
           </div>
         </th>
         <th pSortableColumn="last_name">
-          <div class="flex items-center justify-center">
-            Last name
-            <!-- <p-sortIcon field="last_name"></p-sortIcon>
-            <p-columnFilter
-              type="text"
-              field="last_name"
-              display="menu"
-              class="ml-auto"
-            ></p-columnFilter> -->
-          </div>
+          <div class="flex items-center justify-start">Last name</div>
         </th>
         <th pSortableColumn="email">
-          <div class="flex items-center justify-center">
-            Email
-            <!-- <p-sortIcon field="email"></p-sortIcon>
-            <p-columnFilter
-              type="text"
-              field="email"
-              display="menu"
-              class="ml-auto"
-            ></p-columnFilter> -->
-          </div>
+          <div class="flex items-center justify-start">Email</div>
         </th>
         <th pSortableColumn="friends">
-          <div class="flex items-center justify-center">
-            Total Friends
-            <!-- <p-sortIcon field="friends"></p-sortIcon>
-            <p-columnFilter
-              type="text"
-              field="friends"
-              display="menu"
-              class="ml-auto"
-            ></p-columnFilter> -->
-          </div>
+          <div class="flex items-center justify-start">Total friends</div>
         </th>
         <th>
-          <div class="flex items-center justify-center">Gender</div>
+          <div class="flex items-center justify-start">Gender</div>
+        </th>
+        <th>
+          <div class="flex items-center justify-start">Birth date</div>
+        </th>
+        <th>
+          <div class="flex items-center justify-start">Created at</div>
+        </th>
+        <th>
+          <div class="flex items-center justify-start">Role</div>
+        </th>
+        <th>
+          <div class="flex items-center justify-start">Actions</div>
         </th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-user>
       <tr>
-        <td>
+        <!-- <td>
           <span class="p-column-title">ID</span>
           {{ user._id }}
-        </td>
+        </td> -->
         <td class="flex items-center justify-center">
           <img
             [src]="getMediaUrlById(user.avatar, user.medias)"
@@ -113,7 +98,128 @@
           <span class="capitalize p-column-title">Gender</span>
           {{ user.gender }}
         </td>
+        <td>
+          <span class="p-column-title">Birth date</span>
+          {{ formatDateToDDMMYYYY(user.birth_date) }}
+        </td>
+        <td>
+          <span class="p-column-title">Created at</span>
+          {{ formatDateToDDMMYYYY(user.createdAt) }}
+        </td>
+        <td>
+          <span class="p-column-title">Role</span>
+          <p-tag
+            [severity]="user?.role === 'admin' ? 'primary' : 'success'"
+            [value]="user.role.toUpperCase()"
+          ></p-tag>
+        </td>
+        <td class="gap-2 flex">
+          <span class="p-column-title">Actions</span>
+          <button
+            pButton
+            class="p-button-rounded bg-blue-400 p-2"
+            (click)="handleShowUser(user)"
+          >
+            <ng-icon name="matInfoRound" class="text-xl text-white"></ng-icon>
+          </button>
+          <button pButton class="p-button-rounded bg-red-500 p-2">
+            <ng-icon name="matBlockRound" class="text-xl text-white"></ng-icon>
+          </button>
+        </td>
       </tr>
     </ng-template>
   </p-table>
 </div>
+
+<p-dialog
+  [(visible)]="userDialog"
+  [style]="{ width: '550px' }"
+  header="Product Details"
+  [modal]="true"
+  styleClass="p-fluid"
+>
+  <ng-template pTemplate="content">
+    <div class="field">
+      <label class="label">ID: </label>
+      <span class="">{{ user._id }}</span>
+    </div>
+
+    <div class="field">
+      <label class="label">Avatar: </label>
+      <div *ngIf="user.avatar" class="flex justify-center items-center">
+        <img
+          [src]="getMediaUrlById(user.avatar, user.medias)"
+          alt="User avatar"
+          class="block w-24 h-24 rounded-full object-cover shadow-xl"
+        />
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label">Background: </label>
+      <div *ngIf="user.background" class="flex justify-center items-center">
+        <img
+          [src]="getMediaUrlById(user.background, user.medias)"
+          alt="User background"
+          class="block max-w-[450px] rounded-lg shadow-xl"
+        />
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label">Email: </label>
+      <span class="label-text">{{ user.email }}</span>
+    </div>
+
+    <div class="field">
+      <label class="label">First name: </label>
+      <span class="label-text">{{ user.first_name }}</span>
+    </div>
+
+    <div class="field">
+      <label class="label">Last name: </label>
+      <span class="label-text">{{ user.last_name }}</span>
+    </div>
+
+    <div class="field">
+      <label class="label">Description: </label>
+      <span class="label-text">{{ user.description }}</span>
+    </div>
+
+    <div class="field">
+      <label class="label">Birth date: </label>
+      <span class="label-text">{{
+        formatDateToDDMMYYYY(user.birth_date)
+      }}</span>
+    </div>
+
+    <div class="field">
+      <label class="label">Gender: </label>
+      <span class="label-text">{{ user.gender }}</span>
+    </div>
+
+    <div class="field">
+      <label class="label">Created at: </label>
+      <span class="label-text">{{ formatDateToDDMMYYYY(user.createdAt) }}</span>
+    </div>
+  </ng-template>
+
+  <!-- <ng-template pTemplate="footer">
+    <button
+      pButton
+      pRipple
+      label="Cancel"
+      icon="pi pi-times"
+      class="p-button-text"
+      (click)="hideDialog()"
+    ></button>
+    <button
+      pButton
+      pRipple
+      label="Save"
+      icon="pi pi-check"
+      class="p-button-text"
+      (click)="saveProduct()"
+    ></button>
+  </ng-template> -->
+</p-dialog>

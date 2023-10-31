@@ -24,6 +24,7 @@ import {
   matDynamicFeedRound,
   matCommentRound,
   matReportRound,
+  matInfoRound,
 } from '@ng-icons/material-icons/round';
 
 import {
@@ -57,6 +58,7 @@ import {
       matDynamicFeedRound,
       matCommentRound,
       matReportRound,
+      matInfoRound,
       bootstrapPersonCheckFill,
       bootstrapPersonXFill,
     }),

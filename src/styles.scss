@@ -26,6 +26,15 @@
 body {
   .p-element input.p-inputtext {
     @apply border border-gray-200;
+
+    &:enabled:focus {
+      @apply border-blue-400;
+      box-shadow: 0 0 0 0.1rem #bfdbfe;
+    }
+
+    &:enabled:hover {
+      @apply border-blue-400;
+    }
   }
   .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
     background: #eff6ff;
