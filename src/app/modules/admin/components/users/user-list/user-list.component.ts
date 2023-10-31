@@ -14,6 +14,11 @@ import { TagModule } from 'primeng/tag';
 import { NgIconsModule } from '@ng-icons/core';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
+import { TooltipModule } from 'primeng/tooltip';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
+import { ConfirmationService } from 'primeng/api';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @Component({
   selector: 'app-user-list',
@@ -26,10 +31,14 @@ import { DialogModule } from 'primeng/dialog';
     NgIconsModule,
     ButtonModule,
     DialogModule,
+    TooltipModule,
+    ReactiveFormsModule,
+    ConfirmDialogModule,
   ],
   templateUrl: './user-list.component.html',
   styleUrls: ['./user-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [ConfirmationService],
 })
 export class UserListComponent implements OnInit {
   users: any[] = [];
@@ -44,29 +53,37 @@ export class UserListComponent implements OnInit {
   formatDateToDDMMYYYY = formatDateToDDMMYYYY;
   userDialog: boolean = false;
   user: any;
+  searchControl = new FormControl<any>('');
 
   constructor(
     private userService: UserService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private confirmationService: ConfirmationService
   ) {}
 
   ngOnInit(): void {
     this.loadUsers();
+
+    this.searchControl.valueChanges
+      .pipe(debounceTime(300), distinctUntilChanged())
+      .subscribe(() => {
+        this.loadUsers();
+      });
   }
 
   loadUsers() {
-    this.userService.getUsers(this.page, this.pageSize).subscribe({
-      next: (res: any) => {
-        if (res.success) {
-          this.users = res.data.docs;
-          this.totalUsers = res.data.totalDocs;
-          console.log(this.users);
-
-          this.cdr.detectChanges();
-        }
-        this.loading = false;
-      },
-    });
+    this.userService
+      .getUsers(this.page, this.pageSize, this.searchControl?.value)
+      .subscribe({
+        next: (res: any) => {
+          if (res.success) {
+            this.users = res.data.docs;
+            this.totalUsers = res.data.totalDocs;
+            this.cdr.detectChanges();
+          }
+          this.loading = false;
+        },
+      });
   }
 
   handleRowChange(value: number) {
@@ -87,5 +104,51 @@ export class UserListComponent implements OnInit {
   handleShowUser(user: any) {
     this.user = { ...user };
     this.userDialog = true;
+  }
+
+  deactiveUser(userId: string) {
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to deactive this user?',
+      header: 'Confirm',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.userService.deactiveUser(userId).subscribe({
+          next: (res) => {
+            if (res.success) {
+              this.users = this.users.map((user) => {
+                if (user._id === userId) {
+                  return { ...user, status: 'deactive' };
+                }
+                return user;
+              });
+              this.cdr.detectChanges();
+            }
+          },
+        });
+      },
+    });
+  }
+
+  activeUser(userId: string) {
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to active this user?',
+      header: 'Confirm',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.userService.activeUser(userId).subscribe({
+          next: (res) => {
+            if (res.success) {
+              this.users = this.users.map((user) => {
+                if (user._id === userId) {
+                  return { ...user, status: 'active' };
+                }
+                return user;
+              });
+              this.cdr.detectChanges();
+            }
+          },
+        });
+      },
+    });
   }
 }

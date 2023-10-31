@@ -16,6 +16,7 @@ import { RippleModule } from 'primeng/ripple';
 import { TableModule } from 'primeng/table';
 import { ChipModule } from 'primeng/chip';
 import { TagModule } from 'primeng/tag';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @NgModule({
   exports: [
@@ -35,6 +36,7 @@ import { TagModule } from 'primeng/tag';
     TableModule,
     ChipModule,
     TagModule,
+    ConfirmDialogModule,
   ],
 })
 export class PrimeNGModule {}

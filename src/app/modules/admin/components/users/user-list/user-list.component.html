@@ -20,7 +20,8 @@
           type="text"
           pInputText
           placeholder="Search users"
-          class="h-10 max-w p-2 rounded-lg border border-gray-300 text-base font-normal text-gray-800"
+          [formControl]="searchControl"
+          class="h-10 p-2 text-base font-normal text-gray-800 border border-gray-300 rounded-lg max-w"
         />
       </div>
     </ng-template>
@@ -113,16 +114,32 @@
             [value]="user.role.toUpperCase()"
           ></p-tag>
         </td>
-        <td class="gap-2 flex">
+        <td class="flex gap-2">
           <span class="p-column-title">Actions</span>
           <button
             pButton
-            class="p-button-rounded bg-blue-400 p-2"
+            class="p-2 bg-blue-400 p-button-rounded"
             (click)="handleShowUser(user)"
           >
             <ng-icon name="matInfoRound" class="text-xl text-white"></ng-icon>
           </button>
-          <button pButton class="p-button-rounded bg-red-500 p-2">
+          <button
+            pButton
+            class="p-2 p-button-rounded"
+            [ngClass]="{
+              'bg-red-500': user.status === 'active',
+              'bg-green-500': user.status === 'deactive'
+            }"
+            [pTooltip]="
+              user.status === 'active' ? 'Deactive user' : 'Active user'
+            "
+            [showDelay]="200"
+            (click)="
+              user.status === 'active'
+                ? deactiveUser(user._id)
+                : activeUser(user._id)
+            "
+          >
             <ng-icon name="matBlockRound" class="text-xl text-white"></ng-icon>
           </button>
         </td>
@@ -146,18 +163,18 @@
 
     <div class="field">
       <label class="label">Avatar: </label>
-      <div *ngIf="user.avatar" class="flex justify-center items-center">
+      <div *ngIf="user.avatar" class="flex items-center justify-center">
         <img
           [src]="getMediaUrlById(user.avatar, user.medias)"
           alt="User avatar"
-          class="block w-24 h-24 rounded-full object-cover shadow-xl"
+          class="block object-cover w-24 h-24 rounded-full shadow-xl"
         />
       </div>
     </div>
 
     <div class="field">
       <label class="label">Background: </label>
-      <div *ngIf="user.background" class="flex justify-center items-center">
+      <div *ngIf="user.background" class="flex items-center justify-center">
         <img
           [src]="getMediaUrlById(user.background, user.medias)"
           alt="User background"
@@ -202,6 +219,11 @@
       <label class="label">Created at: </label>
       <span class="label-text">{{ formatDateToDDMMYYYY(user.createdAt) }}</span>
     </div>
+
+    <div class="field">
+      <label class="label">Status: </label>
+      <span class="label-text">{{ user.status }}</span>
+    </div>
   </ng-template>
 
   <!-- <ng-template pTemplate="footer">
@@ -223,3 +245,5 @@
     ></button>
   </ng-template> -->
 </p-dialog>
+
+<p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>

@@ -118,4 +118,16 @@ export class UserService {
       },
     });
   }
+
+  activeUser(userId: string): Observable<any> {
+    return this.http.post(`${environment.apiURL}/users/active`, {
+      user: userId,
+    });
+  }
+
+  deactiveUser(userId: string): Observable<any> {
+    return this.http.post(`${environment.apiURL}/users/deactive`, {
+      user: userId,
+    });
+  }
 }
