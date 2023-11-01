@@ -16,12 +16,17 @@ import {
   updatePost,
   deletePost,
 } from '@/core/store/posts/posts.actions';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PostService {
-  constructor(private http: HttpClient, private store: Store) {}
+  constructor(
+    private http: HttpClient,
+    private store: Store,
+    private userService: UserService
+  ) {}
 
   createPost(body: any): Observable<any> {
     return this.http.post(`${environment.apiURL}/posts`, body).pipe(
@@ -71,6 +76,46 @@ export class PostService {
   getFeedPosts(page: number = 0, pageSize: number = 10): Observable<any> {
     return this.http
       .get(`${environment.apiURL}/posts/feed`, {
+        params: { page, pageSize },
+      })
+      .pipe(
+        tap((res: any) => {
+          if (res.success) {
+            // this.store.dispatch(setFeedPosts({ posts: res.data.data }));
+          }
+        })
+      );
+  }
+
+  savePost(postId: string): Observable<any> {
+    return this.http
+      .post(`${environment.apiURL}/me/posts`, { post: postId })
+      .pipe(
+        tap((res: any) => {
+          if (res.success) {
+            this.userService.fetchUserInfo();
+          }
+        })
+      );
+  }
+
+  unsavePost(postId: string): Observable<any> {
+    return this.http
+      .delete(`${environment.apiURL}/me/posts`, {
+        body: { post: postId },
+      })
+      .pipe(
+        tap((res: any) => {
+          if (res.success) {
+            this.userService.fetchUserInfo();
+          }
+        })
+      );
+  }
+
+  getSavedPosts(page: number = 0, pageSize: number = 10): Observable<any> {
+    return this.http
+      .get(`${environment.apiURL}/me/saved-posts`, {
         params: { page, pageSize },
       })
       .pipe(

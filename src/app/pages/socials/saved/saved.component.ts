@@ -2,7 +2,6 @@ import { Store } from '@ngrx/store';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { CreatePostComponent } from '@/modules/socials/components/create-post/create-post.component';
 import { PostCardComponent } from '@/modules/socials/components/post-card/post-card.component';
 import { selectFeedPosts } from '@/core/store/posts/posts.selectors';
 import { PostService } from '@/services/post.service';
@@ -10,7 +9,6 @@ import {
   addMoreFeedPosts,
   setFeedPosts,
 } from '@/core/store/posts/posts.actions';
-import { ScrollTrackerDirective } from '@/shared/directives/scroll-tracker.directive';
 import { ButtonModule } from 'primeng/button';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
@@ -19,15 +17,14 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
   standalone: true,
   imports: [
     CommonModule,
-    CreatePostComponent,
     PostCardComponent,
     ButtonModule,
     ProgressSpinnerModule,
   ],
-  templateUrl: './feed.component.html',
-  styleUrls: ['./feed.component.scss'],
+  templateUrl: './saved.component.html',
+  styleUrls: ['./saved.component.scss'],
 })
-export class FeedComponent implements OnInit {
+export class SavedComponent implements OnInit {
   constructor(private store: Store, private postService: PostService) {}
   posts$ = this.store.select(selectFeedPosts);
   throttle = 0;
@@ -43,7 +40,7 @@ export class FeedComponent implements OnInit {
 
   loadPosts() {
     this.loading = true;
-    this.postService.getFeedPosts(this.page, this.pageSize).subscribe({
+    this.postService.getSavedPosts(this.page, this.pageSize).subscribe({
       next: (res: any) => {
         if (res.success) {
           this.store.dispatch(addMoreFeedPosts({ posts: res.data.data }));

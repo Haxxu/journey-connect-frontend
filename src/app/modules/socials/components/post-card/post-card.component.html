@@ -9,7 +9,7 @@
   <div class="flex items-center justify-between px-4">
     <img
       [src]="getMediaUrlById(post.owner.avatar, post.owner.medias)"
-      class="shadow-md object-cover w-10 h-10 rounded-full"
+      class="object-cover w-10 h-10 rounded-full shadow-md"
     />
     <div class="flex-1 ml-4">
       <div class="py-1 font-semibold text-md">
@@ -44,6 +44,15 @@
         </p-overlayPanel>
       </div>
       <div
+        *ngIf="mode === 'view' && isSavedPost(post._id, meInfo.posts)"
+        class="w-6 h-6"
+      >
+        <ng-icon
+          name="matBookmarkRound"
+          class="text-xl text-gray-700"
+        ></ng-icon>
+      </div>
+      <div
         *ngIf="mode === 'view'"
         class="w-6 h-6 cursor-pointer"
         [popper]="postOption"
@@ -72,11 +81,23 @@
           >
             Delete
           </div>
+
           <div
+            *ngIf="isSavedPost(post._id, meInfo.posts); else unsaveTemp"
             class="px-2 py-1.5 hover:bg-gray-200 text-md rounded-md text-gray-700 cursor-pointer"
+            (click)="handleUnsavePost(post._id)"
           >
-            Save
+            Unsave
           </div>
+
+          <ng-template #unsaveTemp>
+            <div
+              class="px-2 py-1.5 hover:bg-gray-200 text-md rounded-md text-gray-700 cursor-pointer"
+              (click)="handleSavePost(post._id)"
+            >
+              Save
+            </div>
+          </ng-template>
         </div>
       </popper-content>
     </div>
@@ -113,7 +134,7 @@
             post.inner_post.owner.medias
           )
         "
-        class="shadow-md object-cover w-10 h-10 rounded-full"
+        class="object-cover w-10 h-10 rounded-full shadow-md"
       />
       <div class="flex-1 ml-4">
         <div class="py-1 font-semibold text-md">

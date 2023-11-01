@@ -1,0 +1,21 @@
+<div class="container">
+  <div>
+    <div *ngIf="posts$ | async as posts" class="flex flex-col gap-3 mt-3">
+      <app-post-card *ngFor="let post of posts" [post]="post"></app-post-card>
+    </div>
+    <div class="flex justify-center my-4" *ngIf="loading">
+      <p-progressSpinner styleClass="w-[4rem] h-[4rem]"></p-progressSpinner>
+    </div>
+    <div class="flex items-center justify-center my-4">
+      <p-button
+        styleClass="bg-blue-500 text-white j-button-custom w-full flex justify-center"
+        (onClick)="loadPosts()"
+        type="submit"
+        class="w-full"
+      >
+        Load More Posts
+      </p-button>
+    </div>
+  </div>
+  <!-- <div class="bg-green-50">hello</div> -->
+</div>

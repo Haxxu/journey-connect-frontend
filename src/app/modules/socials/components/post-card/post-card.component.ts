@@ -360,4 +360,23 @@ export class PostCardComponent implements OnInit {
   toggleSharePost() {
     this.sharePostVisible = !this.sharePostVisible;
   }
+
+  isSavedPost(postId: string, posts: any[]) {
+    let ps = posts.map((item) => item.post);
+    return ps.indexOf(postId) !== -1;
+  }
+
+  handleSavePost(postId: string) {
+    this.postService.savePost(postId).subscribe({
+      next: () => {},
+      error: (err) => console.log(err),
+    });
+  }
+
+  handleUnsavePost(postId: string) {
+    this.postService.unsavePost(postId).subscribe({
+      next: () => {},
+      error: (err) => console.log(err),
+    });
+  }
 }
