@@ -19,6 +19,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { ConfirmationService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-user-list',
@@ -34,6 +35,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
     TooltipModule,
     ReactiveFormsModule,
     ConfirmDialogModule,
+    RouterLink,
   ],
   templateUrl: './user-list.component.html',
   styleUrls: ['./user-list.component.scss'],

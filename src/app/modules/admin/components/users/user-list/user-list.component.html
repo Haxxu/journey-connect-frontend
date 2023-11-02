@@ -74,10 +74,12 @@
           {{ user._id }}
         </td> -->
         <td class="flex items-center justify-center">
-          <img
-            [src]="getMediaUrlById(user.avatar, user.medias)"
-            class="object-cover w-8 h-8 rounded-full shadow-md"
-          />
+          <a [routerLink]="'/users/' + user._id" target="_blank">
+            <img
+              [src]="getMediaUrlById(user.avatar, user.medias)"
+              class="object-cover w-8 h-8 rounded-full shadow-md"
+            />
+          </a>
         </td>
         <td>
           <span class="p-column-title">First name</span>
