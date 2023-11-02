@@ -110,6 +110,7 @@ export class PostCardComponent implements OnInit {
   showEmotions: any[] = [];
   showComments: boolean = false;
   comments$ = this.store.select(selectComments);
+  reportDialog: boolean = false;
 
   constructor(
     private store: Store,
@@ -378,5 +379,9 @@ export class PostCardComponent implements OnInit {
       next: () => {},
       error: (err) => console.log(err),
     });
+  }
+
+  handleShowReportPost(postId: string) {
+    this.reportDialog = true;
   }
 }

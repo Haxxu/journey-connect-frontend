@@ -10,4 +10,10 @@
       @apply text-gray-700 font-normal;
     }
   }
+
+  .p-dialog-footer {
+    button {
+      @apply mr-4;
+    }
+  }
 }

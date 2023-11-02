@@ -98,6 +98,13 @@
               Save
             </div>
           </ng-template>
+
+          <div
+            class="px-2 py-1.5 hover:bg-gray-200 text-md rounded-md text-gray-700 cursor-pointer"
+            (click)="handleShowReportPost(post?._id)"
+          >
+            Report
+          </div>
         </div>
       </popper-content>
     </div>
@@ -349,3 +356,13 @@
     </div>
   </ng-container>
 </form>
+
+<p-dialog
+  [(visible)]="reportDialog"
+  [style]="{ width: '550px' }"
+  header="Report Post"
+  [modal]="true"
+  styleClass="p-fluid"
+>
+  <ng-template pTemplate="content"> </ng-template>
+</p-dialog>
