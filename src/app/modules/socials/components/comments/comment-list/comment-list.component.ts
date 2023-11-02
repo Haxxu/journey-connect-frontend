@@ -17,6 +17,8 @@ import { NgxPopperjsModule, NgxPopperjsPlacements } from 'ngx-popperjs';
 import { Store } from '@ngrx/store';
 import { selectMeInfo } from '@/core/store/me/me.selectors';
 import { CommentService } from '@/services/comment.service';
+import { DialogModule } from 'primeng/dialog';
+import { CreateReportComponent } from '../../create-report/create-report.component';
 
 @Component({
   selector: 'app-comment-list',
@@ -29,6 +31,8 @@ import { CommentService } from '@/services/comment.service';
     EmotionsComponent,
     CommentInputComponent,
     NgxPopperjsModule,
+    DialogModule,
+    CreateReportComponent,
   ],
   templateUrl: './comment-list.component.html',
   styleUrls: ['./comment-list.component.scss'],
@@ -42,6 +46,7 @@ export class CommentListComponent {
   replyMode: boolean = false;
   NgxPopperjsPlacements = NgxPopperjsPlacements;
   meInfo$ = this.store.select(selectMeInfo);
+  reportDialog: boolean = false;
 
   @ContentChild('moreComments') moreComments: TemplateRef<{}> | undefined;
 

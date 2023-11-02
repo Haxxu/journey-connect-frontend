@@ -85,6 +85,7 @@
         </div>
         <div
           class="px-2 py-1.5 hover:bg-gray-200 text-md rounded-md text-gray-700 cursor-pointer"
+          (click)="reportDialog = true"
         >
           Report
         </div>
@@ -107,3 +108,19 @@
     [ngTemplateOutlet]="moreComments"
   ></ng-container>
 </div>
+
+<p-dialog
+  [(visible)]="reportDialog"
+  [style]="{ width: '550px' }"
+  header="Report Comment"
+  [modal]="true"
+  styleClass="p-fluid"
+>
+  <ng-template pTemplate="content">
+    <app-create-report
+      [context_id]="comment._id"
+      context_type="comment"
+      (onSuccess)="reportDialog = false"
+    ></app-create-report>
+  </ng-template>
+</p-dialog>
