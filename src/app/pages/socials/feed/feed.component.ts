@@ -1,5 +1,5 @@
 import { Store } from '@ngrx/store';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { CreatePostComponent } from '@/modules/socials/components/create-post/create-post.component';
@@ -10,7 +10,6 @@ import {
   addMoreFeedPosts,
   setFeedPosts,
 } from '@/core/store/posts/posts.actions';
-import { ScrollTrackerDirective } from '@/shared/directives/scroll-tracker.directive';
 import { ButtonModule } from 'primeng/button';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
@@ -26,6 +25,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
   ],
   templateUrl: './feed.component.html',
   styleUrls: ['./feed.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FeedComponent implements OnInit {
   constructor(private store: Store, private postService: PostService) {}

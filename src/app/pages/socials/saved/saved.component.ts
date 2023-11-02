@@ -1,5 +1,5 @@
 import { Store } from '@ngrx/store';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { PostCardComponent } from '@/modules/socials/components/post-card/post-card.component';
@@ -23,6 +23,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
   ],
   templateUrl: './saved.component.html',
   styleUrls: ['./saved.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SavedComponent implements OnInit {
   constructor(private store: Store, private postService: PostService) {}

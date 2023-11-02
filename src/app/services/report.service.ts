@@ -12,12 +12,14 @@ export class ReportService {
   report(
     context_type: 'post' | 'comment',
     context_id: string,
-    content: string
+    content: string,
+    types: string[]
   ): Observable<any> {
     return this.http.post(`${environment.apiURL}/reports`, {
       context_type,
       context_id,
       content,
+      types,
     });
   }
 }

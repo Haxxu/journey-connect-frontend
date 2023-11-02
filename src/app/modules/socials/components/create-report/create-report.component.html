@@ -1,1 +1,91 @@
-<div></div>
+<div>
+  <div class="flex flex-wrap gap-4">
+    <div class="flex items-center gap-1">
+      <p-checkbox
+        name="report_type"
+        value="Nudity"
+        [(ngModel)]="selectedReportTypes"
+        inputId="nu"
+      ></p-checkbox>
+      <label for="nu">Nudity</label>
+    </div>
+
+    <div class="flex items-center gap-1">
+      <p-checkbox
+        name="report_type"
+        value="Violence"
+        [(ngModel)]="selectedReportTypes"
+        inputId="vi"
+      ></p-checkbox>
+      <label for="vi">Violence</label>
+    </div>
+
+    <div class="flex items-center gap-1">
+      <p-checkbox
+        name="report_type"
+        value="Spam"
+        [(ngModel)]="selectedReportTypes"
+        inputId="sp"
+      ></p-checkbox>
+      <label for="sp">Spam</label>
+    </div>
+
+    <div class="flex items-center gap-1">
+      <p-checkbox
+        name="report_type"
+        value="Suicide & Self-Injury"
+        [(ngModel)]="selectedReportTypes"
+        inputId="ss"
+      ></p-checkbox>
+      <label for="ss">Suicide & Self-Injury</label>
+    </div>
+
+    <div class="flex items-center gap-1">
+      <p-checkbox
+        name="report_type"
+        value="Hate Speech"
+        [(ngModel)]="selectedReportTypes"
+        inputId="hs"
+      ></p-checkbox>
+      <label for="hs">Hate Speech</label>
+    </div>
+
+    <div class="flex items-center gap-1">
+      <p-checkbox
+        name="report_type"
+        value="Terrorism"
+        [(ngModel)]="selectedReportTypes"
+        inputId="tr"
+      ></p-checkbox>
+      <label for="tr">Terrorism</label>
+    </div>
+
+    <div class="flex items-center gap-1">
+      <p-checkbox
+        name="report_type"
+        value="Harassment"
+        [(ngModel)]="selectedReportTypes"
+        inputId="hr"
+      ></p-checkbox>
+      <label for="hr">Harassment</label>
+    </div>
+  </div>
+
+  <textarea
+    rows="5"
+    cols="30"
+    pInputTextarea
+    [(ngModel)]="content"
+    placeholder="Enter info to report"
+    class="mt-4 p-2"
+  ></textarea>
+
+  <div class="mt-2">
+    <p-button
+      styleClass="bg-blue-500 text-white j-button-custom flex justify-center small"
+      [loading]="submitting"
+      (onClick)="handleReport()"
+      [label]="'Report'"
+    ></p-button>
+  </div>
+</div>

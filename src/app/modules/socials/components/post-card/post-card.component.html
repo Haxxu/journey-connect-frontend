@@ -44,7 +44,7 @@
         </p-overlayPanel>
       </div>
       <div
-        *ngIf="mode === 'view' && isSavedPost(post._id, meInfo.posts)"
+        *ngIf="mode === 'view' && isSavedPost(post._id, meInfo?.posts || [])"
         class="w-6 h-6"
       >
         <ng-icon
@@ -229,6 +229,17 @@
 
         <div
           *ngIf="mode === 'edit'"
+          class="absolute top-0 left-0 flex w-4 h-4 bg-gray-700 cursor-pointer bg-opacity-70 item-center"
+          (click)="handleShowEditMediaDialog(media)"
+        >
+          <ng-icon
+            name="matEditRound"
+            class="text-base text-gray-300"
+          ></ng-icon>
+        </div>
+
+        <div
+          *ngIf="mode === 'edit'"
           class="absolute top-0 right-0 flex w-4 h-4 bg-gray-700 cursor-pointer bg-opacity-70 item-center"
           (click)="handleRemoveEditMedia(media.id)"
         >
@@ -358,11 +369,46 @@
 </form>
 
 <p-dialog
+  [(visible)]="mediaDialog"
+  [style]="{ width: '550px' }"
+  header="Change Image Title"
+  [modal]="true"
+  styleClass="p-fluid"
+>
+  <ng-template pTemplate="content">
+    <div class="w-full">
+      <img [src]="mediaImage" class="w-full" />
+    </div>
+    <textarea
+      rows="5"
+      cols="30"
+      pInputTextarea
+      [(ngModel)]="mediaTitle"
+      placeholder="Enter title"
+      class="mt-4 p-2"
+    ></textarea>
+    <div class="mt-2">
+      <p-button
+        styleClass="bg-blue-500 text-white j-button-custom flex justify-center small"
+        (onClick)="handleEditMediaTitle()"
+        [label]="'Edit'"
+      ></p-button>
+    </div>
+  </ng-template>
+</p-dialog>
+
+<p-dialog
   [(visible)]="reportDialog"
   [style]="{ width: '550px' }"
   header="Report Post"
   [modal]="true"
   styleClass="p-fluid"
 >
-  <ng-template pTemplate="content"> </ng-template>
+  <ng-template pTemplate="content">
+    <app-create-report
+      [context_id]="post._id"
+      context_type="post"
+      (onSuccess)="reportDialog = false"
+    ></app-create-report>
+  </ng-template>
 </p-dialog>

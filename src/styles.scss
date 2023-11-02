@@ -24,7 +24,8 @@
 }
 
 body {
-  .p-element input.p-inputtext {
+  .p-element input.p-inputtext,
+  .p-element textarea.p-inputtextarea {
     @apply border border-gray-200;
 
     &:enabled:focus {

@@ -17,6 +17,7 @@ import { TableModule } from 'primeng/table';
 import { ChipModule } from 'primeng/chip';
 import { TagModule } from 'primeng/tag';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { CheckboxModule } from 'primeng/checkbox';
 
 @NgModule({
   exports: [
@@ -37,6 +38,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
     ChipModule,
     TagModule,
     ConfirmDialogModule,
+    CheckboxModule,
   ],
 })
 export class PrimeNGModule {}

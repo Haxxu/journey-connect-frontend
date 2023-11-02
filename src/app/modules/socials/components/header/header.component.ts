@@ -48,7 +48,6 @@ export class HeaderComponent implements OnInit {
     this.authService.checkIsAdmin().subscribe({
       next: (res: any) => {
         if (res.success) {
-          console.log(res);
           this.isAdmin = true;
         } else {
           this.isAdmin = false;

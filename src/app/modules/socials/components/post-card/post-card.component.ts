@@ -2,8 +2,10 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  EventEmitter,
   Input,
   OnInit,
+  Output,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { getMediaUrlById } from '@/utils/media';
@@ -19,6 +21,7 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import {
   FormBuilder,
   FormGroup,
+  FormsModule,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
@@ -39,12 +42,12 @@ import { RouterModule } from '@angular/router';
 import { AppRoutes } from '@/config/app_routes';
 import { timeAgo } from '@/utils/format';
 import { CommentsComponent } from '@/modules/socials/components/comments/comments/comments.component';
-import { SocketService } from '@/services/socket.service';
 import { CommentService } from '@/services/comment.service';
 import { selectComments } from '@/core/store/comments/comments.selector';
 import { CreateSharePostComponent } from '../create-share-post/create-share-post.component';
 import { CreatePostComponent } from '../create-post/create-post.component';
 import { CreatePostModalService } from '@/modules/socials/services/create-post-modal.service';
+import { CreateReportComponent } from '../create-report/create-report.component';
 
 @Component({
   selector: 'app-post-card',
@@ -70,6 +73,9 @@ import { CreatePostModalService } from '@/modules/socials/services/create-post-m
     CommentsComponent,
     CreateSharePostComponent,
     CreatePostComponent,
+    CreateReportComponent,
+    InputTextareaModule,
+    FormsModule,
   ],
   templateUrl: './post-card.component.html',
   styleUrls: ['./post-card.component.scss'],
@@ -77,6 +83,10 @@ import { CreatePostModalService } from '@/modules/socials/services/create-post-m
 })
 export class PostCardComponent implements OnInit {
   @Input() post: any;
+  @Output() onReportPost = new EventEmitter<{
+    context_id: string;
+    context_type: string;
+  }>();
   meInfo$ = this.store.select(selectMeInfo);
   getMediaUrlById = getMediaUrlById;
   formatDate = formatDate;
@@ -111,6 +121,10 @@ export class PostCardComponent implements OnInit {
   showComments: boolean = false;
   comments$ = this.store.select(selectComments);
   reportDialog: boolean = false;
+  mediaDialog: boolean = false;
+  mediaImage: string = '';
+  mediaTitle: string = '';
+  mediaId: string = '';
 
   constructor(
     private store: Store,
@@ -121,7 +135,6 @@ export class PostCardComponent implements OnInit {
     private messageService: MessageService,
     public gallery: Gallery,
     private emotionService: EmotionService,
-    private socketService: SocketService,
     private commentService: CommentService,
     private createPostModalService: CreatePostModalService
   ) {
@@ -362,7 +375,7 @@ export class PostCardComponent implements OnInit {
     this.sharePostVisible = !this.sharePostVisible;
   }
 
-  isSavedPost(postId: string, posts: any[]) {
+  isSavedPost(postId: string, posts: any[] = []) {
     let ps = posts.map((item) => item.post);
     return ps.indexOf(postId) !== -1;
   }
@@ -383,5 +396,20 @@ export class PostCardComponent implements OnInit {
 
   handleShowReportPost(postId: string) {
     this.reportDialog = true;
+  }
+
+  handleShowEditMediaDialog(media: any) {
+    this.mediaDialog = true;
+    this.mediaImage = media.url;
+    this.mediaId = media.id;
+    this.mediaTitle = media?.title ? media.title : '';
+  }
+
+  handleEditMediaTitle() {
+    this.editMedias = this.editMedias.map((media) =>
+      media.id === this.mediaId ? { ...media, title: this.mediaTitle } : media
+    );
+    this.editPostForm.get('medias')?.setValue(this.editMedias);
+    this.mediaDialog = false;
   }
 }

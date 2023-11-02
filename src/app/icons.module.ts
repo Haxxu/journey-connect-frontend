@@ -25,6 +25,7 @@ import {
   matCommentRound,
   matReportRound,
   matInfoRound,
+  matEditRound,
 } from '@ng-icons/material-icons/round';
 
 import {
@@ -59,6 +60,7 @@ import {
       matCommentRound,
       matReportRound,
       matInfoRound,
+      matEditRound,
       bootstrapPersonCheckFill,
       bootstrapPersonXFill,
     }),

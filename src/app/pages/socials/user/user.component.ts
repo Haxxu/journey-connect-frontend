@@ -1,4 +1,9 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProfileHeaderComponent } from '@/modules/socials/components/profile-header/profile-header.component';
 import { UserService } from '@/services/user.service';
@@ -14,6 +19,7 @@ import { Subject, takeUntil } from 'rxjs';
   imports: [CommonModule, ProfileHeaderComponent, ProfileBodyComponent],
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserComponent implements OnInit, OnDestroy {
   userId: string = '';
