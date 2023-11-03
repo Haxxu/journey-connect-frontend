@@ -20,6 +20,11 @@ import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { ConfirmationService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { RouterLink } from '@angular/router';
+import { PostService } from '@/services/post.service';
+import { Store } from '@ngrx/store';
+import { selectPosts } from '@/core/store/posts/posts.selectors';
+import { PostCardComponent } from '@/modules/socials/components/post-card/post-card.component';
+import { setPosts } from '@/core/store/posts/posts.actions';
 
 @Component({
   selector: 'app-user-list',
@@ -36,6 +41,7 @@ import { RouterLink } from '@angular/router';
     ReactiveFormsModule,
     ConfirmDialogModule,
     RouterLink,
+    PostCardComponent,
   ],
   templateUrl: './user-list.component.html',
   styleUrls: ['./user-list.component.scss'],
@@ -54,13 +60,17 @@ export class UserListComponent implements OnInit {
   formatDate = formatDate;
   formatDateToDDMMYYYY = formatDateToDDMMYYYY;
   userDialog: boolean = false;
+  postsDialog: boolean = false;
   user: any;
   searchControl = new FormControl<any>('');
+  posts$ = this.store.select(selectPosts);
 
   constructor(
     private userService: UserService,
     private cdr: ChangeDetectorRef,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private postService: PostService,
+    private store: Store
   ) {}
 
   ngOnInit(): void {
@@ -106,6 +116,21 @@ export class UserListComponent implements OnInit {
   handleShowUser(user: any) {
     this.user = { ...user };
     this.userDialog = true;
+  }
+
+  handleShowUserPosts(user: any) {
+    this.store.dispatch(setPosts({ posts: [] }));
+    this.postService.getPostsByUserId(user._id).subscribe({
+      next: (res: any) => {
+        if (res.success) {
+          // this.postsDialog = true;
+        }
+      },
+      error: (res: any) => {
+        // this.postsDialog = true;
+      },
+    });
+    this.postsDialog = true;
   }
 
   deactiveUser(userId: string) {

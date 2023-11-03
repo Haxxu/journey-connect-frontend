@@ -181,7 +181,13 @@
         [lightbox]="i"
         [gallery]="post?.inner_post?._id"
       >
-        <img [src]="item.data?.thumb || ''" alt="" class="w-full h-full" />
+        <img
+          [src]="item.data?.thumb || ''"
+          alt=""
+          class="w-full h-full"
+          [pTooltip]="item.data?.type"
+          [showDelay]="300"
+        />
       </div>
     </div>
   </div>
@@ -206,7 +212,13 @@
       [lightbox]="i"
       [gallery]="post?._id"
     >
-      <img [src]="item.data?.thumb || ''" alt="" class="w-full h-full" />
+      <img
+        [src]="item.data?.thumb || ''"
+        alt=""
+        class="w-full h-full"
+        [pTooltip]="item.data?.type"
+        [showDelay]="300"
+      />
     </div>
   </div>
 
@@ -385,7 +397,7 @@
       pInputTextarea
       [(ngModel)]="mediaTitle"
       placeholder="Enter title"
-      class="mt-4 p-2"
+      class="p-2 mt-4"
     ></textarea>
     <div class="mt-2">
       <p-button

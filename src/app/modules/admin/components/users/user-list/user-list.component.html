@@ -123,7 +123,16 @@
             class="p-2 bg-blue-400 p-button-rounded"
             (click)="handleShowUser(user)"
           >
-            <ng-icon name="matInfoRound" class="text-xl text-white"></ng-icon>
+            <ng-icon
+              name="matInfoRound"
+              class="text-xl text-white"
+            ></ng-icon></button
+          ><button
+            pButton
+            class="p-2 bg-green-400 p-button-rounded"
+            (click)="handleShowUserPosts(user)"
+          >
+            <ng-icon name="matFeedRound" class="text-xl text-white"></ng-icon>
           </button>
           <button
             pButton
@@ -246,6 +255,20 @@
       (click)="saveProduct()"
     ></button>
   </ng-template> -->
+</p-dialog>
+
+<p-dialog
+  [(visible)]="postsDialog"
+  [style]="{ width: '650px' }"
+  header="User Posts"
+  [modal]="true"
+  styleClass="p-fluid"
+>
+  <ng-template pTemplate="content">
+    <div *ngIf="posts$ | async as posts" class="flex flex-col gap-3">
+      <app-post-card *ngFor="let post of posts" [post]="post"></app-post-card>
+    </div>
+  </ng-template>
 </p-dialog>
 
 <p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>

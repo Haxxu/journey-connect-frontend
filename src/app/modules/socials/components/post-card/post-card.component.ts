@@ -166,6 +166,8 @@ export class PostCardComponent implements OnInit {
         return new ImageItem({
           src: media.url,
           thumb: media.url,
+          alt: media.title,
+          type: media.title,
         });
       });
       const galleryRef = this.gallery.ref(this.post._id);
@@ -178,6 +180,7 @@ export class PostCardComponent implements OnInit {
           return new ImageItem({
             src: media.url,
             thumb: media.url,
+            type: media.title,
           });
         }
       );
