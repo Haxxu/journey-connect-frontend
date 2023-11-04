@@ -125,6 +125,10 @@ export class UserService {
     });
   }
 
+  getUsersInfo(): Observable<any> {
+    return this.http.get(`${environment.apiURL}/users/info`);
+  }
+
   deactiveUser(userId: string): Observable<any> {
     return this.http.post(`${environment.apiURL}/users/deactive`, {
       user: userId,

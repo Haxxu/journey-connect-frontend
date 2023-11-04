@@ -15,6 +15,7 @@ import { AuthInterceptor } from '@/core/interceptors/auth.interceptor';
 import { AppStoreModule } from './store.module';
 import { NgxPopperjsModule } from 'ngx-popperjs';
 import { AppLayoutModule } from './layout/dashboard/app.layout.module';
+
 @NgModule({
   declarations: [AppComponent],
   imports: [

@@ -20,6 +20,7 @@ import { TestPageComponent } from './modules/admin/test-page/test-page.component
 import { AdminGuard } from './core/guards/admin.guard';
 import { UserListComponent } from './modules/admin/components/users/user-list/user-list.component';
 import { SavedComponent } from './pages/socials/saved/saved.component';
+import { UserChartComponent } from './modules/admin/components/users/user-chart/user-chart.component';
 
 export const APP_ROUTES: Routes = [
   {
@@ -30,6 +31,10 @@ export const APP_ROUTES: Routes = [
       {
         path: '',
         component: TestPageComponent,
+      },
+      {
+        path: 'users',
+        component: UserChartComponent,
       },
       {
         path: 'users/list',
