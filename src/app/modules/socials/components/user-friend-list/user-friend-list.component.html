@@ -1,0 +1,30 @@
+<div>
+  <div class="flex justify-end m-3 font-medium text-gray-700">Friends List</div>
+  <div class="flex flex-col gap-2">
+    <div
+      *ngFor="let friend of friends"
+      class="flex gap-4 p-2 bg-white rounded-lg hover:bg-gray-200"
+    >
+      <div class="">
+        <img
+          [src]="getMediaUrlById(friend.user.avatar, friend.user.medias)"
+          class="object-cover w-8 h-8 rounded-full shadow-md"
+        />
+      </div>
+      <div class="">
+        <a
+          [routerLink]="'/users/' + friend.user?._id"
+          class="font-medium text-gray-700 text-md hover:underline"
+        >
+          {{ friend.user.first_name + " " + friend.user.last_name }}
+        </a>
+        <div
+          *ngIf="friend.mutualFriends.length > 0"
+          class="text-sm font-medium text-gray-600"
+        >
+          {{ friend.mutualFriends.length }} mutual friends
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

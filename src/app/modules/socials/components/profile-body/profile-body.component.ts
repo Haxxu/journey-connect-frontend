@@ -15,6 +15,7 @@ import { PostCardComponent } from '@/modules/socials/components/post-card/post-c
 import { selectMeInfo } from '@/core/store/me/me.selectors';
 import { ActivatedRoute } from '@angular/router';
 import { SkeletonModule } from 'primeng/skeleton';
+import { UserFriendListComponent } from '../user-friend-list/user-friend-list.component';
 
 @Component({
   selector: 'app-profile-body',
@@ -24,6 +25,7 @@ import { SkeletonModule } from 'primeng/skeleton';
     CreatePostComponent,
     PostCardComponent,
     SkeletonModule,
+    UserFriendListComponent,
   ],
   templateUrl: './profile-body.component.html',
   styleUrls: ['./profile-body.component.scss'],

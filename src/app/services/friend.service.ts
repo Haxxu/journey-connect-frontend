@@ -65,6 +65,10 @@ export class FriendService {
     });
   }
 
+  getUserFriendsById(userId: string): Observable<any> {
+    return this.http.get(`${environment.apiURL}/users/${userId}/friends`);
+  }
+
   unfriend(userId: string): Observable<any> {
     return this.http.delete(`${environment.apiURL}/me/unfriend`, {
       body: { user: userId },

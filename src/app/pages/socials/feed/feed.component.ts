@@ -12,6 +12,8 @@ import {
 } from '@/core/store/posts/posts.actions';
 import { ButtonModule } from 'primeng/button';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { UserFriendListComponent } from '@/modules/socials/components/user-friend-list/user-friend-list.component';
+import { selectMeInfo } from '@/core/store/me/me.selectors';
 
 @Component({
   selector: 'app-feed',
@@ -22,6 +24,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     PostCardComponent,
     ButtonModule,
     ProgressSpinnerModule,
+    UserFriendListComponent,
   ],
   templateUrl: './feed.component.html',
   styleUrls: ['./feed.component.scss'],
@@ -30,6 +33,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 export class FeedComponent implements OnInit {
   constructor(private store: Store, private postService: PostService) {}
   posts$ = this.store.select(selectFeedPosts);
+  meInfo$ = this.store.select(selectMeInfo);
   throttle = 0;
   distance = 2;
   page: number = 0;

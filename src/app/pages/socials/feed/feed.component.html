@@ -1,5 +1,5 @@
 <div class="container">
-  <div>
+  <div class="">
     <app-create-post></app-create-post>
     <div *ngIf="posts$ | async as posts" class="flex flex-col gap-3 mt-3">
       <app-post-card *ngFor="let post of posts" [post]="post"></app-post-card>
@@ -18,5 +18,11 @@
       </p-button>
     </div>
   </div>
-  <!-- <div class="bg-green-50">hello</div> -->
+  <div class="">
+    <app-user-friend-list
+      *ngIf="meInfo$ | async as meInfo"
+      [userId]="meInfo._id"
+    >
+    </app-user-friend-list>
+  </div>
 </div>

@@ -9,7 +9,9 @@
       <app-post-card *ngFor="let post of posts" [post]="post"></app-post-card>
     </div>
   </div>
-  <div class="bg-green-50">hello</div>
+  <div class="">
+    <app-user-friend-list [userId]="userId"> </app-user-friend-list>
+  </div>
 </div>
 <div class="container" *ngIf="loadingPosts">
   <div>
