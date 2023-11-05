@@ -126,4 +126,18 @@ export class PostService {
         })
       );
   }
+
+  getPosts(
+    page: number = 1,
+    pageSize: number = 10,
+    search: string = ''
+  ): Observable<any> {
+    return this.http.get(`${environment.apiURL}/posts`, {
+      params: {
+        page,
+        pageSize,
+        search,
+      },
+    });
+  }
 }

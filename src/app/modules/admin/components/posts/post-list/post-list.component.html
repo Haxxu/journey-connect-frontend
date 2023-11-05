@@ -1,0 +1,248 @@
+<div class="card">
+  <p-table
+    #dt
+    [value]="posts"
+    [lazy]="true"
+    dataKey="idakdsf-dksf"
+    (onLazyLoad)="handleLoadPosts($event)"
+    [rows]="pageSize"
+    [first]="(page - 1) * pageSize"
+    [rowsPerPageOptions]="[2, 5, 10, 25, 50]"
+    [showCurrentPageReport]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} posts"
+    [paginator]="true"
+    [totalRecords]="totalPosts"
+  >
+    <ng-template pTemplate="caption">
+      <div class="flex items-center justify-between">
+        <h5 class="m-0">Manage Posts</h5>
+        <input
+          type="text"
+          pInputText
+          placeholder="Search posts, users"
+          [formControl]="searchControl"
+          class="h-10 p-2 text-base font-normal text-gray-800 border border-gray-300 rounded-lg max-w"
+        />
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <!-- <th class="w-16">ID</th> -->
+
+        <th>
+          <div class="flex items-center justify-start">Owner avatar</div>
+        </th>
+        <th>
+          <div class="flex items-center justify-start">Owner name</div>
+        </th>
+        <th class="w-80">
+          <div class="flex items-center justify-start">Title</div>
+        </th>
+        <th>
+          <div class="flex items-center justify-start">Post type</div>
+        </th>
+        <th>
+          <div class="flex items-center justify-start">Visibility</div>
+        </th>
+        <th>
+          <div class="flex items-center justify-start">Created at</div>
+        </th>
+        <!-- <th>
+          <div class="flex items-center justify-start">Total friends</div>
+        </th>
+        <th>
+          <div class="flex items-center justify-start">Gender</div>
+        </th>
+        <th>
+          <div class="flex items-center justify-start">Birth date</div>
+        </th>
+        
+        <th>
+          <div class="flex items-center justify-start">Role</div>
+        </th> -->
+        <th>
+          <div class="flex items-center justify-start">Actions</div>
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-post>
+      <tr>
+        <!-- <td>
+          <span class="p-column-title">ID</span>
+          {{ user._id }}
+        </td> -->
+
+        <td class="flex items-center justify-center h-full">
+          <a
+            [routerLink]="'/users/' + post.owner._id"
+            target="_blank"
+            class="block"
+          >
+            <img
+              [src]="getMediaUrlById(post.owner.avatar, post.owner.medias)"
+              class="object-cover w-8 h-8 rounded-full shadow-md"
+            />
+          </a>
+        </td>
+        <td>
+          <span class="p-column-title">Owner</span>
+          {{ post.owner.first_name + " " + post.owner.last_name }}
+        </td>
+        <td class="w-20">
+          <span class="p-column-title">Title</span>
+          {{ post.title }}
+        </td>
+        <td class="w-20">
+          <span class="p-column-title">Post type</span>
+          {{ post.post_type === "individual_post" ? "Individual" : "Share" }}
+        </td>
+        <td class="w-20">
+          <span class="p-column-title">Visibility</span>
+          {{ post.visibility }}
+        </td>
+        <td>
+          <span class="p-column-title">Created at</span>
+          {{ formatDateToDDMMYYYY(post.createdAt) }}
+        </td>
+        <!-- <td>
+          <span class="p-column-title">email</span>
+          {{ user.friends.length }}
+        </td>
+        <td>
+          <span class="capitalize p-column-title">Gender</span>
+          {{ user.gender }}
+        </td>
+        <td>
+          <span class="p-column-title">Birth date</span>
+          {{ formatDateToDDMMYYYY(user.birth_date) }}
+        </td>
+        
+        <td>
+          <span class="p-column-title">Role</span>
+          <p-tag
+            [severity]="user?.role === 'admin' ? 'primary' : 'success'"
+            [value]="user.role.toUpperCase()"
+          ></p-tag>
+        </td> -->
+        <td class="flex gap-2">
+          <span class="p-column-title">Actions</span>
+          <button
+            pButton
+            class="p-2 bg-blue-400 p-button-rounded"
+            (click)="handleShowPost(post)"
+          >
+            <ng-icon name="matInfoRound" class="text-xl text-white"></ng-icon>
+          </button>
+          <button
+            pButton
+            class="p-2 bg-red-400 p-button-rounded"
+            (click)="deletePost(post._id)"
+          >
+            <ng-icon name="matDeleteRound" class="text-xl text-white"></ng-icon>
+          </button>
+          <!-- <button
+            pButton
+            class="p-2 p-button-rounded"
+            [ngClass]="{
+              'bg-red-500': user.status === 'active',
+              'bg-green-500': user.status === 'deactive'
+            }"
+            [pTooltip]="
+              user.status === 'active' ? 'Deactive user' : 'Active user'
+            "
+            [showDelay]="200"
+            (click)="
+              user.status === 'active'
+                ? deactivePost(user._id)
+                : activePost(user._id)
+            "
+          >
+            <ng-icon name="matBlockRound" class="text-xl text-white"></ng-icon>
+          </button> -->
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+<p-dialog
+  [(visible)]="userDialog"
+  [style]="{ width: '650px' }"
+  header="Post Info"
+  styleClass="p-fluid"
+  [modal]="true"
+>
+  <ng-template pTemplate="content">
+    <div class="field">
+      <label class="label">ID: </label>
+      <span class="">{{ post?._id }}</span>
+    </div>
+
+    <div class="field">
+      <label class="label">Title: </label>
+      <span class="">{{ post?.title }}</span>
+    </div>
+
+    <div class="field" *ngIf="post?.inner?._id">
+      <label class="label">Inner post ID: </label>
+      <span class="label-text">{{ post?.inner._id }}</span>
+    </div>
+
+    <div class="field">
+      <label class="label">Visibility: </label>
+      <span class="label-text">{{ post?.visibility }}</span>
+    </div>
+
+    <!-- <div class="field">
+      <label class="label">Last name: </label>
+      <span class="label-text">{{ user.last_name }}</span>
+    </div>
+
+    <div class="field">
+      <label class="label">Description: </label>
+      <span class="label-text">{{ user.description }}</span>
+    </div>
+
+    <div class="field">
+      <label class="label">Birth date: </label>
+      <span class="label-text">{{
+        formatDateToDDMMYYYY(user.birth_date)
+      }}</span>
+    </div> -->
+
+    <!-- <div class="field">
+      <label class="label">Gender: </label>
+      <span class="label-text">{{ user.gender }}</span>
+    </div> -->
+
+    <div class="field">
+      <label class="label">Created at: </label>
+      <span class="label-text">{{ formatDateToDDMMYYYY(post.createdAt) }}</span>
+    </div>
+
+    <!-- <div class="field">
+      <label class="label">Status: </label>
+      <span class="label-text">{{ user.status }}</span>
+    </div> -->
+
+    <div>
+      <app-post-card [post]="post"></app-post-card>
+    </div>
+  </ng-template>
+</p-dialog>
+
+<p-dialog
+  [(visible)]="postsDialog"
+  [style]="{ width: '650px' }"
+  header="User Posts"
+  [modal]="true"
+  styleClass="p-fluid"
+>
+  <ng-template pTemplate="content">
+    <div *ngIf="posts$ | async as posts" class="flex flex-col gap-3">
+      <app-post-card *ngFor="let post of posts" [post]="post"></app-post-card>
+    </div>
+  </ng-template>
+</p-dialog>
+
+<p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
