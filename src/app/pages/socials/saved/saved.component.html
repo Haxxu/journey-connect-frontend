@@ -17,5 +17,11 @@
       </p-button>
     </div>
   </div>
-  <!-- <div class="bg-green-50">hello</div> -->
+  <div class="">
+    <app-user-friend-list
+      *ngIf="meInfo$ | async as meInfo"
+      [userId]="meInfo._id"
+    >
+    </app-user-friend-list>
+  </div>
 </div>

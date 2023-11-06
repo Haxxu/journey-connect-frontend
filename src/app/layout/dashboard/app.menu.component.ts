@@ -36,11 +36,6 @@ export class AppMenuComponent implements OnInit {
             icon: 'pi pi-fw pi-check-square',
             routerLink: ['/dashboard/users/list'],
           },
-          {
-            label: 'Menu',
-            icon: 'pi pi-fw pi-bars',
-            routerLink: ['/uikit/menu'],
-          },
         ],
       },
       {
@@ -55,16 +50,6 @@ export class AppMenuComponent implements OnInit {
             label: 'Posts',
             icon: 'matFeedRound',
             routerLink: ['/dashboard/posts/list'],
-          },
-          {
-            label: 'Share posts',
-            icon: 'matShareRound',
-            routerLink: ['/dashboard/posts/share-posts'],
-          },
-          {
-            label: 'Group posts',
-            icon: 'matDynamicFeedRound',
-            routerLink: ['/dashboard/posts/group-posts'],
           },
         ],
       },
@@ -85,6 +70,22 @@ export class AppMenuComponent implements OnInit {
             label: 'Reported comments',
             icon: 'matReportRound',
             routerLink: ['/dashboard/comments/reported'],
+          },
+        ],
+      },
+
+      {
+        label: 'REPORTS',
+        items: [
+          {
+            label: 'Posts',
+            icon: 'matCommentRound',
+            routerLink: ['/dashboard/reports/posts'],
+          },
+          {
+            label: 'Comments',
+            icon: 'matReportRound',
+            routerLink: ['/dashboard/reports/comments'],
           },
         ],
       },

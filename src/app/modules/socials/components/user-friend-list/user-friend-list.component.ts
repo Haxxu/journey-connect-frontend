@@ -25,13 +25,15 @@ export class UserFriendListComponent implements OnInit, OnChanges {
   constructor(private friendService: FriendService) {}
 
   ngOnInit(): void {
-    // if (this.userId) {
-    //   this.friendService.getUserFriendsById(this.userId).subscribe({
-    //     next: (res: any) => {
-    //       console.log(res);
-    //     },
-    //   });
-    // }
+    if (this.userId) {
+      this.friendService.getUserFriendsById(this.userId).subscribe({
+        next: (res: any) => {
+          if (res.success) {
+            this.friends = res.data;
+          }
+        },
+      });
+    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {

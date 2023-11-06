@@ -11,6 +11,8 @@ import {
 } from '@/core/store/posts/posts.actions';
 import { ButtonModule } from 'primeng/button';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { UserFriendListComponent } from '@/modules/socials/components/user-friend-list/user-friend-list.component';
+import { selectMeInfo } from '@/core/store/me/me.selectors';
 
 @Component({
   selector: 'app-feed',
@@ -20,6 +22,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     PostCardComponent,
     ButtonModule,
     ProgressSpinnerModule,
+    UserFriendListComponent,
   ],
   templateUrl: './saved.component.html',
   styleUrls: ['./saved.component.scss'],
@@ -33,6 +36,7 @@ export class SavedComponent implements OnInit {
   page: number = 0;
   pageSize: number = 10;
   loading: boolean = false;
+  meInfo$ = this.store.select(selectMeInfo);
 
   ngOnInit(): void {
     this.store.dispatch(setFeedPosts({ posts: [] }));
