@@ -81,6 +81,12 @@ export class FriendService {
     });
   }
 
+  getMutualFriends(userId: string): Observable<any> {
+    return this.http.get(`${environment.apiURL}/me/mutual-friends`, {
+      params: { userId },
+    });
+  }
+
   getMyFriends(): Observable<any> {
     return this.http.get(`${environment.apiURL}/me/friends`).pipe(
       tap((res: any) => {

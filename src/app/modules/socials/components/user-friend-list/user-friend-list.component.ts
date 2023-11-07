@@ -6,23 +6,30 @@ import {
   OnInit,
   OnChanges,
   SimpleChanges,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FriendService } from '@/services/friend.service';
+import { MutualFriendsComponent } from '../mutual-friends/mutual-friends.component';
 
 @Component({
   selector: 'app-user-friend-list',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, MutualFriendsComponent],
   templateUrl: './user-friend-list.component.html',
   styleUrls: ['./user-friend-list.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserFriendListComponent implements OnInit, OnChanges {
   @Input() userId: string = '';
   friends: any[] = [];
   getMediaUrlById = getMediaUrlById;
 
-  constructor(private friendService: FriendService) {}
+  constructor(
+    private friendService: FriendService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     if (this.userId) {
@@ -30,6 +37,7 @@ export class UserFriendListComponent implements OnInit, OnChanges {
         next: (res: any) => {
           if (res.success) {
             this.friends = res.data;
+            this.cdr.detectChanges();
           }
         },
       });
@@ -42,6 +50,7 @@ export class UserFriendListComponent implements OnInit, OnChanges {
         next: (res: any) => {
           if (res.success) {
             this.friends = res.data;
+            this.cdr.detectChanges();
           }
         },
       });

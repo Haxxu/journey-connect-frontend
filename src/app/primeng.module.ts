@@ -19,6 +19,7 @@ import { TagModule } from 'primeng/tag';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { CheckboxModule } from 'primeng/checkbox';
 import { ChartModule } from 'primeng/chart';
+import { AvatarGroupModule } from 'primeng/avatargroup';
 
 @NgModule({
   exports: [
@@ -41,6 +42,7 @@ import { ChartModule } from 'primeng/chart';
     ConfirmDialogModule,
     CheckboxModule,
     ChartModule,
+    AvatarGroupModule,
   ],
 })
 export class PrimeNGModule {}

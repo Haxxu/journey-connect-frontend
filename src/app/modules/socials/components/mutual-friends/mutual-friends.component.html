@@ -1,0 +1,43 @@
+<div>
+  <div
+    *ngIf="users.length > 0"
+    class="hover:underline cursor-pointer flex gap-2"
+    [popper]="postOption"
+    [popperPlacement]="NgxPopperjsPlacements.BOTTOMEND"
+  >
+    <p-avatarGroup styleClass="mb-3" *ngIf="showAvatar">
+      <p-avatar
+        *ngFor="let user of users"
+        [image]="getMediaUrlById(user?.avatar, user?.medias)"
+        shape="circle"
+      ></p-avatar>
+    </p-avatarGroup>
+    {{ users.length }} mututal friends
+  </div>
+
+  <popper-content #postOption class="shadow-sm rounded-xl">
+    <div class="flex flex-col gap-2">
+      <div
+        *ngFor="let user of users"
+        class="flex items-center justify-between gap-3 min-[300px] flex-1 hover:bg-gray-50 p-1.5"
+      >
+        <img
+          src="{{ getMediaUrlById(user.avatar, user.medias) }}"
+          class="object-cover w-10 h-10 rounded-full"
+        />
+        <div>
+          <a
+            [routerLink]="'/users/' + user?._id"
+            class="text-gray-700 text-md hover:underline"
+          >
+            {{ user.first_name + " " + user.last_name }}
+          </a>
+          <!-- <div class="text-gray-500 text-md">12 mutual friends</div> -->
+        </div>
+        <div>
+          <app-add-friend-button [userId]="user?._id"></app-add-friend-button>
+        </div>
+      </div>
+    </div>
+  </popper-content>
+</div>

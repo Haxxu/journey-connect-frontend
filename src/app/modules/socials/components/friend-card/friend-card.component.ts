@@ -5,6 +5,7 @@ import { ButtonModule } from 'primeng/button';
 import { FriendService } from '@/services/friend.service';
 import { RouterModule } from '@angular/router';
 import { AddFriendButtonComponent } from '@/modules/socials/components/add-friend-button/add-friend-button.component';
+import { MutualFriendsComponent } from '../mutual-friends/mutual-friends.component';
 
 export enum FriendCardTypeEnum {
   List = 'List',
@@ -15,7 +16,13 @@ export enum FriendCardTypeEnum {
 @Component({
   selector: 'app-friend-card',
   standalone: true,
-  imports: [CommonModule, ButtonModule, RouterModule, AddFriendButtonComponent],
+  imports: [
+    CommonModule,
+    ButtonModule,
+    RouterModule,
+    AddFriendButtonComponent,
+    MutualFriendsComponent,
+  ],
   templateUrl: './friend-card.component.html',
   styleUrls: ['./friend-card.component.scss'],
 })

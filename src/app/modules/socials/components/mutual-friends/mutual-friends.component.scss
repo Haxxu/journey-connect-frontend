@@ -1,0 +1,9 @@
+:host ::ng-deep {
+  .ngxp__container {
+    @apply p-2 min-w-[300px];
+
+    .ngxp__arrow {
+      @apply hidden;
+    }
+  }
+}

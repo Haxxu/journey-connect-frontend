@@ -18,11 +18,10 @@
         >
           {{ friend.user.first_name + " " + friend.user.last_name }}
         </a>
-        <div
-          *ngIf="friend.mutualFriends.length > 0"
-          class="text-sm font-medium text-gray-600"
-        >
-          {{ friend.mutualFriends.length }} mutual friends
+        <div class="text-sm font-medium text-gray-600">
+          <app-mutual-friends
+            [users]="friend?.mutualFriends || []"
+          ></app-mutual-friends>
         </div>
       </div>
     </div>

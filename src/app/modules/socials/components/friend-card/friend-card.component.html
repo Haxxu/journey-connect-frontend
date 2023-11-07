@@ -11,6 +11,12 @@
     >
       {{ user?.first_name }} {{ user?.last_name }}
     </div>
+    <div class="my-2">
+      <app-mutual-friends
+        [userId]="user?._id"
+        [showAvatar]="true"
+      ></app-mutual-friends>
+    </div>
     <div
       *ngIf="
         type === FriendCardTypeEnum.Sent || type === FriendCardTypeEnum.List
