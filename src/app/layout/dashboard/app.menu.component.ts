@@ -13,16 +13,16 @@ export class AppMenuComponent implements OnInit {
 
   ngOnInit() {
     this.model = [
-      {
-        label: 'Dashboard',
-        items: [
-          {
-            label: 'Charts',
-            icon: 'matDashboardRound',
-            routerLink: ['/dashboard/charts'],
-          },
-        ],
-      },
+      // {
+      //   label: 'Dashboard',
+      //   items: [
+      //     {
+      //       label: 'Charts',
+      //       icon: 'matDashboardRound',
+      //       routerLink: ['/dashboard/charts'],
+      //     },
+      //   ],
+      // },
       {
         label: 'Users',
         items: [
@@ -33,7 +33,7 @@ export class AppMenuComponent implements OnInit {
           },
           {
             label: 'Users',
-            icon: 'pi pi-fw pi-check-square',
+            icon: 'matPeopleRound',
             routerLink: ['/dashboard/users/list'],
           },
         ],
@@ -44,7 +44,7 @@ export class AppMenuComponent implements OnInit {
           {
             label: 'Charts',
             icon: 'matDashboardRound',
-            routerLink: ['/dashboard/posts/chart'],
+            routerLink: ['/dashboard/posts'],
           },
           {
             label: 'Posts',

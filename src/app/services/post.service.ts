@@ -140,4 +140,8 @@ export class PostService {
       },
     });
   }
+
+  getPostsInfo(): Observable<any> {
+    return this.http.get(`${environment.apiURL}/posts/info`);
+  }
 }

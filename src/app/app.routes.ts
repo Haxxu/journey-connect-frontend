@@ -22,6 +22,7 @@ import { UserListComponent } from './modules/admin/components/users/user-list/us
 import { SavedComponent } from './pages/socials/saved/saved.component';
 import { UserChartComponent } from './modules/admin/components/users/user-chart/user-chart.component';
 import { PostListComponent } from './modules/admin/components/posts/post-list/post-list.component';
+import { PostChartComponent } from './modules/admin/components/posts/post-chart/post-chart.component';
 
 export const APP_ROUTES: Routes = [
   {
@@ -40,6 +41,10 @@ export const APP_ROUTES: Routes = [
       {
         path: 'users/list',
         component: UserListComponent,
+      },
+      {
+        path: 'posts',
+        component: PostChartComponent,
       },
       {
         path: 'posts/list',
