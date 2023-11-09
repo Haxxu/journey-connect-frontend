@@ -1,169 +1,210 @@
-<form
-  *ngIf="meInfo$ | async as meInfo"
-  class="bg-white rounded-lg shadow-sm border border-gray-200 min-h-[20px] pt-3 pb-0"
-  [ngClass]="{
-    'border-blue-200 shadow-lg border-2': mode === 'edit'
-  }"
-  [formGroup]="editPostForm"
->
-  <div class="flex items-center justify-between px-4">
-    <img
-      [src]="getMediaUrlById(post.owner.avatar, post.owner.medias)"
-      class="object-cover w-10 h-10 rounded-full shadow-md"
-    />
-    <div class="flex-1 ml-4">
-      <div class="py-1 font-semibold text-md">
-        <a [routerLink]="'/' + AppRoutes.USERS + '/' + post.owner._id">
-          {{ post.owner.first_name }} {{ post.owner.last_name }}
-        </a>
-        <p-chip *ngIf="mode === 'edit'" styleClass="bg-gray-100">
-          <div class="p-1 font-semibold text-blue-700 text-md">Edit</div>
-        </p-chip>
-      </div>
-      <div class="text-sm text-gray-700">
-        {{ formatDate(post.createdAt) }} &bull; {{ timeAgo(post.createdAt) }}
-      </div>
-    </div>
-    <div class="flex items-center gap-2">
-      <div *ngIf="mode === 'edit'">
-        <button
-          type="button"
-          class="w-10 h-full text-center text-gray-500 hover:scale-110"
-          (click)="op.toggle($event)"
-          pTooltip="Emoji"
-          tooltipStyleClass="text-md"
-        >
-          😀
-        </button>
-        <p-overlayPanel #op styleClass="j-overlaypanel-custom">
-          <emoji-mart
-            (emojiClick)="handleEmojiClick($event)"
-            [emojiSize]="16"
-            class="text-md"
-          ></emoji-mart>
-        </p-overlayPanel>
-      </div>
-      <div
-        *ngIf="mode === 'view' && isSavedPost(post._id, meInfo?.posts || [])"
-        class="w-6 h-6"
-      >
-        <ng-icon
-          name="matBookmarkRound"
-          class="text-xl text-gray-700"
-        ></ng-icon>
-      </div>
-      <div
-        *ngIf="mode === 'view'"
-        class="w-6 h-6 cursor-pointer"
-        [popper]="postOption"
-        [popperPlacement]="NgxPopperjsPlacements.BOTTOMEND"
-        [popperApplyClass]="popperClass"
-      >
-        <ng-icon
-          name="matMoreHorizRound"
-          class="text-xl text-gray-700"
-        ></ng-icon>
-      </div>
-      <popper-content #postOption class="shadow-sm rounded-xl">
-        <div class="w-16">
-          <div
-            *ngIf="meInfo._id === post?.owner?._id"
-            class="px-2 py-1.5 hover:bg-gray-200 text-md rounded-md text-gray-700 cursor-pointer"
-            (click)="openEditMode()"
-          >
-            Edit
-          </div>
-
-          <div
-            *ngIf="meInfo._id === post?.owner?._id"
-            class="px-2 py-1.5 hover:bg-gray-200 text-md rounded-md text-gray-700 cursor-pointer"
-            (click)="handleDeletePost(post?._id)"
-          >
-            Delete
-          </div>
-
-          <div
-            *ngIf="isSavedPost(post._id, meInfo.posts); else unsaveTemp"
-            class="px-2 py-1.5 hover:bg-gray-200 text-md rounded-md text-gray-700 cursor-pointer"
-            (click)="handleUnsavePost(post._id)"
-          >
-            Unsave
-          </div>
-
-          <ng-template #unsaveTemp>
-            <div
-              class="px-2 py-1.5 hover:bg-gray-200 text-md rounded-md text-gray-700 cursor-pointer"
-              (click)="handleSavePost(post._id)"
-            >
-              Save
-            </div>
-          </ng-template>
-
-          <div
-            class="px-2 py-1.5 hover:bg-gray-200 text-md rounded-md text-gray-700 cursor-pointer"
-            (click)="handleShowReportPost(post?._id)"
-          >
-            Report
-          </div>
-        </div>
-      </popper-content>
-    </div>
-  </div>
-
-  <!-- TITLE -->
-  <div
-    *ngIf="mode === 'view'"
-    class="px-4 my-3 text-md"
-    [innerHtml]="post?.title"
-  ></div>
-
-  <!-- EDIT TITLE -->
-  <div *ngIf="mode === 'edit'" class="px-4 my-3 text-md">
-    <textarea
-      pInputTextarea
-      placeholder="What's new?"
-      formControlName="title"
-      class="w-full text-md j-inputtext-custom"
-      rows="3"
-    ></textarea>
-  </div>
-
-  <!-- INNER POST -->
-  <div
-    *ngIf="post.post_type === 'share_post'"
-    class="pt-2 pb-4 mx-4 border rounded-md bg-gray-50 boder-gray-200"
+<ng-container>
+  <form
+    *ngIf="meInfo$ | async as meInfo"
+    class="bg-white rounded-lg shadow-sm border border-gray-200 min-h-[20px] pt-3 pb-0"
+    [ngClass]="{
+      'border-blue-200 shadow-lg border-2': mode === 'edit'
+    }"
+    [formGroup]="editPostForm"
   >
     <div class="flex items-center justify-between px-4">
       <img
-        [src]="
-          getMediaUrlById(
-            post.inner_post.owner.avatar,
-            post.inner_post.owner.medias
-          )
-        "
+        [src]="getMediaUrlById(post.owner.avatar, post.owner.medias)"
         class="object-cover w-10 h-10 rounded-full shadow-md"
       />
       <div class="flex-1 ml-4">
         <div class="py-1 font-semibold text-md">
-          <a
-            [routerLink]="
-              '/' + AppRoutes.USERS + '/' + post.inner_post.owner._id
-            "
-          >
-            {{ post.inner_post.owner.first_name }}
-            {{ post.inner_post.owner.last_name }}
+          <a [routerLink]="'/' + AppRoutes.USERS + '/' + post.owner._id">
+            {{ post.owner.first_name }} {{ post.owner.last_name }}
           </a>
+          <p-chip *ngIf="mode === 'edit'" styleClass="bg-gray-100">
+            <div class="p-1 font-semibold text-blue-700 text-md">Edit</div>
+          </p-chip>
         </div>
         <div class="text-sm text-gray-700">
-          {{ formatDate(post.inner_post.createdAt) }} &bull;
-          {{ timeAgo(post.inner_post.createdAt) }}
+          {{ formatDate(post.createdAt) }} &bull; {{ timeAgo(post.createdAt) }}
         </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <div *ngIf="mode === 'edit'">
+          <button
+            type="button"
+            class="w-10 h-full text-center text-gray-500 hover:scale-110"
+            (click)="op.toggle($event)"
+            pTooltip="Emoji"
+            tooltipStyleClass="text-md"
+          >
+            😀
+          </button>
+          <p-overlayPanel #op styleClass="j-overlaypanel-custom">
+            <emoji-mart
+              (emojiClick)="handleEmojiClick($event)"
+              [emojiSize]="16"
+              class="text-md"
+            ></emoji-mart>
+          </p-overlayPanel>
+        </div>
+        <div
+          *ngIf="mode === 'view' && isSavedPost(post._id, meInfo?.posts || [])"
+          class="w-6 h-6"
+        >
+          <ng-icon
+            name="matBookmarkRound"
+            class="text-xl text-gray-700"
+          ></ng-icon>
+        </div>
+        <div
+          *ngIf="mode === 'view'"
+          class="w-6 h-6 cursor-pointer"
+          [popper]="postOption"
+          [popperPlacement]="NgxPopperjsPlacements.BOTTOMEND"
+          [popperApplyClass]="popperClass"
+        >
+          <ng-icon
+            name="matMoreHorizRound"
+            class="text-xl text-gray-700"
+          ></ng-icon>
+        </div>
+        <popper-content #postOption class="shadow-sm rounded-xl">
+          <div class="w-16">
+            <div
+              *ngIf="meInfo._id === post?.owner?._id"
+              class="px-2 py-1.5 hover:bg-gray-200 text-md rounded-md text-gray-700 cursor-pointer"
+              (click)="openEditMode()"
+            >
+              Edit
+            </div>
+
+            <div
+              *ngIf="meInfo._id === post?.owner?._id"
+              class="px-2 py-1.5 hover:bg-gray-200 text-md rounded-md text-gray-700 cursor-pointer"
+              (click)="handleDeletePost(post?._id)"
+            >
+              Delete
+            </div>
+
+            <div
+              *ngIf="isSavedPost(post._id, meInfo.posts); else unsaveTemp"
+              class="px-2 py-1.5 hover:bg-gray-200 text-md rounded-md text-gray-700 cursor-pointer"
+              (click)="handleUnsavePost(post._id)"
+            >
+              Unsave
+            </div>
+
+            <ng-template #unsaveTemp>
+              <div
+                class="px-2 py-1.5 hover:bg-gray-200 text-md rounded-md text-gray-700 cursor-pointer"
+                (click)="handleSavePost(post._id)"
+              >
+                Save
+              </div>
+            </ng-template>
+
+            <div
+              class="px-2 py-1.5 hover:bg-gray-200 text-md rounded-md text-gray-700 cursor-pointer"
+              (click)="handleShowReportPost(post?._id)"
+            >
+              Report
+            </div>
+          </div>
+        </popper-content>
       </div>
     </div>
 
-    <div class="px-4 my-3 text-md" [innerHtml]="post.inner_post?.title"></div>
-
+    <!-- TITLE -->
     <div
+      *ngIf="mode === 'view'"
+      class="px-4 my-3 text-md"
+      [innerHtml]="post?.title"
+    ></div>
+
+    <!-- EDIT TITLE -->
+    <div *ngIf="mode === 'edit'" class="px-4 my-3 text-md">
+      <textarea
+        pInputTextarea
+        placeholder="What's new?"
+        formControlName="title"
+        class="w-full text-md j-inputtext-custom"
+        rows="3"
+      ></textarea>
+    </div>
+
+    <!-- INNER POST -->
+    <ng-container *ngIf="post.post_type === 'share_post'">
+      <div
+        *ngIf="
+          post.inner_post && post.inner_post.status === 'active';
+          else noContent
+        "
+        class="pt-2 pb-4 mx-4 border rounded-md bg-gray-50 boder-gray-200"
+      >
+        <div class="flex items-center justify-between px-4">
+          <img
+            [src]="
+              getMediaUrlById(
+                post.inner_post.owner.avatar,
+                post.inner_post.owner.medias
+              )
+            "
+            class="object-cover w-10 h-10 rounded-full shadow-md"
+          />
+          <div class="flex-1 ml-4">
+            <div class="py-1 font-semibold text-md">
+              <a
+                [routerLink]="
+                  '/' + AppRoutes.USERS + '/' + post.inner_post.owner._id
+                "
+              >
+                {{ post.inner_post.owner.first_name }}
+                {{ post.inner_post.owner.last_name }}
+              </a>
+            </div>
+            <div class="text-sm text-gray-700">
+              {{ formatDate(post.inner_post.createdAt) }} &bull;
+              {{ timeAgo(post.inner_post.createdAt) }}
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="px-4 my-3 text-md"
+          [innerHtml]="post.inner_post?.title"
+        ></div>
+
+        <div
+          class="w-full"
+          NgxJustifiedGrid
+          [gap]="gap"
+          [defaultDirection]="defaultDirection"
+          [columnRange]="columnRange"
+          [rowRange]="rowRange"
+          [sizeRange]="sizeRange"
+          [isCroppedSize]="isCroppedSize"
+          [displayedRow]="displayedRow"
+          [autoResize]="true"
+        >
+          <div
+            *ngFor="let item of innerPostGalleryItems; let i = index"
+            class="relative"
+            [lightbox]="i"
+            [gallery]="post?.inner_post?._id"
+          >
+            <img
+              [src]="item.data?.thumb || ''"
+              alt=""
+              class="w-full h-full"
+              [pTooltip]="item.data?.type"
+              tooltipPosition="left"
+              [showDelay]="300"
+            />
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <!-- MEDIA -->
+    <div
+      *ngIf="mode === 'view'"
       class="w-full"
       NgxJustifiedGrid
       [gap]="gap"
@@ -176,10 +217,10 @@
       [autoResize]="true"
     >
       <div
-        *ngFor="let item of innerPostGalleryItems; let i = index"
+        *ngFor="let item of galleryItems; let i = index"
         class="relative"
         [lightbox]="i"
-        [gallery]="post?.inner_post?._id"
+        [gallery]="post?._id"
       >
         <img
           [src]="item.data?.thumb || ''"
@@ -191,196 +232,167 @@
         />
       </div>
     </div>
-  </div>
 
-  <!-- MEDIA -->
-  <div
-    *ngIf="mode === 'view'"
-    class="w-full"
-    NgxJustifiedGrid
-    [gap]="gap"
-    [defaultDirection]="defaultDirection"
-    [columnRange]="columnRange"
-    [rowRange]="rowRange"
-    [sizeRange]="sizeRange"
-    [isCroppedSize]="isCroppedSize"
-    [displayedRow]="displayedRow"
-    [autoResize]="true"
-  >
-    <div
-      *ngFor="let item of galleryItems; let i = index"
-      class="relative"
-      [lightbox]="i"
-      [gallery]="post?._id"
-    >
-      <img
-        [src]="item.data?.thumb || ''"
-        alt=""
-        class="w-full h-full"
-        [pTooltip]="item.data?.type"
-        tooltipPosition="left"
-        [showDelay]="300"
-      />
+    <!-- EDIT MEDIA -->
+    <div *ngIf="mode === 'edit'" class="px-4">
+      <div
+        class="w-full"
+        NgxJustifiedGrid
+        [gap]="gap"
+        [defaultDirection]="defaultDirection"
+        [columnRange]="columnRange"
+        [rowRange]="rowRange"
+        [sizeRange]="sizeRange"
+        [isCroppedSize]="isCroppedSize"
+        [displayedRow]="displayedRow"
+        [autoResize]="true"
+      >
+        <div *ngFor="let media of editMedias">
+          <img [src]="media.url" alt="" class="w-full h-full" />
+
+          <div
+            *ngIf="mode === 'edit'"
+            class="absolute top-0 left-0 flex w-4 h-4 bg-gray-700 cursor-pointer bg-opacity-70 item-center"
+            (click)="handleShowEditMediaDialog(media)"
+          >
+            <ng-icon
+              name="matEditRound"
+              class="text-base text-gray-300"
+            ></ng-icon>
+          </div>
+
+          <div
+            *ngIf="mode === 'edit'"
+            class="absolute top-0 right-0 flex w-4 h-4 bg-gray-700 cursor-pointer bg-opacity-70 item-center"
+            (click)="handleRemoveEditMedia(media.id)"
+          >
+            <ng-icon
+              name="matCloseRound"
+              class="text-base text-gray-300"
+            ></ng-icon>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
+    <div>
+      <app-image-uploader
+        #imageUploader
+        (onUploadSuccess)="handleUploadFile($event)"
+      ></app-image-uploader>
+    </div>
 
-  <!-- EDIT MEDIA -->
-  <div *ngIf="mode === 'edit'" class="px-4">
+    <!-- EDIT ACTION -->
     <div
-      class="w-full"
-      NgxJustifiedGrid
-      [gap]="gap"
-      [defaultDirection]="defaultDirection"
-      [columnRange]="columnRange"
-      [rowRange]="rowRange"
-      [sizeRange]="sizeRange"
-      [isCroppedSize]="isCroppedSize"
-      [displayedRow]="displayedRow"
-      [autoResize]="true"
+      *ngIf="mode === 'edit'"
+      class="flex items-center justify-between px-4 py-2 mt-2 border-t"
     >
-      <div *ngFor="let media of editMedias">
-        <img [src]="media.url" alt="" class="w-full h-full" />
-
+      <div class="flex gap-2">
         <div
-          *ngIf="mode === 'edit'"
-          class="absolute top-0 left-0 flex w-4 h-4 bg-gray-700 cursor-pointer bg-opacity-70 item-center"
-          (click)="handleShowEditMediaDialog(media)"
+          class="w-6 h-6 cursor-pointer"
+          pTooltip="Photo"
+          (click)="imageUploader.showDialog()"
         >
           <ng-icon
-            name="matEditRound"
-            class="text-base text-gray-300"
+            name="matImageRound"
+            class="text-2xl text-green-600 hover:scale-110"
           ></ng-icon>
         </div>
-
         <div
-          *ngIf="mode === 'edit'"
-          class="absolute top-0 right-0 flex w-4 h-4 bg-gray-700 cursor-pointer bg-opacity-70 item-center"
-          (click)="handleRemoveEditMedia(media.id)"
+          class="inline-flex items-center font-normal bg-gray-100 rounded-md cursor-pointer text-md px-1.5 py-0.5"
+          (click)="visibilityOp.toggle($event)"
         >
+          <span>{{ visibility }}</span>
           <ng-icon
-            name="matCloseRound"
-            class="text-base text-gray-300"
+            name="matKeyboardArrowDownRound"
+            class="text-lg text-gray-800"
           ></ng-icon>
         </div>
+        <p-overlayPanel #visibilityOp styleClass="j-overlaypanel-custom">
+          <div
+            *ngFor="let option of visibilityOptions"
+            class="p-2 cursor-pointer text-md hover:bg-gray-100"
+            (click)="handleClickVisibility(option, visibilityOp)"
+          >
+            {{ option.label }}
+          </div>
+        </p-overlayPanel>
+      </div>
+      <div class="flex gap-2">
+        <p-button
+          styleClass="p-button-outlined p-button-secondary j-button-custom flex justify-center small"
+          label="Cancel"
+          (onClick)="closeEditMode()"
+        ></p-button>
+        <p-button
+          styleClass="bg-blue-500 text-white j-button-custom flex justify-center small"
+          [loading]="submitting"
+          (onClick)="handleEditPost()"
+          label="Save"
+        ></p-button>
       </div>
     </div>
-  </div>
-  <div>
-    <app-image-uploader
-      #imageUploader
-      (onUploadSuccess)="handleUploadFile($event)"
-    ></app-image-uploader>
-  </div>
 
-  <!-- EDIT ACTION -->
-  <div
-    *ngIf="mode === 'edit'"
-    class="flex items-center justify-between px-4 py-2 mt-2 border-t"
-  >
-    <div class="flex gap-2">
-      <div
-        class="w-6 h-6 cursor-pointer"
-        pTooltip="Photo"
-        (click)="imageUploader.showDialog()"
-      >
-        <ng-icon
-          name="matImageRound"
-          class="text-2xl text-green-600 hover:scale-110"
-        ></ng-icon>
-      </div>
-      <div
-        class="inline-flex items-center font-normal bg-gray-100 rounded-md cursor-pointer text-md px-1.5 py-0.5"
-        (click)="visibilityOp.toggle($event)"
-      >
-        <span>{{ visibility }}</span>
-        <ng-icon
-          name="matKeyboardArrowDownRound"
-          class="text-lg text-gray-800"
-        ></ng-icon>
-      </div>
-      <p-overlayPanel #visibilityOp styleClass="j-overlaypanel-custom">
-        <div
-          *ngFor="let option of visibilityOptions"
-          class="p-2 cursor-pointer text-md hover:bg-gray-100"
-          (click)="handleClickVisibility(option, visibilityOp)"
-        >
-          {{ option.label }}
+    <ng-container *ngIf="comments$ | async as comments">
+      <div class="flex justify-between px-4 py-2 text-md">
+        <div class="flex items-center">
+          <div class="flex">
+            <ng-container *ngFor="let showEmotion of showEmotions">
+              <div class="w-6 h-6" *ngIf="showEmotion.value > 0">
+                <img
+                  [src]="'/assets/emotions/' + showEmotion.src + '.emotion.svg'"
+                  class="w-6 h-6"
+                />
+              </div>
+            </ng-container>
+          </div>
+          <span *ngIf="emotionData?.count?.all">{{
+            emotionData?.count?.all
+          }}</span>
         </div>
-      </p-overlayPanel>
-    </div>
-    <div class="flex gap-2">
-      <p-button
-        styleClass="p-button-outlined p-button-secondary j-button-custom flex justify-center small"
-        label="Cancel"
-        (onClick)="closeEditMode()"
-      ></p-button>
-      <p-button
-        styleClass="bg-blue-500 text-white j-button-custom flex justify-center small"
-        [loading]="submitting"
-        (onClick)="handleEditPost()"
-        label="Save"
-      ></p-button>
-    </div>
-  </div>
-
-  <ng-container *ngIf="comments$ | async as comments">
-    <div class="flex justify-between px-4 py-2 text-md">
-      <div class="flex items-center">
-        <div class="flex">
-          <ng-container *ngFor="let showEmotion of showEmotions">
-            <div class="w-6 h-6" *ngIf="showEmotion.value > 0">
-              <img
-                [src]="'/assets/emotions/' + showEmotion.src + '.emotion.svg'"
-                class="w-6 h-6"
-              />
-            </div>
-          </ng-container>
-        </div>
-        <span *ngIf="emotionData?.count?.all">{{
-          emotionData?.count?.all
-        }}</span>
-      </div>
-      <div class="flex gap-3">
-        <div *ngIf="comments[post?._id]?.totalComments">
-          {{ comments[post?._id]?.totalComments }}
-          {{ comments[post?._id].totalComments > 1 ? "comments" : "comment" }}
-        </div>
-        <div *ngIf="post.shares.length > 0">
-          {{ post.shares.length }} share{{ post.shares.length > 1 ? "s" : "" }}
+        <div class="flex gap-3">
+          <div *ngIf="comments[post?._id]?.totalComments">
+            {{ comments[post?._id]?.totalComments }}
+            {{ comments[post?._id].totalComments > 1 ? "comments" : "comment" }}
+          </div>
+          <div *ngIf="post.shares.length > 0">
+            {{ post.shares.length }} share{{
+              post.shares.length > 1 ? "s" : ""
+            }}
+          </div>
         </div>
       </div>
-    </div>
-    <hr />
-    <div class="flex items-center justify-around py-2 mx-2 text-base">
-      <div class="action-item">
-        <app-emotions
-          [contextType]="'post'"
-          [contextId]="post._id"
-          (updateEmotion)="getEmotions()"
-          class="flex-1"
-        ></app-emotions>
-      </div>
-      <div class="action-item" (click)="toggleComments()">Comments</div>
-      <div
-        class="action-item"
-        (click)="
-          openCreatePostModal(
-            post.post_type === 'share_post' ? post.inner_post : post
-          )
-        "
-      >
-        Share
-      </div>
-    </div>
-    <div *ngIf="showComments">
       <hr />
-      <app-comments
-        [contextId]="post._id"
-        [comments]="comments[post._id]?.comments"
-      ></app-comments>
-    </div>
-  </ng-container>
-</form>
+      <div class="flex items-center justify-around py-2 mx-2 text-base">
+        <div class="action-item">
+          <app-emotions
+            [contextType]="'post'"
+            [contextId]="post._id"
+            (updateEmotion)="getEmotions()"
+            class="flex-1"
+          ></app-emotions>
+        </div>
+        <div class="action-item" (click)="toggleComments()">Comments</div>
+        <div
+          class="action-item"
+          (click)="
+            openCreatePostModal(
+              post.post_type === 'share_post' ? post.inner_post : post
+            )
+          "
+        >
+          Share
+        </div>
+      </div>
+      <div *ngIf="showComments">
+        <hr />
+        <app-comments
+          [contextId]="post._id"
+          [comments]="comments[post._id]?.comments"
+        ></app-comments>
+      </div>
+    </ng-container>
+  </form>
+</ng-container>
 
 <p-dialog
   [(visible)]="mediaDialog"
@@ -426,3 +438,20 @@
     ></app-create-report>
   </ng-template>
 </p-dialog>
+
+<ng-template #noContent>
+  <div class="px-4 py-3">
+    <div class="flex w-full h-full gap-2 p-3 border border-gray-300">
+      <div class="flex items-center">
+        <ng-icon name="matLockRound" class="text-xl text-gray-700"></ng-icon>
+      </div>
+      <div>
+        <h4>This content isn't available right now</h4>
+        <p>
+          When this happens, it's usually because owner removed it or the post
+          is deactivated
+        </p>
+      </div>
+    </div>
+  </div>
+</ng-template>

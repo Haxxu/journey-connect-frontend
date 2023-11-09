@@ -27,7 +27,7 @@ import { PostCardComponent } from '@/modules/socials/components/post-card/post-c
 import { setPosts } from '@/core/store/posts/posts.actions';
 
 @Component({
-  selector: 'app-post-list',
+  selector: 'app-report-post-list',
   standalone: true,
   imports: [
     CommonModule,
@@ -43,12 +43,12 @@ import { setPosts } from '@/core/store/posts/posts.actions';
     RouterLink,
     PostCardComponent,
   ],
-  templateUrl: './post-list.component.html',
-  styleUrls: ['./post-list.component.scss'],
+  templateUrl: './report-post-list.component.html',
+  styleUrls: ['./report-post-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [ConfirmationService],
 })
-export class PostListComponent implements OnInit {
+export class ReportPostListComponent implements OnInit {
   posts: any[] = [];
   loading: boolean = false;
   first: number = 0;
@@ -82,16 +82,16 @@ export class PostListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.loadPosts();
+    this.loadReportPosts();
 
     this.searchControl.valueChanges
       .pipe(debounceTime(300), distinctUntilChanged())
       .subscribe(() => {
-        this.loadPosts();
+        this.loadReportPosts();
       });
   }
 
-  loadPosts() {
+  loadReportPosts() {
     this.postService
       .getPosts(this.page, this.pageSize, this.searchControl?.value)
       .subscribe({
@@ -115,10 +115,10 @@ export class PostListComponent implements OnInit {
     // console.log(value);
   }
 
-  handleLoadPosts(event: TableLazyLoadEvent) {
+  handleLoadReportPosts(event: TableLazyLoadEvent) {
     this.page = Number(event.first) / Number(event.rows) + 1;
     this.pageSize = Number(event.rows);
-    this.loadPosts();
+    this.loadReportPosts();
   }
 
   handleShowPost(post: any) {

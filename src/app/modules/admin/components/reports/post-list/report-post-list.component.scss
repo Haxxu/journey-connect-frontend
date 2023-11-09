@@ -1,0 +1,19 @@
+:host ::ng-deep {
+  .field {
+    @apply mb-4;
+
+    .label {
+      @apply text-gray-800 font-medium;
+    }
+
+    .label-text {
+      @apply text-gray-700 font-normal;
+    }
+  }
+
+  .p-dialog-footer {
+    button {
+      @apply mr-4;
+    }
+  }
+}

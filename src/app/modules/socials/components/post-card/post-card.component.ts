@@ -83,6 +83,7 @@ import { CreateReportComponent } from '../create-report/create-report.component'
 })
 export class PostCardComponent implements OnInit {
   @Input() post: any;
+  @Input() isAdmin: boolean = false
   @Output() onReportPost = new EventEmitter<{
     context_id: string;
     context_type: string;

@@ -4,7 +4,7 @@
     [value]="posts"
     [lazy]="true"
     dataKey="idakdsf-dksf"
-    (onLazyLoad)="handleLoadPosts($event)"
+    (onLazyLoad)="handleLoadReportPosts($event)"
     [rows]="pageSize"
     [first]="(page - 1) * pageSize"
     [rowsPerPageOptions]="[2, 5, 10, 25, 50]"
@@ -15,7 +15,7 @@
   >
     <ng-template pTemplate="caption">
       <div class="flex items-center justify-between">
-        <h5 class="m-0">Manage Posts</h5>
+        <h5 class="m-0">Manage Reported Posts</h5>
         <input
           type="text"
           pInputText
@@ -30,13 +30,13 @@
         <!-- <th class="w-16">ID</th> -->
 
         <th>
-          <div class="flex items-center justify-start">Owner avatar</div>
+          <div class="flex items-center justify-start">Reporter avatar</div>
         </th>
         <th>
-          <div class="flex items-center justify-start">Owner name</div>
+          <div class="flex items-center justify-start">Reporter name</div>
         </th>
         <th class="w-80">
-          <div class="flex items-center justify-start">Title</div>
+          <div class="flex items-center justify-start">Content</div>
         </th>
         <th>
           <div class="flex items-center justify-start">Post type</div>
@@ -259,11 +259,7 @@
 >
   <ng-template pTemplate="content">
     <div *ngIf="posts$ | async as posts" class="flex flex-col gap-3">
-      <app-post-card
-        *ngFor="let post of posts"
-        [post]="post"
-        [isAdmin]="true"
-      ></app-post-card>
+      <app-post-card *ngFor="let post of posts" [post]="post"></app-post-card>
     </div>
   </ng-template>
 </p-dialog>

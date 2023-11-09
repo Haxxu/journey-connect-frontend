@@ -80,27 +80,8 @@
       </div>
     </div>
   </div>
-  <div class="grid grid-cols-3 gap-2 mt-2">
-    <div class="h-full col-span-1 card">
-      <p-chart
-        type="pie"
-        [data]="gendersData"
-        [options]="gendersOptions"
-      ></p-chart>
-    </div>
-    <div class="col-span-2 card">
-      <p-chart
-        type="line"
-        [data]="userCreatedData"
-        [options]="userCreatedOptions"
-      ></p-chart>
-    </div>
-  </div>
+
   <div class="mt-2 card">
-    <p-chart
-      type="bar"
-      [data]="ageGroupData"
-      [options]="ageGroupOptions"
-    ></p-chart>
+    <p-chart type="line" [data]="postsData" [options]="postsOptions"></p-chart>
   </div>
 </div>

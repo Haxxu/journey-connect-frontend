@@ -11,7 +11,7 @@ import { NgIconsModule } from '@ng-icons/core';
 import { PostService } from '@/services/post.service';
 
 @Component({
-  selector: 'app-user-chart',
+  selector: 'app-post-chart',
   standalone: true,
   imports: [CommonModule, ChartModule, NgIconsModule],
   templateUrl: './post-chart.component.html',
@@ -45,6 +45,8 @@ export class PostChartComponent implements OnInit {
     total: 0,
     sinceLastWeek: 0,
   };
+  postsOptions: any;
+  postsData: any;
 
   constructor(
     private userService: UserService,
@@ -243,8 +245,6 @@ export class PostChartComponent implements OnInit {
 
     this.postSerivice.getPostsInfo().subscribe({
       next: (res: any) => {
-        console.log(res);
-
         if (res.success) {
           this.posts = {
             total: res.data.posts.total,
@@ -258,11 +258,81 @@ export class PostChartComponent implements OnInit {
             total: res.data.sharePosts.total,
             sinceLastWeek: res.data.sharePosts.sinceLastWeek,
           };
-          console.log(this.posts, this.individualPosts, this.sharePosts);
+
+          this.postsData = {
+            labels: res.data.postsCreatedEachMonth.map(
+              (item: any) => item.month
+            ),
+            datasets: [
+              {
+                label: 'Total posts',
+                data: res.data.postsCreatedEachMonth.map(
+                  (item: any) => item.total
+                ),
+                fill: false,
+                borderColor: documentStyle.getPropertyValue('--teal-500'),
+                tension: 0.4,
+              },
+              {
+                label: 'Share posts',
+                data: res.data.postsCreatedEachMonth.map(
+                  (item: any) => item.share_post
+                ),
+                fill: false,
+                borderColor: documentStyle.getPropertyValue('--blue-500'),
+                tension: 0.4,
+              },
+              {
+                label: 'Individual posts',
+                data: res.data.postsCreatedEachMonth.map(
+                  (item: any) => item.individual_post
+                ),
+                fill: false,
+                borderColor: documentStyle.getPropertyValue('--pink-500'),
+                tension: 0.4,
+              },
+            ],
+          };
         }
 
         this.cdr.detectChanges();
       },
     });
+
+    this.postsOptions = {
+      maintainAspectRatio: false,
+      aspectRatio: 0.6,
+      plugins: {
+        legend: {
+          labels: {
+            color: textColor,
+          },
+        },
+        title: {
+          display: true,
+          text: 'Created Posts',
+        },
+      },
+      scales: {
+        x: {
+          ticks: {
+            color: textColorSecondary,
+          },
+          grid: {
+            color: surfaceBorder,
+            drawBorder: false,
+          },
+        },
+        y: {
+          ticks: {
+            color: textColorSecondary,
+          },
+          grid: {
+            color: surfaceBorder,
+            drawBorder: false,
+          },
+        },
+      },
+    };
   }
 }

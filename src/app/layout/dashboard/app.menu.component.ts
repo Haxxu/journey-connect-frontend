@@ -54,6 +54,21 @@ export class AppMenuComponent implements OnInit {
         ],
       },
       {
+        label: 'REPORTS',
+        items: [
+          {
+            label: 'Posts',
+            icon: 'matFeedRound',
+            routerLink: ['/dashboard/reports/posts/list'],
+          },
+          {
+            label: 'Comments',
+            icon: 'matReportRound',
+            routerLink: ['/dashboard/reports/comments'],
+          },
+        ],
+      },
+      {
         label: 'COMMENTS',
         items: [
           {
@@ -74,21 +89,6 @@ export class AppMenuComponent implements OnInit {
         ],
       },
 
-      {
-        label: 'REPORTS',
-        items: [
-          {
-            label: 'Posts',
-            icon: 'matCommentRound',
-            routerLink: ['/dashboard/reports/posts'],
-          },
-          {
-            label: 'Comments',
-            icon: 'matReportRound',
-            routerLink: ['/dashboard/reports/comments'],
-          },
-        ],
-      },
       // {
       //   label: 'Pages',
       //   icon: 'pi pi-fw pi-briefcase',

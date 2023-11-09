@@ -144,4 +144,13 @@ export class PostService {
   getPostsInfo(): Observable<any> {
     return this.http.get(`${environment.apiURL}/posts/info`);
   }
+
+  updatePostStatus(
+    postId: string,
+    status: 'active' | 'deactive'
+  ): Observable<any> {
+    return this.http.patch(`${environment.apiURL}/posts/${postId}/status`, {
+      status,
+    });
+  }
 }
