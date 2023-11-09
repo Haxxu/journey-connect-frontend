@@ -25,6 +25,7 @@ import { Store } from '@ngrx/store';
 import { selectPosts } from '@/core/store/posts/posts.selectors';
 import { PostCardComponent } from '@/modules/socials/components/post-card/post-card.component';
 import { setPosts } from '@/core/store/posts/posts.actions';
+import { ReportService } from '@/services/report.service';
 
 @Component({
   selector: 'app-report-post-list',
@@ -73,12 +74,16 @@ export class ReportPostListComponent implements OnInit {
     public: 'Public',
   };
 
+  reportPosts: any;
+  totalReportPosts: number = 0;
+
   constructor(
     private userService: UserService,
     private cdr: ChangeDetectorRef,
     private confirmationService: ConfirmationService,
     private postService: PostService,
-    private store: Store
+    private store: Store,
+    private reportService: ReportService
   ) {}
 
   ngOnInit(): void {
@@ -92,13 +97,14 @@ export class ReportPostListComponent implements OnInit {
   }
 
   loadReportPosts() {
-    this.postService
-      .getPosts(this.page, this.pageSize, this.searchControl?.value)
+    this.reportService
+      .getReports('post', this.page, this.pageSize, this.searchControl?.value)
       .subscribe({
         next: (res: any) => {
+          console.log(res);
           if (res.success) {
-            this.posts = res.data.docs;
-            this.totalPosts = res.data.totalDocs;
+            this.reportPosts = res.data.docs;
+            this.totalReportPosts = res.data.totalDocs;
             this.cdr.detectChanges();
           }
           this.loading = false;

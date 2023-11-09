@@ -22,4 +22,15 @@ export class ReportService {
       types,
     });
   }
+
+  getReports(
+    context_type: 'post' | 'comment',
+    page: number = 1,
+    pageSize: number = 10,
+    search: string = ''
+  ): Observable<any> {
+    return this.http.get(`${environment.apiURL}/reports`, {
+      params: { context_type, page, pageSize, search },
+    });
+  }
 }
