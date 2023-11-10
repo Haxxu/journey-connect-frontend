@@ -84,4 +84,217 @@
   <div class="mt-2 card">
     <p-chart type="line" [data]="postsData" [options]="postsOptions"></p-chart>
   </div>
+
+  <div class="mt-2">
+    <p-table
+      #dt
+      [value]="topPosts"
+      dataKey="idakdsf-dksf"
+      [rowsPerPageOptions]="[2, 5, 10, 25, 50]"
+      [showCurrentPageReport]="true"
+      [rows]="10"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} posts"
+      [paginator]="true"
+    >
+      <ng-template pTemplate="caption">
+        <div class="flex items-center justify-between">
+          <h5 class="m-0">Top Posts (emotions)</h5>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th>
+            <div class="flex items-center justify-start">Owner avatar</div>
+          </th>
+          <th>
+            <div class="flex items-center justify-start">Owner name</div>
+          </th>
+          <th class="min-w-[400px]">
+            <div class="flex items-center justify-start">Title</div>
+          </th>
+          <th>
+            <div class="flex items-center justify-start">Post type</div>
+          </th>
+          <th>
+            <div class="flex items-center justify-start">Visibility</div>
+          </th>
+          <th>
+            <div class="flex items-center justify-start">Total emotions</div>
+          </th>
+          <th>
+            <div class="flex items-center justify-start">Created at</div>
+          </th>
+          <th>
+            <div class="flex items-center justify-start">Actions</div>
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-post>
+        <tr class="">
+          <td>
+            <div class="flex items-center justify-center h-full">
+              <a
+                [routerLink]="'/users/' + post.owner._id"
+                target="_blank"
+                class="block"
+              >
+                <img
+                  [src]="getMediaUrlById(post.owner.avatar, post.owner.medias)"
+                  class="object-cover w-8 h-8 rounded-full shadow-md"
+                />
+              </a>
+            </div>
+          </td>
+          <td>
+            <span class="p-column-title">Owner</span>
+            {{ post.owner.first_name + " " + post.owner.last_name }}
+          </td>
+          <td class="min-w-[400px]">
+            <span class="p-column-title">Title</span>
+            {{ post.title }}
+          </td>
+          <td class="w-20">
+            <span class="p-column-title">Post type</span>
+            {{ post.post_type === "individual_post" ? "Individual" : "Share" }}
+          </td>
+          <td class="w-20">
+            <span class="p-column-title">Visibility</span>
+            {{ post.visibility }}
+          </td>
+          <td class="w-20">
+            <div
+              [pTooltip]="
+                'Like: ' +
+                post.emotionInfo.like +
+                '; Heart: ' +
+                post.emotionInfo.heart +
+                '; Wow: ' +
+                post.emotionInfo.wow +
+                '; Haha: ' +
+                post.emotionInfo.haha +
+                '; Sad: ' +
+                post.emotionInfo.sad +
+                '; Angry: ' +
+                post.emotionInfo.angry
+              "
+            >
+              {{ post.emotionInfo.total }}
+            </div>
+          </td>
+          <td>
+            <span class="p-column-title">Created at</span>
+            {{ formatDateToDDMMYYYY(post.createdAt) }}
+          </td>
+          <td class="">
+            <div class="flex items-center h-full gap-2">
+              <button
+                pButton
+                class="p-2 bg-blue-400 p-button-rounded"
+                (click)="handleShowPost(post)"
+              >
+                <ng-icon
+                  name="matInfoRound"
+                  class="text-xl text-white"
+                ></ng-icon>
+              </button>
+              <button
+                pButton
+                class="p-2 p-button-rounded"
+                [ngClass]="{
+                  'bg-orange-500': post.status === 'active',
+                  'bg-green-500': post.status === 'deactive'
+                }"
+                [pTooltip]="
+                  post.status === 'active' ? 'Deactive post' : 'Active post'
+                "
+                [showDelay]="200"
+                (click)="
+                  post.status === 'active'
+                    ? deactivePost(post._id)
+                    : activePost(post._id)
+                "
+              >
+                <ng-icon
+                  name="matBlockRound"
+                  class="text-xl text-white"
+                ></ng-icon>
+              </button>
+              <button
+                pButton
+                class="p-2 bg-red-500 p-button-rounded"
+                (click)="deletePost(post._id)"
+              >
+                <ng-icon
+                  name="matDeleteRound"
+                  class="text-xl text-white"
+                ></ng-icon>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
 </div>
+
+<p-dialog
+  [(visible)]="postDialog"
+  [style]="{ width: '650px' }"
+  header="Post Info"
+  styleClass="p-fluid"
+  [modal]="true"
+>
+  <ng-template pTemplate="content">
+    <div class="field">
+      <label class="label">ID: </label>
+      <span class="">{{ post?._id }}</span>
+    </div>
+
+    <div class="field">
+      <label class="label">Title: </label>
+      <span class="">{{ post?.title }}</span>
+    </div>
+
+    <div class="field" *ngIf="post?.inner?._id">
+      <label class="label">Inner post ID: </label>
+      <span class="label-text">{{ post?.inner._id }}</span>
+    </div>
+
+    <div class="field">
+      <label class="label">Visibility: </label>
+      <span class="label-text">{{ post?.visibility }}</span>
+    </div>
+
+    <div class="field">
+      <label class="label">Emotions: </label>
+      <div class="flex justify-around">
+        <div
+          class="flex flex-col justify-center gap-2 item-center"
+          *ngFor="let info of ['like', 'heart', 'haha', 'wow', 'sad', 'angry']"
+        >
+          <img
+            [src]="'/assets/emotions/' + info + '.emotion.svg'"
+            class="w-8 h-8"
+          />
+          <div class="flex justify-center">{{ post.emotionInfo?.[info] }}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label">Created at: </label>
+      <span class="label-text">{{ formatDateToDDMMYYYY(post.createdAt) }}</span>
+    </div>
+
+    <!-- <div class="field">
+      <label class="label">Status: </label>
+      <span class="label-text">{{ user.status }}</span>
+    </div> -->
+
+    <div>
+      <app-post-card [post]="post"></app-post-card>
+    </div>
+  </ng-template>
+</p-dialog>
+
+<p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>

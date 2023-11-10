@@ -141,6 +141,14 @@ export class PostService {
     });
   }
 
+  getTopPostsByEmotion(limit: number = 110): Observable<any> {
+    return this.http.get(`${environment.apiURL}/posts/top-emotions`, {
+      params: {
+        limit,
+      },
+    });
+  }
+
   getPostsInfo(): Observable<any> {
     return this.http.get(`${environment.apiURL}/posts/info`);
   }

@@ -1,3 +1,5 @@
+import { getMediaUrlById } from '@/utils/media';
+import { formatDateToDDMMYYYY } from '@/utils/format';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -9,30 +11,36 @@ import { UserService } from '@/services/user.service';
 import { ChartModule } from 'primeng/chart';
 import { NgIconsModule } from '@ng-icons/core';
 import { PostService } from '@/services/post.service';
+import { TableModule } from 'primeng/table';
+import { TooltipModule } from 'primeng/tooltip';
+import { RouterLink } from '@angular/router';
+import { PostCardComponent } from '@/modules/socials/components/post-card/post-card.component';
+import { DialogModule } from 'primeng/dialog';
+import { ConfirmationService } from 'primeng/api';
+import { ButtonModule } from 'primeng/button';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @Component({
   selector: 'app-post-chart',
   standalone: true,
-  imports: [CommonModule, ChartModule, NgIconsModule],
+  imports: [
+    CommonModule,
+    ChartModule,
+    NgIconsModule,
+    TableModule,
+    TooltipModule,
+    RouterLink,
+    PostCardComponent,
+    DialogModule,
+    ButtonModule,
+    ConfirmDialogModule,
+  ],
   templateUrl: './post-chart.component.html',
   styleUrls: ['./post-chart.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [ConfirmationService],
 })
 export class PostChartComponent implements OnInit {
-  users = {
-    totalUsers: 0,
-    lastWeek: 0,
-    deactiveUsers: 0,
-  };
-  gendersOptions: any;
-  gendersData: any;
-
-  userCreatedData: any;
-  userCreatedOptions: any;
-
-  ageGroupData: any;
-  ageGroupOptions: any;
-
   posts = {
     total: 0,
     sinceLastWeek: 0,
@@ -47,11 +55,17 @@ export class PostChartComponent implements OnInit {
   };
   postsOptions: any;
   postsData: any;
+  formatDateToDDMMYYYY = formatDateToDDMMYYYY;
+  getMediaUrlById = getMediaUrlById;
+  topPosts: any[] = [];
+  post: any;
+  postDialog: boolean = false;
 
   constructor(
     private userService: UserService,
     private cdr: ChangeDetectorRef,
-    private postSerivice: PostService
+    private postService: PostService,
+    private confirmationService: ConfirmationService
   ) {}
 
   ngOnInit(): void {
@@ -62,188 +76,9 @@ export class PostChartComponent implements OnInit {
     );
     const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
 
-    this.userService.getUsersInfo().subscribe({
-      next: (res: any) => {
-        if (res.success) {
-          this.users.totalUsers = res.data.userCreated.total;
-          this.users.lastWeek = res.data.userCreated.week[0].count;
-          this.users.deactiveUsers = res.data.userStatus.deactive;
+    this.loadPosts();
 
-          this.gendersData = {
-            labels: res.data.userGender.map((item: any) => item._id),
-            datasets: [
-              {
-                data: res.data.userGender.map((item: any) => item.count),
-                backgroundColor: [
-                  documentStyle.getPropertyValue('--blue-500'),
-                  documentStyle.getPropertyValue('--yellow-500'),
-                  documentStyle.getPropertyValue('--green-500'),
-                ],
-                hoverBackgroundColor: [
-                  documentStyle.getPropertyValue('--blue-400'),
-                  documentStyle.getPropertyValue('--yellow-400'),
-                  documentStyle.getPropertyValue('--green-400'),
-                ],
-              },
-            ],
-          };
-
-          this.userCreatedData = {
-            labels: res.data.userCreated.month.map((item: any) => item.month),
-            datasets: [
-              {
-                label: 'User created',
-                data: res.data.userCreated.month.map((item: any) => item.count),
-                backgroundColor: [
-                  'rgba(255, 159, 64, 0.2)',
-                  'rgba(75, 192, 192, 0.2)',
-                  'rgba(54, 162, 235, 0.2)',
-                  'rgba(153, 102, 255, 0.2)',
-                ],
-                borderColor: [
-                  'rgb(255, 159, 64)',
-                  'rgb(75, 192, 192)',
-                  'rgb(54, 162, 235)',
-                  'rgb(153, 102, 255)',
-                ],
-                borderWidth: 1,
-              },
-            ],
-          };
-
-          this.ageGroupData = {
-            labels: Object.keys(res.data.ageGroupPercentages),
-            datasets: [
-              {
-                label: 'Age percentage',
-                data: Object.values(res.data.ageGroupPercentages).map(
-                  (item: any) => parseFloat(item.percentage.replace('%', ''))
-                ),
-                // data: Object.values(res.data.ageGroupPercentages).map(
-                //   (item: any) => parseFloat(item.count)
-                // ),
-                backgroundColor: [
-                  'rgba(255, 159, 64, 0.2)',
-                  'rgba(75, 192, 192, 0.2)',
-                  'rgba(54, 162, 235, 0.2)',
-                  'rgba(153, 102, 255, 0.2)',
-                ],
-                borderColor: [
-                  'rgb(255, 159, 64)',
-                  'rgb(75, 192, 192)',
-                  'rgb(54, 162, 235)',
-                  'rgb(153, 102, 255)',
-                ],
-                borderWidth: 1,
-              },
-            ],
-          };
-
-          this.cdr.detectChanges();
-        }
-      },
-      error: () => {},
-    });
-
-    this.gendersOptions = {
-      plugins: {
-        legend: {
-          labels: {
-            usePointStyle: true,
-            color: textColor,
-          },
-        },
-        title: {
-          display: true,
-          text: 'Gender Chart',
-        },
-      },
-    };
-
-    this.userCreatedOptions = {
-      plugins: {
-        legend: {
-          labels: {
-            color: textColor,
-          },
-        },
-        title: {
-          display: true,
-          text: 'Created User Chart',
-        },
-      },
-      scales: {
-        y: {
-          beginAtZero: true,
-          ticks: {
-            color: textColorSecondary,
-          },
-          grid: {
-            color: surfaceBorder,
-            drawBorder: false,
-          },
-        },
-        x: {
-          ticks: {
-            color: textColorSecondary,
-          },
-          grid: {
-            color: surfaceBorder,
-            drawBorder: false,
-          },
-        },
-      },
-    };
-
-    this.ageGroupOptions = {
-      plugins: {
-        legend: {
-          labels: {
-            color: textColor,
-          },
-        },
-        title: {
-          display: true,
-          text: 'Age Group Chart',
-        },
-      },
-      scales: {
-        y: {
-          beginAtZero: true,
-          min: 0,
-          max: 100,
-          ticks: {
-            color: textColorSecondary,
-          },
-          grid: {
-            color: surfaceBorder,
-            drawBorder: false,
-          },
-        },
-        x: {
-          ticks: {
-            color: textColorSecondary,
-          },
-          grid: {
-            color: surfaceBorder,
-            drawBorder: false,
-          },
-        },
-      },
-      tooltips: {
-        callbacks: {
-          label: (tooltipItem: any, data: any) => {
-            const dataIndex = tooltipItem.index;
-            console.log(data);
-
-            return;
-            // return `${data.labels[dataIndex]}: ${percentageData[dataIndex]}% (${countData[dataIndex]})`;
-          },
-        },
-      },
-    };
-
-    this.postSerivice.getPostsInfo().subscribe({
+    this.postService.getPostsInfo().subscribe({
       next: (res: any) => {
         if (res.success) {
           this.posts = {
@@ -334,5 +169,85 @@ export class PostChartComponent implements OnInit {
         },
       },
     };
+  }
+
+  loadPosts() {
+    this.postService.getTopPostsByEmotion(100).subscribe({
+      next: (res: any) => {
+        if (res.success) {
+          this.topPosts = res.data;
+        }
+        this.cdr.detectChanges();
+      },
+    });
+  }
+
+  handleShowPost(post: any) {
+    this.post = { ...post };
+    this.postDialog = true;
+  }
+
+  deletePost(postId: string) {
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to delete this post?',
+      header: 'Confirm',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.postService.deletePostById(postId).subscribe({
+          next: () => {
+            this.topPosts = this.topPosts.filter((post) => {
+              return post._id !== postId;
+            });
+            this.cdr.detectChanges();
+          },
+        });
+      },
+    });
+  }
+
+  deactivePost(postId: string) {
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to deactive this post?',
+      header: 'Confirm',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.postService.updatePostStatus(postId, 'deactive').subscribe({
+          next: (res) => {
+            if (res.success) {
+              this.topPosts = this.topPosts.map((post) => {
+                if (post._id === postId) {
+                  return { ...post, status: 'deactive' };
+                }
+                return post;
+              });
+              this.cdr.detectChanges();
+            }
+          },
+        });
+      },
+    });
+  }
+
+  activePost(postId: string) {
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to active this post?',
+      header: 'Confirm',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.postService.updatePostStatus(postId, 'active').subscribe({
+          next: (res) => {
+            if (res.success) {
+              this.topPosts = this.topPosts.map((post) => {
+                if (post._id === postId) {
+                  return { ...post, status: 'active' };
+                }
+                return post;
+              });
+              this.cdr.detectChanges();
+            }
+          },
+        });
+      },
+    });
   }
 }

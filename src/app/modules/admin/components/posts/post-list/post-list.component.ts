@@ -59,7 +59,7 @@ export class PostListComponent implements OnInit {
   getMediaUrlById = getMediaUrlById;
   formatDate = formatDate;
   formatDateToDDMMYYYY = formatDateToDDMMYYYY;
-  userDialog: boolean = false;
+  postDialog: boolean = false;
   postsDialog: boolean = false;
   post: any;
   searchControl = new FormControl<any>('');
@@ -123,7 +123,7 @@ export class PostListComponent implements OnInit {
 
   handleShowPost(post: any) {
     this.post = { ...post };
-    this.userDialog = true;
+    this.postDialog = true;
   }
 
   handleShowUserPosts(user: any) {
