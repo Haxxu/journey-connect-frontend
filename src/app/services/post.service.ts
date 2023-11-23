@@ -161,4 +161,8 @@ export class PostService {
       status,
     });
   }
+
+  getRecommendPosts(): Observable<any> {
+    return this.http.get(`${environment.apiURL}/recommend/posts`);
+  }
 }

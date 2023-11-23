@@ -24,6 +24,7 @@ import { UserChartComponent } from './modules/admin/components/users/user-chart/
 import { PostListComponent } from './modules/admin/components/posts/post-list/post-list.component';
 import { PostChartComponent } from './modules/admin/components/posts/post-chart/post-chart.component';
 import { ReportPostListComponent } from './modules/admin/components/reports/post-list/report-post-list.component';
+import { RecommendPostsComponent } from './modules/admin/components/recommend/recommend-posts/recommend-posts.component';
 
 export const APP_ROUTES: Routes = [
   {
@@ -54,6 +55,10 @@ export const APP_ROUTES: Routes = [
       {
         path: 'reports/posts/list',
         component: ReportPostListComponent,
+      },
+      {
+        path: 'recommendations/posts',
+        component: RecommendPostsComponent,
       },
     ],
   },

@@ -61,30 +61,15 @@ export class AppMenuComponent implements OnInit {
             icon: 'matFeedRound',
             routerLink: ['/dashboard/reports/posts/list'],
           },
-          {
-            label: 'Comments',
-            icon: 'matReportRound',
-            routerLink: ['/dashboard/reports/comments'],
-          },
         ],
       },
       {
-        label: 'COMMENTS',
+        label: 'RECOMMENDATIONS',
         items: [
           {
-            label: 'Chart',
+            label: 'Posts',
             icon: 'matDashboardRound',
-            routerLink: ['/dashboard/comments/chart'],
-          },
-          {
-            label: 'Comments',
-            icon: 'matCommentRound',
-            routerLink: ['/dashboard/comments/list'],
-          },
-          {
-            label: 'Reported comments',
-            icon: 'matReportRound',
-            routerLink: ['/dashboard/comments/reported'],
+            routerLink: ['/dashboard/recommendations/posts'],
           },
         ],
       },
