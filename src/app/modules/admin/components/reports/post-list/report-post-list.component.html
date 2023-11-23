@@ -141,8 +141,8 @@
             [showDelay]="200"
             (click)="
               report.post.status === 'active'
-                ? deactivePost(report.post._id)
-                : activePost(report.post._id)
+                ? deactivePost(report.post._id, report._id)
+                : activePost(report.post._id, report._id)
             "
           >
             <ng-icon name="matBlockRound" class="text-xl text-white"></ng-icon>

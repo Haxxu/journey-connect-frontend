@@ -46,8 +46,8 @@ import { ReportService } from '@/services/report.service';
   ],
   templateUrl: './report-post-list.component.html',
   styleUrls: ['./report-post-list.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [ConfirmationService],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ReportPostListComponent implements OnInit {
   posts: any[] = [];
@@ -101,13 +101,12 @@ export class ReportPostListComponent implements OnInit {
       .getReports('post', this.page, this.pageSize, this.searchControl?.value)
       .subscribe({
         next: (res: any) => {
-          console.log(res);
           if (res.success) {
             this.reportPosts = res.data.docs;
             this.totalReportPosts = res.data.totalDocs;
-            this.cdr.detectChanges();
           }
           this.loading = false;
+          this.cdr.detectChanges();
         },
       });
   }
@@ -165,7 +164,7 @@ export class ReportPostListComponent implements OnInit {
     });
   }
 
-  deactivePost(postId: string) {
+  deactivePost(postId: string, reportId: string) {
     this.confirmationService.confirm({
       message: 'Are you sure you want to deactive this post?',
       header: 'Confirm',
@@ -174,21 +173,24 @@ export class ReportPostListComponent implements OnInit {
         this.postService.updatePostStatus(postId, 'deactive').subscribe({
           next: (res) => {
             if (res.success) {
-              this.posts = this.posts.map((post) => {
-                if (post._id === postId) {
-                  return { ...post, status: 'deactive' };
+              this.reportPosts = this.reportPosts.map((report: any) => {
+                if (report._id === reportId) {
+                  return {
+                    ...report,
+                    post: { ...report.post, status: 'deactive' },
+                  };
                 }
-                return post;
+                return report;
               });
-              this.cdr.detectChanges();
             }
+            this.cdr.detectChanges();
           },
         });
       },
     });
   }
 
-  activePost(postId: string) {
+  activePost(postId: string, reportId: string) {
     this.confirmationService.confirm({
       message: 'Are you sure you want to active this post?',
       header: 'Confirm',
@@ -197,12 +199,16 @@ export class ReportPostListComponent implements OnInit {
         this.postService.updatePostStatus(postId, 'active').subscribe({
           next: (res) => {
             if (res.success) {
-              this.posts = this.posts.map((post) => {
-                if (post._id === postId) {
-                  return { ...post, status: 'active' };
+              this.reportPosts = this.reportPosts.map((report: any) => {
+                if (report._id === reportId) {
+                  return {
+                    ...report,
+                    post: { ...report.post, status: 'active' },
+                  };
                 }
-                return post;
+                return report;
               });
+
               this.cdr.detectChanges();
             }
           },
