@@ -1,7 +1,7 @@
 <div>
   <div
     *ngIf="users.length > 0"
-    class="hover:underline cursor-pointer flex gap-2"
+    class="flex gap-2 cursor-pointer hover:underline"
     [popper]="postOption"
     [popperPlacement]="NgxPopperjsPlacements.BOTTOMEND"
   >
@@ -12,7 +12,7 @@
         shape="circle"
       ></p-avatar>
     </p-avatarGroup>
-    {{ users.length }} mututal friends
+    {{ users.length }} mutual friends
   </div>
 
   <popper-content #postOption class="shadow-sm rounded-xl">

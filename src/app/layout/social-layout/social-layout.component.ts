@@ -54,11 +54,11 @@ export class SocialLayoutComponent implements OnInit {
       path: '/saved',
       icon: 'matBookmarkRound',
     },
-    {
-      name: 'Groups',
-      path: '/groups',
-      icon: 'matGroupsRound',
-    },
+    // {
+    //   name: 'Groups',
+    //   path: '/groups',
+    //   icon: 'matGroupsRound',
+    // },
   ];
   showCreatePostModal: boolean = false;
 

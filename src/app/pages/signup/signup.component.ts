@@ -73,8 +73,18 @@ export class SignupComponent {
           birth_date: formattedBirthDate,
         })
         .subscribe({
-          next: (res) => {
+          next: (res: any) => {
             if (res.success) {
+              this.signupForm.setValue({
+                first_name: '',
+                last_name: '',
+                email: '',
+                password: '',
+                birth_date: null,
+                gender: '',
+              });
+              this.signupForm.markAsPristine();
+              this.signupForm.markAsUntouched();
               this.messageService.add({
                 severity: 'success',
                 summary: 'Success',
@@ -83,11 +93,7 @@ export class SignupComponent {
             }
           },
           error: (error) => {
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Signup failed',
-              detail: error.error.message,
-            });
+            console.log(error);
           },
         });
     } else {

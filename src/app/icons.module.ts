@@ -29,6 +29,7 @@ import {
   matPeopleRound,
   matDeleteRound,
   matLockRound,
+  matCheckCircleOutlineRound,
 } from '@ng-icons/material-icons/round';
 
 import {
@@ -67,6 +68,7 @@ import {
       matPeopleRound,
       matDeleteRound,
       matLockRound,
+      matCheckCircleOutlineRound,
       bootstrapPersonCheckFill,
       bootstrapPersonXFill,
     }),

@@ -1,0 +1,35 @@
+<div
+  *ngIf="isSuccess; else failed"
+  class="w-[350px] h-auto bg-white border border-gray-100 rounded-md flex flex-col justify-center items-center p-4 shadow-lg gap-3"
+>
+  <ng-icon
+    name="matCheckCircleOutlineRound"
+    class="text-[80px] text-green-500"
+  ></ng-icon>
+  <div class="text-xl text-green-600">Success</div>
+  <div>Active Account Successfully</div>
+  <div class="mt-4">
+    <a
+      [routerLink]="'/'"
+      class="flex justify-center w-full px-4 py-2 font-semibold text-white bg-blue-500 rounded-lg j-button-custom"
+      >GO TO HOME PAGE</a
+    >
+  </div>
+</div>
+
+<ng-template #failed>
+  <div
+    class="w-[350px] h-auto bg-white border border-gray-100 rounded-md flex flex-col justify-center items-center p-4 shadow-lg gap-3"
+  >
+    <ng-icon name="matBlockRound" class="text-[80px] text-red-400"></ng-icon>
+    <div class="text-xl text-red-700">Failed</div>
+    <div>Active Account Failure</div>
+    <div class="mt-4">
+      <a
+        [routerLink]="'/login'"
+        class="flex justify-center w-full px-4 py-2 font-semibold text-white bg-blue-500 rounded-lg j-button-custom"
+        >GO TO LOGIN PAGE</a
+      >
+    </div>
+  </div>
+</ng-template>

@@ -25,8 +25,14 @@ import { PostListComponent } from './modules/admin/components/posts/post-list/po
 import { PostChartComponent } from './modules/admin/components/posts/post-chart/post-chart.component';
 import { ReportPostListComponent } from './modules/admin/components/reports/post-list/report-post-list.component';
 import { RecommendPostsComponent } from './modules/admin/components/recommend/recommend-posts/recommend-posts.component';
+import { ActiveComponent } from './pages/active/active.component';
 
 export const APP_ROUTES: Routes = [
+  {
+    path: 'active',
+    component: DefaultLayoutComponent,
+    children: [{ path: '', component: ActiveComponent }],
+  },
   {
     path: 'dashboard',
     component: AppLayoutComponent,
