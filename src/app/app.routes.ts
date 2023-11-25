@@ -26,13 +26,11 @@ import { PostChartComponent } from './modules/admin/components/posts/post-chart/
 import { ReportPostListComponent } from './modules/admin/components/reports/post-list/report-post-list.component';
 import { RecommendPostsComponent } from './modules/admin/components/recommend/recommend-posts/recommend-posts.component';
 import { ActiveComponent } from './pages/active/active.component';
+import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
+import { ChangePasswordComponent } from './pages/socials/change-password/change-password.component';
 
 export const APP_ROUTES: Routes = [
-  {
-    path: 'active',
-    component: DefaultLayoutComponent,
-    children: [{ path: '', component: ActiveComponent }],
-  },
   {
     path: 'dashboard',
     component: AppLayoutComponent,
@@ -84,6 +82,18 @@ export const APP_ROUTES: Routes = [
       {
         path: 'signup',
         component: SignupComponent,
+      },
+      {
+        path: 'forgot-password',
+        component: ForgotPasswordComponent,
+      },
+      {
+        path: 'reset-password',
+        component: ResetPasswordComponent,
+      },
+      {
+        path: 'active',
+        component: ActiveComponent,
       },
     ],
   },
@@ -153,6 +163,17 @@ export const APP_ROUTES: Routes = [
       {
         path: ':id',
         component: UserComponent,
+      },
+    ],
+  },
+  {
+    path: 'change-password',
+    component: SocialLayoutComponent,
+    canActivate: [AuthGuard],
+    children: [
+      {
+        path: '',
+        component: ChangePasswordComponent,
       },
     ],
   },

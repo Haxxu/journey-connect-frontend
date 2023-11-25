@@ -74,4 +74,24 @@ export class AuthService {
   checkIsAdmin(): Observable<any> {
     return this.http.get(`${environment.apiURL}/me/is-admin`);
   }
+
+  forgotPassword(email: string): Observable<any> {
+    return this.http.post(`${environment.apiURL}/auth/forgot-password`, {
+      email,
+    });
+  }
+
+  resetPassword(password: string, token: string): Observable<any> {
+    return this.http.post(`${environment.apiURL}/auth/reset-password`, {
+      password,
+      token,
+    });
+  }
+
+  changePassword(old_password: string, new_password: string): Observable<any> {
+    return this.http.post(`${environment.apiURL}/me/change-password`, {
+      old_password,
+      new_password,
+    });
+  }
 }

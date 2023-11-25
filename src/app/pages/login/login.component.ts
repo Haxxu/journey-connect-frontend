@@ -14,7 +14,7 @@ import { ToastModule } from 'primeng/toast';
 
 import { noWhitespaceValidator } from '@/utils/validators';
 import { AuthService } from '@/services/auth.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AppRoutes } from '@/config/app_routes';
 
 @Component({
@@ -27,6 +27,7 @@ import { AppRoutes } from '@/config/app_routes';
     ButtonModule,
     DividerModule,
     ToastModule,
+    RouterLink,
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],

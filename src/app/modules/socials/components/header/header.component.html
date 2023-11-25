@@ -28,7 +28,7 @@
   </div>
 
   <popper-content #headerMenuOption class="shadow-sm rounded-xl">
-    <div class="w-28">
+    <div class="w-36">
       <div
         class="px-2 py-1.5 my-0.5 hover:bg-gray-200 text-md rounded-md text-gray-700 cursor-pointer flex items-center"
         [routerLink]="'/users/' + meInfo._id"
@@ -46,6 +46,13 @@
           class="text-xl text-gray-600"
         ></ng-icon>
         <span class="ml-2"> Dashboard </span>
+      </div>
+      <div
+        class="px-2 py-1.5 my-0.5 hover:bg-gray-200 text-md rounded-md text-gray-700 cursor-pointer flex items-center"
+        [routerLink]="'/change-password'"
+      >
+        <ng-icon name="matEditRound" class="text-xl text-gray-600"></ng-icon>
+        <span class="ml-2"> Change pass </span>
       </div>
       <hr />
       <div

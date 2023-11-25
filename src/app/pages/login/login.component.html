@@ -73,16 +73,24 @@
         >
       </div>
     </form>
+    <a
+      [routerLink]="'/forgot-password'"
+      class="flex justify-center mt-3 text-gray-600 text-md hover:text-blue-400 hover:underline"
+    >
+      Forgot your password?
+    </a>
     <p-divider></p-divider>
+    <div></div>
     <div class="">
-      <div class="flex justify-center my-3 text-gray-600 text-md">
+      <div class="flex justify-center mb-3 text-gray-600 text-md">
         Does't have an account?
       </div>
       <p-button
         styleClass="bg-green-500 text-white j-button-custom w-full flex justify-center p-button-success"
         (onClick)="handleNavigateToSignup()"
-        >Sign Up</p-button
       >
+        Sign Up
+      </p-button>
     </div>
   </div>
 </div>
