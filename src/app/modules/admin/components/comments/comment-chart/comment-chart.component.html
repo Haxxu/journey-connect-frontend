@@ -1,12 +1,13 @@
+<p>comment-chart works!</p>
 <div>
   <div class="grid grid-cols-3 gap-2">
     <div class="col-span-1">
       <div class="mb-2 card">
         <div class="flex justify-between mb-3">
           <div>
-            <span class="block mb-3 font-medium text-500">Total posts</span>
+            <span class="block mb-3 font-medium text-500">Total comments</span>
             <div class="text-xl font-medium text-900">
-              {{ posts.total }}
+              {{ comments.total }}
             </div>
           </div>
           <div
@@ -20,7 +21,7 @@
           </div>
         </div>
         <span class="font-medium text-green-500"
-          >{{ posts.sinceLastWeek }} new
+          >{{ comments.sinceLastWeek }} new
         </span>
         <span class="text-500">since last week</span>
       </div>
@@ -30,10 +31,10 @@
         <div class="flex justify-between mb-3">
           <div>
             <span class="block mb-3 font-medium text-500"
-              >Total individual posts</span
+              >Total normal comments</span
             >
             <div class="text-xl font-medium text-900">
-              {{ individualPosts.total }}
+              {{ normalComments.total }}
             </div>
           </div>
           <div
@@ -47,7 +48,7 @@
           </div>
         </div>
         <span class="font-medium text-green-500"
-          >{{ individualPosts.sinceLastWeek }} new
+          >{{ normalComments.sinceLastWeek }} new
         </span>
         <span class="text-500">since last week</span>
       </div>
@@ -57,10 +58,10 @@
         <div class="flex justify-between mb-3">
           <div>
             <span class="block mb-3 font-medium text-500"
-              >Total share posts</span
+              >Total reply comments</span
             >
             <div class="text-xl font-medium text-900">
-              {{ sharePosts.total }}
+              {{ replyComments.total }}
             </div>
           </div>
           <div
@@ -74,7 +75,7 @@
           </div>
         </div>
         <span class="font-medium text-green-500"
-          >{{ sharePosts.sinceLastWeek }} new
+          >{{ replyComments.sinceLastWeek }} new
         </span>
         <span class="text-500">since last week</span>
       </div>
@@ -82,6 +83,10 @@
   </div>
 
   <div class="mt-2 card">
-    <p-chart type="line" [data]="postsData" [options]="postsOptions"></p-chart>
+    <p-chart
+      type="line"
+      [data]="commentsData"
+      [options]="commentsOptions"
+    ></p-chart>
   </div>
 </div>

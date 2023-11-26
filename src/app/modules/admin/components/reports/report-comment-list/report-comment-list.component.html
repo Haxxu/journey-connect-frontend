@@ -1,9 +1,9 @@
 <div class="card">
   <p-table
     #dt
-    [value]="reportPosts"
+    [value]="reportComments"
     [lazy]="true"
-    dataKey="idakdsf-dksf"
+    dataKey="idakdsf-dksf12"
     (onLazyLoad)="handleLoadReportPosts($event)"
     [rows]="pageSize"
     [first]="(page - 1) * pageSize"
@@ -11,15 +11,15 @@
     [showCurrentPageReport]="true"
     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} posts"
     [paginator]="true"
-    [totalRecords]="totalReportPosts"
+    [totalRecords]="totalReportComments"
   >
     <ng-template pTemplate="caption">
       <div class="flex items-center justify-between">
-        <h5 class="m-0">Manage Reported Posts</h5>
+        <h5 class="m-0">Manage Reported Comments</h5>
         <input
           type="text"
           pInputText
-          placeholder="Search posts, users"
+          placeholder="Search comments, users"
           [formControl]="searchControl"
           class="h-10 p-2 text-base font-normal text-gray-800 border border-gray-300 rounded-lg max-w"
         />
@@ -124,57 +124,52 @@
           <button
             pButton
             class="p-2 bg-blue-400 p-button-rounded"
-            (click)="handleShowPost(report.post)"
+            (click)="handleShowComment(report.comment)"
           >
             <ng-icon name="matInfoRound" class="text-xl text-white"></ng-icon>
           </button>
+
           <button
             pButton
-            class="p-2 p-button-rounded"
-            [ngClass]="{
-              'bg-orange-500': report.post.status === 'active',
-              'bg-green-500': report.post.status === 'deactive'
-            }"
-            [pTooltip]="
-              report.post.status === 'active' ? 'Deactive post' : 'Active post'
-            "
+            class="p-2 bg-orange-500 p-button-rounded"
+            (click)="deleteComment(report.comment._id)"
+            [pTooltip]="'Delete comment'"
             [showDelay]="200"
-            (click)="
-              report.post.status === 'active'
-                ? deactivePost(report.post._id, report._id)
-                : activePost(report.post._id, report._id)
-            "
           >
-            <ng-icon name="matBlockRound" class="text-xl text-white"></ng-icon>
+            <ng-icon
+              name="matCommentRound"
+              class="text-xl text-white"
+            ></ng-icon>
           </button>
+
           <button
             pButton
             class="p-2 bg-red-500 p-button-rounded"
-            (click)="deleteReport(report._id)"
             [pTooltip]="'Delete report'"
             [showDelay]="200"
+            (click)="deleteReport(report._id)"
           >
             <ng-icon name="matDeleteRound" class="text-xl text-white"></ng-icon>
           </button>
           <!-- <button
-            pButton
-            class="p-2 p-button-rounded"
-            [ngClass]="{
-              'bg-red-500': user.status === 'active',
-              'bg-green-500': user.status === 'deactive'
-            }"
-            [pTooltip]="
-              user.status === 'active' ? 'Deactive user' : 'Active user'
-            "
-            [showDelay]="200"
-            (click)="
-              user.status === 'active'
-                ? deactivePost(user._id)
-                : activePost(user._id)
-            "
-          >
-            <ng-icon name="matBlockRound" class="text-xl text-white"></ng-icon>
-          </button> -->
+              pButton
+              class="p-2 p-button-rounded"
+              [ngClass]="{
+                'bg-red-500': user.status === 'active',
+                'bg-green-500': user.status === 'deactive'
+              }"
+              [pTooltip]="
+                user.status === 'active' ? 'Deactive user' : 'Active user'
+              "
+              [showDelay]="200"
+              (click)="
+                user.status === 'active'
+                  ? deactivePost(user._id)
+                  : activePost(user._id)
+              "
+            >
+              <ng-icon name="matBlockRound" class="text-xl text-white"></ng-icon>
+            </button> -->
         </td>
       </tr>
     </ng-template>
@@ -182,7 +177,7 @@
 </div>
 
 <p-dialog
-  [(visible)]="userDialog"
+  [(visible)]="commentDialog"
   [style]="{ width: '650px' }"
   header="Post Info"
   styleClass="p-fluid"
@@ -190,74 +185,25 @@
 >
   <ng-template pTemplate="content">
     <div class="field">
-      <label class="label">ID: </label>
-      <span class="">{{ post?._id }}</span>
+      <label class="label">Comment ID: </label>
+      <span class="">{{ comment?._id }}</span>
     </div>
 
     <div class="field">
-      <label class="label">Title: </label>
-      <span class="">{{ post?.title }}</span>
+      <label class="label">Content: </label>
+      <span class="">{{ comment?.content }}</span>
     </div>
-
-    <div class="field" *ngIf="post?.inner?._id">
-      <label class="label">Inner post ID: </label>
-      <span class="label-text">{{ post?.inner._id }}</span>
-    </div>
-
-    <div class="field">
-      <label class="label">Visibility: </label>
-      <span class="label-text">{{ post?.visibility }}</span>
-    </div>
-
-    <!-- <div class="field">
-      <label class="label">Last name: </label>
-      <span class="label-text">{{ user.last_name }}</span>
-    </div>
-
-    <div class="field">
-      <label class="label">Description: </label>
-      <span class="label-text">{{ user.description }}</span>
-    </div>
-
-    <div class="field">
-      <label class="label">Birth date: </label>
-      <span class="label-text">{{
-        formatDateToDDMMYYYY(user.birth_date)
-      }}</span>
-    </div> -->
-
-    <!-- <div class="field">
-      <label class="label">Gender: </label>
-      <span class="label-text">{{ user.gender }}</span>
-    </div> -->
 
     <div class="field">
       <label class="label">Created at: </label>
-      <span class="label-text">{{ formatDateToDDMMYYYY(post.createdAt) }}</span>
+      <span class="label-text">{{
+        formatDateToDDMMYYYY(comment.createdAt)
+      }}</span>
     </div>
 
-    <!-- <div class="field">
-      <label class="label">Status: </label>
-      <span class="label-text">{{ user.status }}</span>
-    </div> -->
-
-    <div>
+    <!-- <div>
       <app-post-card [post]="post"></app-post-card>
-    </div>
-  </ng-template>
-</p-dialog>
-
-<p-dialog
-  [(visible)]="postsDialog"
-  [style]="{ width: '650px' }"
-  header="User Posts"
-  [modal]="true"
-  styleClass="p-fluid"
->
-  <ng-template pTemplate="content">
-    <div *ngIf="posts$ | async as posts" class="flex flex-col gap-3">
-      <app-post-card *ngFor="let post of posts" [post]="post"></app-post-card>
-    </div>
+    </div> -->
   </ng-template>
 </p-dialog>
 

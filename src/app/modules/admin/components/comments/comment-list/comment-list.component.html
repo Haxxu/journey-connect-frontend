@@ -1,0 +1,225 @@
+<div class="card">
+  <p-table
+    #dt
+    [value]="comments"
+    [lazy]="true"
+    dataKey="idakdsf-dksf12"
+    (onLazyLoad)="handleloadComments($event)"
+    [rows]="pageSize"
+    [first]="(page - 1) * pageSize"
+    [rowsPerPageOptions]="[2, 5, 10, 25, 50]"
+    [showCurrentPageReport]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} posts"
+    [paginator]="true"
+    [totalRecords]="totalComments"
+  >
+    <ng-template pTemplate="caption">
+      <div class="flex items-center justify-between">
+        <h5 class="m-0">Manage Comments</h5>
+        <input
+          type="text"
+          pInputText
+          placeholder="Search posts, users"
+          [formControl]="searchControl"
+          class="h-10 p-2 text-base font-normal text-gray-800 border border-gray-300 rounded-lg max-w"
+        />
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <!-- <th class="w-16">ID</th> -->
+
+        <th>
+          <div class="flex items-center justify-start">Owner avatar</div>
+        </th>
+        <th>
+          <div class="flex items-center justify-start">Owner name</div>
+        </th>
+        <th class="min-w-[400px]">
+          <div class="flex items-center justify-start">Content</div>
+        </th>
+        <th>
+          <div class="flex items-center justify-start">Comment type</div>
+        </th>
+        <th>
+          <div class="flex items-center justify-start">Total emotions</div>
+        </th>
+        <th>
+          <div class="flex items-center justify-start">Created at</div>
+        </th>
+        <th>
+          <div class="flex items-center justify-start">Actions</div>
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-comment>
+      <tr>
+        <td>
+          <div class="flex items-center justify-center h-full">
+            <a
+              [routerLink]="'/users/' + comment.owner._id"
+              target="_blank"
+              class="block"
+            >
+              <img
+                [src]="
+                  getMediaUrlById(comment.owner.avatar, comment.owner.medias)
+                "
+                class="object-cover w-8 h-8 rounded-full shadow-md"
+              />
+            </a>
+          </div>
+        </td>
+        <td>
+          <span class="p-column-title">Owner</span>
+          {{ comment.owner.first_name + " " + comment.owner.last_name }}
+        </td>
+        <td class="min-w-[400px]">
+          <span class="p-column-title">Content</span>
+          {{ comment.content }}
+        </td>
+        <td class="w-20">
+          <span class="p-column-title">Comment type</span>
+          {{ comment?.reply_user ? "Reply" : "Normal" }}
+        </td>
+
+        <td class="w-20">
+          <div
+            [pTooltip]="
+              'Like: ' +
+              comment.emotionInfo.like +
+              '; Heart: ' +
+              comment.emotionInfo.heart +
+              '; Wow: ' +
+              comment.emotionInfo.wow +
+              '; Haha: ' +
+              comment.emotionInfo.haha +
+              '; Sad: ' +
+              comment.emotionInfo.sad +
+              '; Angry: ' +
+              comment.emotionInfo.angry
+            "
+          >
+            {{ comment.emotionInfo.total }}
+          </div>
+        </td>
+        <td>
+          <span class="p-column-title">Created at</span>
+          {{ formatDateToDDMMYYYY(comment.createdAt) }}
+        </td>
+        <td>
+          <div class="flex gap-2">
+            <button
+              pButton
+              class="p-2 bg-blue-400 p-button-rounded"
+              (click)="handleShowPost(comment.context_id, comment)"
+            >
+              <ng-icon name="matInfoRound" class="text-xl text-white"></ng-icon>
+            </button>
+
+            <button
+              pButton
+              class="p-2 bg-red-500 p-button-rounded"
+              (click)="deletePost(comment._id)"
+            >
+              <ng-icon
+                name="matDeleteRound"
+                class="text-xl text-white"
+              ></ng-icon>
+            </button>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+<p-dialog
+  [(visible)]="postDialog"
+  [style]="{ width: '650px' }"
+  header="Post Info"
+  styleClass="p-fluid"
+  [modal]="true"
+>
+  <ng-template pTemplate="content">
+    <div class="field">
+      <label class="label">ID: </label>
+      <span class="">{{ comment?._id }}</span>
+    </div>
+
+    <div class="field">
+      <label class="label">Content: </label>
+      <span class="">{{ comment?.content }}</span>
+    </div>
+
+    <div class="field">
+      <label class="label"> Comment type: </label>
+      <span class="label-text">{{
+        comment?.reply_user ? "Reply" : "Normal"
+      }}</span>
+    </div>
+
+    <div class="field">
+      <label class="label">Emotions: </label>
+      <div class="flex justify-around">
+        <div
+          class="flex flex-col justify-center gap-2 item-center"
+          *ngFor="let info of ['like', 'heart', 'haha', 'wow', 'sad', 'angry']"
+        >
+          <img
+            [src]="'/assets/emotions/' + info + '.emotion.svg'"
+            class="w-8 h-8"
+          />
+          <div class="flex justify-center">
+            {{ comment.emotionInfo?.[info] }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="field" *ngIf="comment?.reply_user">
+      <label class="label">Reply user: </label>
+
+      <div class="flex items-center justify-center h-full">
+        <a
+          [routerLink]="'/users/' + comment.reply_user._id"
+          target="_blank"
+          class="block"
+        >
+          <img
+            [src]="
+              getMediaUrlById(
+                comment.reply_user.avatar,
+                comment.reply_user.medias
+              )
+            "
+            class="object-cover w-8 h-8 rounded-full shadow-md"
+          />
+        </a>
+        <a [routerLink]="'/users/' + comment.reply_user._id">
+          {{
+            comment.reply_user.first_name + " " + comment.reply_user.last_name
+          }}
+        </a>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label">Created at: </label>
+      <span class="label-text">{{
+        formatDateToDDMMYYYY(comment.createdAt)
+      }}</span>
+    </div>
+
+    <!-- <div class="field">
+        <label class="label">Status: </label>
+        <span class="label-text">{{ user.status }}</span>
+      </div> -->
+
+    <div>
+      <app-post-card [post]="post"></app-post-card>
+    </div>
+  </ng-template>
+</p-dialog>
+
+<p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>

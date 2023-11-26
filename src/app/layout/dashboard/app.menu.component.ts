@@ -51,6 +51,31 @@ export class AppMenuComponent implements OnInit {
             icon: 'matFeedRound',
             routerLink: ['/dashboard/posts/list'],
           },
+          {
+            label: 'Top posts',
+            icon: 'matBarChartRound',
+            routerLink: ['/dashboard/posts/top'],
+          },
+        ],
+      },
+      {
+        label: 'COMMENTS',
+        items: [
+          {
+            label: 'Charts',
+            icon: 'matDashboardRound',
+            routerLink: ['/dashboard/comments'],
+          },
+          {
+            label: 'Comments',
+            icon: 'matCommentRound',
+            routerLink: ['/dashboard/comments/list'],
+          },
+          // {
+          //   label: 'Top comments',
+          //   icon: 'matBarChartRound',
+          //   routerLink: ['/dashboard/comments/top'],
+          // },
         ],
       },
       {
@@ -60,6 +85,11 @@ export class AppMenuComponent implements OnInit {
             label: 'Posts',
             icon: 'matFeedRound',
             routerLink: ['/dashboard/reports/posts/list'],
+          },
+          {
+            label: 'Comments',
+            icon: 'matCommentRound',
+            routerLink: ['/dashboard/reports/comments/list'],
           },
         ],
       },

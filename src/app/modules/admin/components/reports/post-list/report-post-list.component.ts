@@ -146,16 +146,16 @@ export class ReportPostListComponent implements OnInit {
     this.postsDialog = true;
   }
 
-  deletePost(postId: string) {
+  deleteReport(reportId: string) {
     this.confirmationService.confirm({
-      message: 'Are you sure you want to delete this post?',
+      message: 'Are you sure you want to delete this report?',
       header: 'Confirm',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.postService.deletePostById(postId).subscribe({
+        this.reportService.deleteReport(reportId).subscribe({
           next: () => {
-            this.posts = this.posts.filter((post) => {
-              return post._id !== postId;
+            this.reportPosts = this.reportPosts.filter((report: any) => {
+              return report._id !== reportId;
             });
             this.cdr.detectChanges();
           },

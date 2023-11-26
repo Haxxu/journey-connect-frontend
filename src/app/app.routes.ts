@@ -29,6 +29,10 @@ import { ActiveComponent } from './pages/active/active.component';
 import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
 import { ChangePasswordComponent } from './pages/socials/change-password/change-password.component';
+import { TopPostListComponent } from './modules/admin/components/posts/top-post-list/top-post-list.component';
+import { CommentListComponent } from './modules/admin/components/comments/comment-list/comment-list.component';
+import { CommentChartComponent } from './modules/admin/components/comments/comment-chart/comment-chart.component';
+import { ReportCommentListComponent } from './modules/admin/components/reports/report-comment-list/report-comment-list.component';
 
 export const APP_ROUTES: Routes = [
   {
@@ -41,24 +45,40 @@ export const APP_ROUTES: Routes = [
         component: TestPageComponent,
       },
       {
-        path: 'users',
-        component: UserChartComponent,
-      },
-      {
         path: 'users/list',
         component: UserListComponent,
       },
       {
-        path: 'posts',
-        component: PostChartComponent,
+        path: 'users',
+        component: UserChartComponent,
       },
       {
         path: 'posts/list',
         component: PostListComponent,
       },
       {
+        path: 'posts/top',
+        component: TopPostListComponent,
+      },
+      {
+        path: 'posts',
+        component: PostChartComponent,
+      },
+      {
+        path: 'comments/list',
+        component: CommentListComponent,
+      },
+      {
+        path: 'comments',
+        component: CommentChartComponent,
+      },
+      {
         path: 'reports/posts/list',
         component: ReportPostListComponent,
+      },
+      {
+        path: 'reports/comments/list',
+        component: ReportCommentListComponent,
       },
       {
         path: 'recommendations/posts',

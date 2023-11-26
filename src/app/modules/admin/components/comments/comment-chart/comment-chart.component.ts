@@ -1,60 +1,38 @@
-import { getMediaUrlById } from '@/utils/media';
-import { formatDateToDDMMYYYY } from '@/utils/format';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-  ChangeDetectorRef,
-} from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { UserService } from '@/services/user.service';
-import { ChartModule } from 'primeng/chart';
 import { NgIconsModule } from '@ng-icons/core';
+import { ChartModule } from 'primeng/chart';
+import { formatDateToDDMMYYYY } from '@/utils/format';
+import { getMediaUrlById } from '@/utils/media';
+import { UserService } from '@/services/user.service';
 import { PostService } from '@/services/post.service';
-import { TableModule } from 'primeng/table';
-import { TooltipModule } from 'primeng/tooltip';
-import { RouterLink } from '@angular/router';
-import { PostCardComponent } from '@/modules/socials/components/post-card/post-card.component';
-import { DialogModule } from 'primeng/dialog';
 import { ConfirmationService } from 'primeng/api';
-import { ButtonModule } from 'primeng/button';
-import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { CommentService } from '@/services/comment.service';
 
 @Component({
-  selector: 'app-post-chart',
+  selector: 'app-comment-chart',
   standalone: true,
-  imports: [
-    CommonModule,
-    ChartModule,
-    NgIconsModule,
-    TableModule,
-    TooltipModule,
-    RouterLink,
-    PostCardComponent,
-    DialogModule,
-    ButtonModule,
-    ConfirmDialogModule,
-  ],
-  templateUrl: './post-chart.component.html',
-  styleUrls: ['./post-chart.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [CommonModule, NgIconsModule, ChartModule],
+  templateUrl: './comment-chart.component.html',
+  styleUrls: ['./comment-chart.component.scss'],
+
   providers: [ConfirmationService],
 })
-export class PostChartComponent implements OnInit {
-  posts = {
+export class CommentChartComponent implements OnInit {
+  comments = {
     total: 0,
     sinceLastWeek: 0,
   };
-  sharePosts = {
+  normalComments = {
     total: 0,
     sinceLastWeek: 0,
   };
-  individualPosts = {
+  replyComments = {
     total: 0,
     sinceLastWeek: 0,
   };
-  postsOptions: any;
-  postsData: any;
+  commentsOptions: any;
+  commentsData: any;
   formatDateToDDMMYYYY = formatDateToDDMMYYYY;
   getMediaUrlById = getMediaUrlById;
   topPosts: any[] = [];
@@ -65,7 +43,8 @@ export class PostChartComponent implements OnInit {
     private userService: UserService,
     private cdr: ChangeDetectorRef,
     private postService: PostService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private commentService: CommentService
   ) {}
 
   ngOnInit(): void {
@@ -76,30 +55,30 @@ export class PostChartComponent implements OnInit {
     );
     const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
 
-    this.postService.getPostsInfo().subscribe({
+    this.commentService.getCommentsInfo().subscribe({
       next: (res: any) => {
         if (res.success) {
-          this.posts = {
-            total: res.data.posts.total,
-            sinceLastWeek: res.data.posts.sinceLastWeek,
+          this.comments = {
+            total: res.data.comments.total,
+            sinceLastWeek: res.data.comments.sinceLastWeek,
           };
-          this.individualPosts = {
-            total: res.data.individualPosts.total,
-            sinceLastWeek: res.data.individualPosts.sinceLastWeek,
+          this.replyComments = {
+            total: res.data.replyComments.total,
+            sinceLastWeek: res.data.replyComments.sinceLastWeek,
           };
-          this.sharePosts = {
-            total: res.data.sharePosts.total,
-            sinceLastWeek: res.data.sharePosts.sinceLastWeek,
+          this.normalComments = {
+            total: res.data.normalComments.total,
+            sinceLastWeek: res.data.normalComments.sinceLastWeek,
           };
 
-          this.postsData = {
-            labels: res.data.postsCreatedEachMonth.map(
+          this.commentsData = {
+            labels: res.data.commentsCreatedEachMonth.map(
               (item: any) => item.month
             ),
             datasets: [
               {
-                label: 'Total posts',
-                data: res.data.postsCreatedEachMonth.map(
+                label: 'Total comments',
+                data: res.data.commentsCreatedEachMonth.map(
                   (item: any) => item.total
                 ),
                 fill: false,
@@ -107,18 +86,18 @@ export class PostChartComponent implements OnInit {
                 tension: 0.4,
               },
               {
-                label: 'Share posts',
-                data: res.data.postsCreatedEachMonth.map(
-                  (item: any) => item.share_post
+                label: 'Normal comments',
+                data: res.data.commentsCreatedEachMonth.map(
+                  (item: any) => item.normal_comments
                 ),
                 fill: false,
                 borderColor: documentStyle.getPropertyValue('--blue-500'),
                 tension: 0.4,
               },
               {
-                label: 'Individual posts',
-                data: res.data.postsCreatedEachMonth.map(
-                  (item: any) => item.individual_post
+                label: 'Reply comments',
+                data: res.data.commentsCreatedEachMonth.map(
+                  (item: any) => item.reply_comments
                 ),
                 fill: false,
                 borderColor: documentStyle.getPropertyValue('--pink-500'),
@@ -132,7 +111,7 @@ export class PostChartComponent implements OnInit {
       },
     });
 
-    this.postsOptions = {
+    this.commentsOptions = {
       maintainAspectRatio: false,
       aspectRatio: 0.6,
       plugins: {
@@ -143,7 +122,7 @@ export class PostChartComponent implements OnInit {
         },
         title: {
           display: true,
-          text: 'Created Posts',
+          text: 'Created Comment',
         },
       },
       scales: {
