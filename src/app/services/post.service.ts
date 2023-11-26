@@ -50,6 +50,17 @@ export class PostService {
     );
   }
 
+  getPostById(id: string): Observable<any> {
+    return this.http.get(`${environment.apiURL}/posts/${id}`).pipe(
+      tap((res: any) => {
+        if (res.success) {
+          // this.store.dispatch(updateMePost({ post: res.data }));
+          // this.store.dispatch(updatePost({ post: res.data }));
+        }
+      })
+    );
+  }
+
   deletePostById(id: string): Observable<any> {
     return this.http.delete(`${environment.apiURL}/posts/${id}`).pipe(
       tap((res: any) => {

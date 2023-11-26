@@ -23,6 +23,10 @@ export class ReportService {
     });
   }
 
+  deleteReport(reportId: string): Observable<any> {
+    return this.http.delete(`${environment.apiURL}/reports/${reportId}`);
+  }
+
   getReports(
     context_type: 'post' | 'comment',
     page: number = 1,

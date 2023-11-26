@@ -80,4 +80,22 @@ export class CommentService {
         })
       );
   }
+
+  getComments(
+    page: number = 1,
+    pageSize: number = 10,
+    search: string = ''
+  ): Observable<any> {
+    return this.http.get(`${environment.apiURL}/comments/all`, {
+      params: {
+        page,
+        pageSize,
+        search,
+      },
+    });
+  }
+
+  getCommentsInfo(): Observable<any> {
+    return this.http.get(`${environment.apiURL}/comments/info`);
+  }
 }
