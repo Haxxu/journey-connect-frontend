@@ -1,0 +1,7 @@
+:host ::ng-deep {
+  .p-dialog-footer {
+    button {
+      @apply mr-4;
+    }
+  }
+}

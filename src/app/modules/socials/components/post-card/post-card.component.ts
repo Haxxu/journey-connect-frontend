@@ -33,7 +33,7 @@ import { TooltipModule } from 'primeng/tooltip';
 import { ImageUploaderComponent } from '@/shared/components/image-uploader/image-uploader.component';
 import { FileService } from '@/services/file.service';
 import { PostService } from '@/services/post.service';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { GalleryModule, Gallery, GalleryItem, ImageItem } from 'ng-gallery';
 import { LightboxModule } from 'ng-gallery/lightbox';
 import { EmotionsComponent } from '@/shared/components/emotions/emotions.component';
@@ -48,6 +48,7 @@ import { CreateSharePostComponent } from '../create-share-post/create-share-post
 import { CreatePostComponent } from '../create-post/create-post.component';
 import { CreatePostModalService } from '@/modules/socials/services/create-post-modal.service';
 import { CreateReportComponent } from '../create-report/create-report.component';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @Component({
   selector: 'app-post-card',
@@ -76,14 +77,16 @@ import { CreateReportComponent } from '../create-report/create-report.component'
     CreateReportComponent,
     InputTextareaModule,
     FormsModule,
+    ConfirmDialogModule,
   ],
   templateUrl: './post-card.component.html',
   styleUrls: ['./post-card.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [ConfirmationService],
 })
 export class PostCardComponent implements OnInit {
   @Input() post: any;
-  @Input() isAdmin: boolean = false
+  @Input() isAdmin: boolean = false;
   @Output() onReportPost = new EventEmitter<{
     context_id: string;
     context_type: string;
@@ -137,7 +140,8 @@ export class PostCardComponent implements OnInit {
     public gallery: Gallery,
     private emotionService: EmotionService,
     private commentService: CommentService,
-    private createPostModalService: CreatePostModalService
+    private createPostModalService: CreatePostModalService,
+    private confirmationService: ConfirmationService
   ) {
     this.editPostForm = this.formBuilder.group({
       title: ['', Validators.required],
@@ -343,21 +347,28 @@ export class PostCardComponent implements OnInit {
   }
 
   handleDeletePost(postId: string): void {
-    this.postService.deletePostById(postId).subscribe({
-      next: (res) => {
-        if (res.success) {
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Success',
-            detail: res.message,
-          });
-        }
-      },
-      error: (error) => {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Delete post error',
-          detail: error.error.message,
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to delete this post?',
+      header: 'Confirm',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.postService.deletePostById(postId).subscribe({
+          next: (res) => {
+            if (res.success) {
+              this.messageService.add({
+                severity: 'success',
+                summary: 'Success',
+                detail: res.message,
+              });
+            }
+          },
+          error: (error) => {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Delete post error',
+              detail: error.error.message,
+            });
+          },
         });
       },
     });

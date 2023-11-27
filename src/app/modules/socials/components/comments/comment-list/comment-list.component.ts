@@ -19,6 +19,8 @@ import { selectMeInfo } from '@/core/store/me/me.selectors';
 import { CommentService } from '@/services/comment.service';
 import { DialogModule } from 'primeng/dialog';
 import { CreateReportComponent } from '../../create-report/create-report.component';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmationService } from 'primeng/api';
 
 @Component({
   selector: 'app-comment-list',
@@ -33,10 +35,12 @@ import { CreateReportComponent } from '../../create-report/create-report.compone
     NgxPopperjsModule,
     DialogModule,
     CreateReportComponent,
+    ConfirmDialogModule,
   ],
   templateUrl: './comment-list.component.html',
   styleUrls: ['./comment-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [ConfirmationService],
 })
 export class CommentListComponent {
   @Input() comment: any;
@@ -50,13 +54,24 @@ export class CommentListComponent {
 
   @ContentChild('moreComments') moreComments: TemplateRef<{}> | undefined;
 
-  constructor(private store: Store, private commentService: CommentService) {}
+  constructor(
+    private store: Store,
+    private commentService: CommentService,
+    private confirmationService: ConfirmationService
+  ) {}
 
   toggleReply() {
     this.replyMode = !this.replyMode;
   }
 
   handleDeleteComment(commentId: string) {
-    this.commentService.deleteCommentById(commentId).subscribe();
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to delete this comment?',
+      header: 'Confirm',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.commentService.deleteCommentById(commentId).subscribe();
+      },
+    });
   }
 }

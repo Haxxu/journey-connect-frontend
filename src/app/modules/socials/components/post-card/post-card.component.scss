@@ -29,4 +29,10 @@
       @apply bg-gray-100;
     }
   }
+
+  .p-dialog-footer {
+    button {
+      @apply mr-4;
+    }
+  }
 }
