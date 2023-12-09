@@ -1,0 +1,164 @@
+<div
+  *ngIf="isChatBoxVisible$ | async as isChatBoxVisible"
+  class="fixed bottom-0 right-10 md:right-28 w-[400px] h-[450px] rounded-lg shadow-lg bg-white z-50"
+>
+  <div *ngIf="targetUser$ | async as user" class="flex flex-col">
+    <div
+      class="flex items-center justify-between h-12 p-4 border-b border-gray-200 shadow-md"
+    >
+      <div class="flex items-center gap-2">
+        <img
+          [src]="getMediaUrlById(user.avatar, user.medias)"
+          class="object-cover w-8 h-8 rounded-full shadow-md"
+        />
+        <div>{{ user?.first_name }} {{ user?.last_name }}</div>
+      </div>
+      <div class="flex items-center">
+        <ng-icon
+          name="matCloseRound"
+          class="text-2xl font-semibold text-gray-700 cursor-pointer"
+          (click)="handleCloseChatBox()"
+        ></ng-icon>
+      </div>
+    </div>
+    <div
+      #messageContainer
+      class="flex flex-col gap-1.5 overflow-y-scroll min-h-[340px] max-h-[340px] py-2 px-4"
+    >
+      <div *ngIf="!isFriend" class="flex flex-col py-5">
+        <div class="flex justify-center">
+          <img
+            [src]="getMediaUrlById(user.avatar, user.medias)"
+            class="object-cover w-12 h-12 rounded-full shadow-md"
+          />
+        </div>
+        <div class="text-lg text-center text-gray-700 mt-2.5">
+          {{ user?.first_name }} {{ user?.last_name }}
+        </div>
+        <div class="mt-3 text-center text-gray-700 text-md">
+          You guys are not friends on Journey Connect
+        </div>
+      </div>
+      <div *ngFor="let item of messages$ | async as messages; let i = index">
+        <ng-container
+          *ngIf="
+            i === 0 ||
+            !isSameDay(
+              item.message.createdAt,
+              messages[i - 1]?.message.createdAt
+            )
+          "
+        >
+          <div
+            class="flex justify-center my-2 text-sm font-semibold text-gray-600"
+          >
+            {{ formatDate_HH_mm_DD_MMM_YYYY(item.message.createdAt) }}
+          </div>
+        </ng-container>
+        <ng-container *ngIf="i === messages.length - 1">
+          <div
+            class="flex justify-center my-2 text-sm font-semibold text-gray-600"
+          >
+            {{ formatTime_HH_mm(item.message.createdAt) }}
+          </div>
+        </ng-container>
+        <div
+          *ngIf="item.message.createdAt !== item.message.updatedAt"
+          class="text-sm text-gray-700"
+          [ngClass]="{
+            'ml-11': item.message.owner !== meInfo._id,
+            'text-right': item.message.owner === meInfo._id,
+          }"
+        >
+          <span
+            [pTooltip]="formatTime_HH_mm(item.message.updatedAt)"
+            [showDelay]="300"
+            [tooltipPosition]="'left'"
+          >
+            (edited)
+          </span>
+        </div>
+        <div
+          class="flex gap-2 text-md show-message-menu"
+          [ngClass]="{
+            'flex-row-reverse': item.message.owner === meInfo._id,
+          }"
+        >
+          <div
+            class="flex items-end gap-2"
+            *ngIf="item.message.owner !== meInfo._id"
+          >
+            <img
+              [src]="getMediaUrlById(user.avatar, user.medias)"
+              class="object-cover w-8 h-8 rounded-full shadow-md"
+            />
+          </div>
+          <div
+            class="rounded-2xl inline-flex max-w-[280px] px-3 py-2 relative"
+            [ngClass]="{
+              'bg-blue-400 text-gray-50': item.message.owner === meInfo._id,
+              'bg-gray-100 text-gray-900': item.message.owner !== meInfo._id,
+            }"
+            [pTooltip]="formatTime_HH_mm(item.message.createdAt)"
+            [showDelay]="300"
+            [tooltipPosition]="'left'"
+          >
+            {{ item.message.content }}
+          </div>
+          <div class="items-center hidden message-menu">
+            <span
+              class="flex items-center cursor-pointer"
+              [popper]="messageOptions"
+              [popperPlacement]="NgxPopperjsPlacements.RIGHTSTART"
+              [popperApplyClass]="'p-0'"
+              (click)="hanldeOpenMessageMenu(item.message)"
+            >
+              <ng-icon
+                name="matMoreHorizRound"
+                class="text-lg text-gray-500"
+              ></ng-icon>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="flex-1 px-3 mb-2 mt-1 h-[100px] 0">
+      <app-chat-input
+        [user1Id]="meInfo?._id"
+        [user2Id]="user?._id"
+        [type]="messageModeType"
+        [content]="messageContent"
+        (onCancel)="messageModeType = 'create'"
+        [messageId]="messageId"
+      ></app-chat-input>
+    </div>
+
+    <popper-content #messageOptions class="shadow-sm rounded-xl">
+      <div class="w-16">
+        <div
+          *ngIf="messageOwnerId === meInfo?._id"
+          class="px-2 py-1.5 hover:bg-gray-200 text-md rounded-md text-gray-700 cursor-pointer"
+          (click)="handleEditMessage()"
+        >
+          Edit
+        </div>
+
+        <div
+          *ngIf="messageOwnerId === meInfo?._id"
+          class="px-2 py-1.5 hover:bg-gray-200 text-md rounded-md text-gray-700 cursor-pointer"
+          (click)="handleDeleteMessage()"
+        >
+          Delete
+        </div>
+        <div
+          *ngIf="messageOwnerId !== meInfo?._id"
+          class="px-2 py-1.5 hover:bg-gray-200 text-md rounded-md text-gray-700 cursor-pointer"
+        >
+          Report
+        </div>
+      </div>
+    </popper-content>
+  </div>
+</div>
+
+<p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>

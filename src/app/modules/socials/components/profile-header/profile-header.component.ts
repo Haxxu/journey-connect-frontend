@@ -23,6 +23,8 @@ import {
 import { SkeletonModule } from 'primeng/skeleton';
 import { setUserInfo } from '@/core/store/users/users.actions';
 import { AddFriendButtonComponent } from '@/modules/socials/components/add-friend-button/add-friend-button.component';
+import { NgIconsModule } from '@ng-icons/core';
+import ChatActions from '@/core/store/chat/chat.action';
 
 @Component({
   selector: 'app-profile-header',
@@ -36,6 +38,7 @@ import { AddFriendButtonComponent } from '@/modules/socials/components/add-frien
     RouterModule,
     SkeletonModule,
     AddFriendButtonComponent,
+    NgIconsModule,
   ],
   templateUrl: './profile-header.component.html',
   styleUrls: ['./profile-header.component.scss'],
@@ -101,5 +104,10 @@ export class ProfileHeaderComponent implements OnInit {
 
   handleEditUser() {
     this.router.navigate(['edit'], { queryParams: { act: 'info' } });
+  }
+
+  handleShowBoxChat(userId: string) {
+    this.store.dispatch(ChatActions.setTargetUserId({ userId: userId }));
+    this.store.dispatch(ChatActions.setChatBoxVisibility({ isVisible: true }));
   }
 }

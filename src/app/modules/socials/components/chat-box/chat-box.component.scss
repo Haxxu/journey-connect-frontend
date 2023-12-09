@@ -1,0 +1,11 @@
+:host ::ng-deep {
+  .show-message-menu:hover .message-menu {
+    display: flex;
+  }
+
+  .p-dialog-footer {
+    button {
+      @apply mr-4;
+    }
+  }
+}

@@ -1,3 +1,5 @@
+import * as moment from 'moment';
+
 export function formatDateToDDMMYYYY(dateString: string) {
   const date = new Date(dateString);
 
@@ -77,4 +79,17 @@ export function timeAgo(date: any) {
     const yearsAgo = Math.floor(secondsAgo / 29030400);
     return yearsAgo + ` year${yearsAgo > 1 ? 's' : ''} ago`;
   }
+}
+
+export function formatTime_HH_mm(date: any) {
+  return moment(date).format('HH:mm');
+}
+
+export function isSameDay(date1: string, date2: string): boolean {
+  return moment(date1).isSame(moment(date2), 'day');
+}
+
+export function formatDate_HH_mm_DD_MMM_YYYY(dateString: string) {
+  const parsedDate = moment(dateString);
+  return parsedDate.format('HH:mm, DD MMM, YYYY');
 }

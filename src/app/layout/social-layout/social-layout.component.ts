@@ -1,5 +1,6 @@
 import { AppRoutes } from '@/config/app_routes';
 import { selectMeInfo } from '@/core/store/me/me.selectors';
+import { ChatBoxComponent } from '@/modules/socials/components/chat-box/chat-box.component';
 import { CreatePostComponent } from '@/modules/socials/components/create-post/create-post.component';
 import { HeaderComponent } from '@/modules/socials/components/header/header.component';
 import { CreatePostModalService } from '@/modules/socials/services/create-post-modal.service';
@@ -28,6 +29,7 @@ import { DialogModule } from 'primeng/dialog';
     NgIconsModule,
     CreatePostComponent,
     DialogModule,
+    ChatBoxComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

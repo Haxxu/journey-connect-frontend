@@ -1,0 +1,44 @@
+<div class="relative flex border rounded-md shadow-sm border-primary-300">
+  <button
+    *ngIf="type === 'edit'"
+    type="button"
+    class="absolute top-[-40px] right-0 w-20 h-full text-center text-gray-700 bg-gray-300 rounded-lg font-semibold text-sm hover:bg-gray-400"
+    (click)="handleCancel()"
+  >
+    Cancel
+  </button>
+  <!-- no-border-focus -->
+  <textarea
+    pInputTextarea
+    placeholder=""
+    [formControl]="contentForm"
+    class="w-full text-md j-inputtext-custom"
+    rows="1"
+  ></textarea>
+  <div class="flex items-center justify-between">
+    <div>
+      <button
+        type="button"
+        class="w-10 h-full text-center text-gray-500 hover:scale-110"
+        (click)="op.toggle($event)"
+        pTooltip="Emoji"
+        tooltipStyleClass="text-md"
+      >
+        😀
+      </button>
+    </div>
+    <button class="px-2" type="button" (click)="handleSubmit()">
+      <ng-icon
+        name="matSendRound"
+        class="text-xl text-gray-400 hover:text-blue-400"
+      ></ng-icon>
+    </button>
+  </div>
+  <p-overlayPanel #op styleClass="j-overlaypanel-custom">
+    <emoji-mart
+      (emojiClick)="handleEmojiClick($event)"
+      [emojiSize]="16"
+      class="text-md"
+    ></emoji-mart>
+  </p-overlayPanel>
+</div>

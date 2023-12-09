@@ -2,15 +2,16 @@
   <div *ngIf="showAvatar" class="">
     <img
       [src]="getMediaUrlById(meInfo.avatar, meInfo.medias)"
-      class="shadow-lg object-cover w-8 h-8 rounded-full"
+      class="object-cover w-8 h-8 rounded-full shadow-lg"
     />
   </div>
-  <div class="border rounded-md border-primary-300 shadow-sm flex-1">
+  <div class="flex-1 border rounded-md shadow-sm border-primary-300">
+    <!-- no-border-focus -->
     <textarea
       pInputTextarea
       placeholder=""
       [formControl]="contentForm"
-      class="w-full text-md j-inputtext-custom no-border-focus"
+      class="w-full text-md j-inputtext-custom"
       rows="1"
     ></textarea>
     <div class="flex justify-between">
@@ -27,7 +28,7 @@
         <button
           *ngIf="type === 'edit'"
           type="button"
-          class="w-10 h-full text-center text-md text-gray-500 hover:text-gray-600"
+          class="w-10 h-full text-center text-gray-500 text-md hover:text-gray-600"
           (click)="onCancel.emit()"
         >
           Cancel

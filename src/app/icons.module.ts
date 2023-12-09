@@ -31,7 +31,9 @@ import {
   matLockRound,
   matPasswordRound,
   matBarChartRound,
+  matMessageRound,
   matCheckCircleOutlineRound,
+  matUpdateRound,
 } from '@ng-icons/material-icons/round';
 
 import {
@@ -73,6 +75,8 @@ import {
       matPasswordRound,
       matCheckCircleOutlineRound,
       matBarChartRound,
+      matUpdateRound,
+      matMessageRound,
       bootstrapPersonCheckFill,
       bootstrapPersonXFill,
     }),

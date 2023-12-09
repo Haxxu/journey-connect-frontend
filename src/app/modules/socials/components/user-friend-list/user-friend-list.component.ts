@@ -12,6 +12,8 @@ import {
 import { CommonModule } from '@angular/common';
 import { FriendService } from '@/services/friend.service';
 import { MutualFriendsComponent } from '../mutual-friends/mutual-friends.component';
+import { Store } from '@ngrx/store';
+import ChatActions from '@/core/store/chat/chat.action';
 
 @Component({
   selector: 'app-user-friend-list',
@@ -28,7 +30,8 @@ export class UserFriendListComponent implements OnInit, OnChanges {
 
   constructor(
     private friendService: FriendService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private store: Store
   ) {}
 
   ngOnInit(): void {
@@ -55,5 +58,10 @@ export class UserFriendListComponent implements OnInit, OnChanges {
         },
       });
     }
+  }
+
+  handleShowChatBox(userId: string) {
+    this.store.dispatch(ChatActions.setTargetUserId({ userId: userId }));
+    this.store.dispatch(ChatActions.setChatBoxVisibility({ isVisible: true }));
   }
 }
